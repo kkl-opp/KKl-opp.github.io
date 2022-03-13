@@ -5,9 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="hive的配置, Aiplex">
-    <meta name="description" content="认识hive的基本配置Metastore1. Metastores是元数据服务，元数据的服务组件，这个组件存储着hive的元数据。
-
-作用：管理metadata元数据，让客户端通过连接Metastore服务，再由metastore去连接My">
+    <meta name="description" content="认识hive的基本配置Metastore
+Metastores是元数据服务，元数据的服务组件，这个组件存储着hive的元数据。作用：管理metadata元数据，让客户端通过连接Metastore服务，再由metastore去连接MySQL数">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -472,9 +471,12 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="认识hive的基本配置"><a href="#认识hive的基本配置" class="headerlink" title="认识hive的基本配置"></a>认识hive的基本配置</h1><h5 id="Metastore"><a href="#Metastore" class="headerlink" title="Metastore"></a>Metastore</h5><pre><code>1. Metastores是元数据服务，元数据的服务组件，这个组件存储着hive的元数据。
-</code></pre>
-<p>作用：管理metadata元数据，让客户端通过连接Metastore服务，再由metastore去<br>连接MySQL数据库存取元数据。可以间接保证数据的安全。<br>    2. 有了metastore服务，就可以有多个客户端同时连接，而且这些客户端不需要知道<br>MySQL数据库的用户名和密码，只需要连接metastore 服务即可。</p>
+                <h1 id="认识hive的基本配置"><a href="#认识hive的基本配置" class="headerlink" title="认识hive的基本配置"></a>认识hive的基本配置</h1><h5 id="Metastore"><a href="#Metastore" class="headerlink" title="Metastore"></a>Metastore</h5><ol>
+<li><p>Metastores是元数据服务，元数据的服务组件，这个组件存储着hive的元数据。<br>作用：管理metadata元数据，让客户端通过连接Metastore服务，再由metastore去<br>连接MySQL数据库存取元数据。可以间接保证数据的安全。</p>
+</li>
+<li><p>有了metastore服务，就可以有多个客户端同时连接，而且这些客户端不需要知道<br>MySQL数据库的用户名和密码，只需要连接metastore 服务即可。</p>
+</li>
+</ol>
 <h5 id="Metadata"><a href="#Metadata" class="headerlink" title="Metadata"></a>Metadata</h5><p>关于数据的数据或者叫做用来描述数据的数据或者叫做信息的信息。可以理解为最小的数据单元。<br>元数据可以为数据说明其元素或属性（名称、大小、数据类型、等），或其结构（长度、字段、数据列）</p>
 <h3 id="Metastore启动方式"><a href="#Metastore启动方式" class="headerlink" title="Metastore启动方式"></a>Metastore启动方式</h3><p>Metastore的启动方式有三种：</p>
 <p><strong>（1）嵌入模式</strong></p>
