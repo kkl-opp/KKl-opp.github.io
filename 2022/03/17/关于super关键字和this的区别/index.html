@@ -453,7 +453,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    923
+                    902
                 </div>
                 
 
@@ -497,7 +497,7 @@
 <li><p>super（形参列表）的使用，必须声明在<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%AD%90%E7%B1%BB&spm=1001.2101.3001.7020">子类</a>构造器的首行。</p>
 </li>
 </ul>
-<p>为了方便理解，举个例子吧 .</p>
+<p><strong>例子</strong></p>
 <p>我们可以注意到父类和子类都有相同的成员变量age，（super.age）就是访问的是Person类中的age </p>
 <p>如果不加super 就近原则就是Student类的age</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">    int age = 12;</span><br><span class="line">&#125;</span><br><span class="line">class Student extends Person &#123;</span><br><span class="line">    int age = 18;</span><br><span class="line">    void display() &#123;</span><br><span class="line">        System.out.println(&quot;学生年龄：&quot; + super.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Test &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Student stu = new Student();</span><br><span class="line">        stu.display();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -507,7 +507,7 @@
 <h4 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h4><p>​    1 this相当于是指向当前对象本身</p>
 <p>​    2 形参与成员变量重名，用this来区分</p>
 <p>​    3 this关键字也可以在构造函数中调用其他构造函数 但是必须定义在构造函数的第一行 这一点与super的用法非常相似  this（）调用其他构造函数时，必须放在定义的构造函数第一行。如果随意放在普通方法的第一行，则立马报错</p>
-<p>   为了方便理解， 让我们举个例子吧：</p>
+<p><strong>例子</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Person</span><br><span class="line">&#123;</span><br><span class="line">	private String name;</span><br><span class="line">	private int age;</span><br><span class="line">	Person(String name)</span><br><span class="line">	&#123;</span><br><span class="line">		//成员变量和局部变量重名，可以用关键字this区分</span><br><span class="line">		this.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	public void speak()</span><br><span class="line">	&#123;</span><br><span class="line">        //输出时，会默认为成员增加this关键字，用来代表具体对象的数据</span><br><span class="line">		System.out.println(this.name+&quot;：&quot;+this.age);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
