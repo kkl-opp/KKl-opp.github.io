@@ -33,7 +33,8 @@
 
     <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
 
-<meta name="generator" content="Hexo 6.0.0"></head>
+<meta name="generator" content="Hexo 6.0.0"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 
@@ -482,8 +483,38 @@
 <p>首先将整体求解分为n个阶段，每个阶段会决策一个物品是否放到包里。<br>不论放入还是不放入，背包的重量假设都造成了变化，而这些不同的变化，也就对应着递归树的节点<br>合并重复的节点，避免节点指数级增长<br>基于这一层的节点，推导出下一层的状态集合<br>然后用上面的思路，代入到0-1背包问题中做一个思路引导：</p>
 <p>首先我们创建一个布尔类型的二维数组states[n][w]，记录每个节点的不同状态。n代表第n个物品，w代表背包能承受的最大质量。<br>第0个(假设物品序列从0开始计算)物品的重量是2，放入，就是states[0][2]，不放入，就是states[0][0]，但是因为最大重量w是9，所以上面两个表达式的结果都是true。<br>然后是第一个物品，重量也是2，那么造成的结果就是，states[1][4],states[1][2],states[1][2],states[1][0]<br>然后我们发现，有两个表达式重复了，所以合并掉，其他三个因为重量小于9，所以也是true<br>不断继续，最后只需要选择最接近9还是true的就可以了。</p>
 <p>这里演示的是c语言的代码</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">#include &lt;algorithm&gt;</span><br><span class="line"> </span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int w[5] = &#123; 0 , 2 , 3 , 4 , 5 &#125;;			//商品的体积2、3、4、5</span><br><span class="line">	int v[5] = &#123; 0 , 3 , 4 , 5 , 6 &#125;;			//商品的价值3、4、5、6</span><br><span class="line">	int bagV = 8;					        //背包大小</span><br><span class="line">	int dp[5][9] = &#123; &#123; 0 &#125; &#125;;			        //动态规划表</span><br><span class="line"> </span><br><span class="line">	for (int i = 1; i &lt;= 4; i++) &#123;</span><br><span class="line">		for (int j = 1; j &lt;= bagV; j++) &#123;</span><br><span class="line">			if (j &lt; w[i])</span><br><span class="line">				dp[i][j] = dp[i - 1][j];</span><br><span class="line">			else</span><br><span class="line">				dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	//动态规划表的输出</span><br><span class="line">	for (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">		for (int j = 0; j &lt; 9; j++) &#123;</span><br><span class="line">			cout &lt;&lt; dp[i][j] &lt;&lt; &#x27; &#x27;;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<pre><code>#include&lt;iostream&gt;
+using namespace std;
+#include &lt;algorithm&gt;
+ 
+int main()
+&#123;
+    int w[5] = &#123; 0 , 2 , 3 , 4 , 5 &#125;;            //商品的体积2、3、4、5
+    int v[5] = &#123; 0 , 3 , 4 , 5 , 6 &#125;;            //商品的价值3、4、5、6
+    int bagV = 8;                            //背包大小
+    int dp[5][9] = &#123; &#123; 0 &#125; &#125;;                    //动态规划表
+ 
+    for (int i = 1; i &lt;= 4; i++) &#123;
+        for (int j = 1; j &lt;= bagV; j++) &#123;
+            if (j &lt; w[i])
+                dp[i][j] = dp[i - 1][j];
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i]] + v[i]);
+        &#125;
+    &#125;
+ 
+    //动态规划表的输出
+    for (int i = 0; i &lt; 5; i++) &#123;
+        for (int j = 0; j &lt; 9; j++) &#123;
+            cout &lt;&lt; dp[i][j] &lt;&lt; &#39; &#39;;
+        &#125;
+        cout &lt;&lt; endl;
+    &#125;
+ 
+    return 0;
+&#125;
 
+</code></pre>
 <p>通过上面的方法可以求出背包问题的最优解，但还不知道这个最优解由哪些商品组成，故要根据最优解回溯找出解的组成，根据填表的原理可以有如下的寻解方式：</p>
 <p>V(i,j)&#x3D;V(i-1,j)时，说明没有选择第i 个商品，则回到V(i-1,j)；<br>V(i,j)&#x3D;V(i-1,j-w(i))+v(i)时，说明装了第i个商品，该商品是最优解组成的一部分，随后我们得回到装该商品之前，即回到V(i-1,j-w(i))；<br>一直遍历到i＝0结束为止，所有解的组成都会找到。</p>
 
@@ -702,6 +733,7 @@
 
 
 
+
 <!-- 代码块功能依赖 -->
 <script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
 
@@ -718,6 +750,13 @@
 <!-- 代码块收缩 -->
 
 <script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
 
 
     </div>
@@ -837,7 +876,7 @@
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">8.2k</span>
+                        class="white-color">8.4k</span>
             
             
             
