@@ -447,7 +447,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    724
+                    663
                 </div>
                 
 
@@ -598,27 +598,9 @@
     <span class="token keyword">private</span> Object<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">grow</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> <span class="token function">grow</span><span class="token punctuation">(</span>size <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-
-
+<span class="token comment" spellcheck="true">//第一次其实是  0*any=0</span>
+<span class="token comment" spellcheck="true">//用0.5倍来扩容</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre><code>
-    
-    
-    
-     private Object[] grow(int minCapacity) &#123; 1
-        int oldCapacity = elementData.length;
-        if (oldCapacity &gt; 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;
-            int newCapacity = ArraysSupport.newLength(oldCapacity,
-                    minCapacity - oldCapacity, /* minimum growth */     oldCapacity =0   result = 1
-                    oldCapacity &gt;&gt; 1           /* preferred growth */);    oldCapacity &gt;&gt; 1    用0.5倍来扩容
-            return elementData = Arrays.copyOf(elementData, newCapacity);
-        &#125; else &#123;
-            return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];  第一次其实是1 0*any=0
-        &#125;
-    &#125;
-
-
-</code></pre>
 <p>modCount++;用来记录修改的记录</p>
 <pre><code>return elementData = Arrays.copyOf(elementData, newCapacity);
 </code></pre>
