@@ -4,9 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="认识数组, Aiplex">
-    <meta name="description" content="数组什么是数组其实所谓的数组指的就是一组相关类型的变量集合，并且这些变量可以按照统一的方式进行操作。数组本身属于引用数据类型，那么既然是引用数据类型，这里面实际又会牵扯到内存分配，而数组的定义语法有如下两类。
-数组动态初始化：声明并开辟数组">
+    <meta name="keywords" content="ArrayList底层结构和源码分析, Aiplex">
+    <meta name="description" content="ArrayList源码分析1）允许添加任意的元素 包括null 多个
+2） ArrayList是由数组来实现数据存储的
+3）Array在多线程中是不安全的 建议使用vector
+前言
+ArrayList中维护了一个Object类型的数组el">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>认识数组 | Aiplex</title>
+    <title>ArrayList底层结构和源码分析 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -284,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">认识数组</h1>
+                    <h1 class="description center-align post-title">ArrayList底层结构和源码分析</h1>
                 </div>
             </div>
         </div>
@@ -405,8 +408,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/JAVA/">
-                                <span class="chip bg-color">JAVA</span>
+                            <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
+                                <span class="chip bg-color">集合类</span>
                             </a>
                         
                     </div>
@@ -430,28 +433,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-09
+                    2022-03-19
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-13
+                    2022-03-19
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    704
+                    287
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -471,14 +474,20 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h3 id="什么是数组"><a href="#什么是数组" class="headerlink" title="什么是数组"></a>什么是数组</h3><p>其实所谓的数组指的就是一组相关类型的变量集合，并且这些变量可以按照统一的方式进行操作。数组本身属于引用数据类型，那么既然是引用数据类型，<br>这里面实际又会牵扯到内存分配，而数组的定义语法有如下两类。</p>
-<p>数组动态初始化：<br>声明并开辟数组：<br>数据类型 [] 数组名称 &#x3D; new 数据类型[长度];<br>数据类型 [] 数组名称 &#x3D; new 数据类型[长度];<br>分布进行数组空间开辟（实例化）<br>| Tables | Are |<br>| ————- |:————-?<br>| 声明数组： | 数组类型 数组名称[] &#x3D; null; | | | 数组类型 [] 数组名称 &#x3D;null; | | 开辟数组空间： | 数组名称 &#x3D;new&#96; 数组类型[长度]; |<br>那么当数组开辟空间之后，就可以采用如下的方式的操作：</p>
-<p>数组的访问通过索引完成，即：“数组名称[索引]”，但是需要注意的是，数组的索引从0开始，<br>所以索引的范围就是0 ~ 数组长度-1，例如开辟了3个空间的数组，<br>所以可以使用的索引是：0,1,2，如果此时访问的时候超过了数组的索引范围，<br>会产生java.lang.ArrayIndexOutOfBoundsException 异常信息；<br>当我们数组采用动态初始化开辟空间后，数组里面的每一个元素都是该数组对应数据类型的默认值；<br>数组本身是一个有序的集合操作，所以对于数组的内容操作往往会采用循环的模式完成，数组是一个有限的数据集合，所以应该使用 for 循环。<br>在 Java 中提供有一种动态取得数组长度的方式：数组名称.length；</p>
-<h2 id="1-1认识数组"><a href="#1-1认识数组" class="headerlink" title="1.1认识数组"></a>1.1认识数组</h2><p>数组Array，标志是[ ] ,用于储存多个相同类型数据的集合<br>想要获取数组中的元素值，可以通过脚标（下标）来获取<br>数组下标是从0开始的,下标的最大值是数组的长度减1</p>
-<h2 id="1-2-创建数组"><a href="#1-2-创建数组" class="headerlink" title="1.2 创建数组"></a>1.2 创建数组</h2><p>数组的创建方式一般分为动态初始化和静态初始化</p>
-<p>动态初始化<br>int[] a &#x3D; new int[5];<br>静态初始化<br>int[] b &#x3D; new int[]{1,2,3,4,5};<br>int[] c &#x3D; {1,2,3,4,5};</p>
-<h2 id="1-3-创建数组过程分析"><a href="#1-3-创建数组过程分析" class="headerlink" title="1.3 创建数组过程分析"></a>1.3 创建数组过程分析</h2><p>程序创建数组 int[] a &#x3D; new int[5]; 时发生了什么?</p>
-<p>1.在内存中开辟连续的空间,用来存放数据,长度是5<br>2.给数组完成初始化过程,给每个元素赋予默认值,int类型默认值是0<br>3.数组完成初始化会分配一个唯一的地址值<br>4.把唯一的地址值交给引用类型的变量a去保存</p>
+                <h1 id="ArrayList源码分析"><a href="#ArrayList源码分析" class="headerlink" title="ArrayList源码分析"></a>ArrayList源码分析</h1><p>1）允许添加任意的元素 包括null 多个</p>
+<p>2） ArrayList是由数组来实现数据存储的</p>
+<p>3）Array在多线程中是不安全的 建议使用vector</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul>
+<li>ArrayList中维护了一个Object类型的数组elementData</li>
+<li>无参构造器：自动扩容机制 ele-&gt;0（default）-&gt;10（First add）-&gt;15(second add)-&gt;15x1.5-&gt;15x1.5x1.5</li>
+<li>有参构造器：指定大小（size）-&gt;size*1.5(First add) -&gt; sizex1.5X1.5(second add)</li>
+</ul>
+<h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public ArrayList() &#123;</span><br><span class="line">    this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建了一个空的数组</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E e) &#123;</span><br><span class="line">            modCount++;</span><br><span class="line">        add(e, elementData, size);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">      private void add(E e, Object[] elementData, int s) &#123;</span><br><span class="line">        if (s == elementData.length)</span><br><span class="line">            elementData = grow();</span><br><span class="line">        elementData[s] = e;</span><br><span class="line">        size = s + 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">        private Object[] grow() &#123;</span><br><span class="line">        return grow(size + 1);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">     private Object[] grow(int minCapacity) &#123;</span><br><span class="line">        int oldCapacity = elementData.length;</span><br><span class="line">        if (oldCapacity &gt; 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">            int newCapacity = ArraysSupport.newLength(oldCapacity,</span><br><span class="line">                    minCapacity - oldCapacity, /* minimum growth */</span><br><span class="line">                    oldCapacity &gt;&gt; 1           /* preferred growth */);</span><br><span class="line">            return elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    判断你是否为空数组</span><br><span class="line">    如果是的话就传一个grow方法</span><br><span class="line">    然后将 elementData[s] = e; 对象传入</span><br><span class="line">    后自加1</span><br><span class="line">    回调grow（）类似于递归的操作 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>modCount++;用来记录修改的记录</p>
 
                 
             </div>
@@ -505,7 +514,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/09/%E8%AE%A4%E8%AF%86%E6%95%B0%E7%BB%84/">https://kkl-opp.github.io/2022/03/09/%E8%AE%A4%E8%AF%86%E6%95%B0%E7%BB%84/</a>
+                    <a href="https://kkl-opp.github.io/2022/03/19/ArrayList%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">https://kkl-opp.github.io/2022/03/19/ArrayList%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -543,8 +552,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/JAVA/">
-                                    <span class="chip bg-color">JAVA</span>
+                                <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
+                                    <span class="chip bg-color">集合类</span>
                                 </a>
                             
                         </div>
@@ -592,70 +601,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/10/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%94%A8/">
+                <a href="/2022/03/19/ArrayList%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="单链表的基本运用">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="ArrayList底层结构和源码分析">
                         
-                        <span class="card-title">单链表的基本运用</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-10
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/JAVA/" class="post-category">
-                                    JAVA
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/03/09/%E8%AE%A4%E8%AF%86%E6%95%B0%E7%BB%84/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="认识数组">
-                        
-                        <span class="card-title">认识数组</span>
+                        <span class="card-title">ArrayList底层结构和源码分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -666,7 +623,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-19
                             </span>
                         <span class="publish-author">
                             
@@ -684,8 +641,57 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
+                        <span class="chip bg-color">集合类</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/19/zookeeper%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Zookeeper的基本介绍">
+                        
+                        <span class="card-title">Zookeeper的基本介绍</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-19
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
+                                    大数据生态圈
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/zk/">
+                        <span class="chip bg-color">zk</span>
                     </a>
                     
                 </div>

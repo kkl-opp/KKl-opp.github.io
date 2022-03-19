@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>ArrayList底层结构和源码分析</title>
+      <link href="/2022/03/19/ArrayList%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+      <url>/2022/03/19/ArrayList%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84%E5%92%8C%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<h1 id="ArrayList源码分析"><a href="#ArrayList源码分析" class="headerlink" title="ArrayList源码分析"></a>ArrayList源码分析</h1><p>1）允许添加任意的元素 包括null 多个</p><p>2） ArrayList是由数组来实现数据存储的</p><p>3）Array在多线程中是不安全的 建议使用vector</p><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><ul><li>ArrayList中维护了一个Object类型的数组elementData</li><li>无参构造器：自动扩容机制 ele-&gt;0（default）-&gt;10（First add）-&gt;15(second add)-&gt;15x1.5-&gt;15x1.5x1.5</li><li>有参构造器：指定大小（size）-&gt;size*1.5(First add) -&gt; sizex1.5X1.5(second add)</li></ul><h3 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public ArrayList() &#123;</span><br><span class="line">    this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>创建了一个空的数组</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E e) &#123;</span><br><span class="line">            modCount++;</span><br><span class="line">        add(e, elementData, size);</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">      private void add(E e, Object[] elementData, int s) &#123;</span><br><span class="line">        if (s == elementData.length)</span><br><span class="line">            elementData = grow();</span><br><span class="line">        elementData[s] = e;</span><br><span class="line">        size = s + 1;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">        private Object[] grow() &#123;</span><br><span class="line">        return grow(size + 1);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">     private Object[] grow(int minCapacity) &#123;</span><br><span class="line">        int oldCapacity = elementData.length;</span><br><span class="line">        if (oldCapacity &gt; 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;</span><br><span class="line">            int newCapacity = ArraysSupport.newLength(oldCapacity,</span><br><span class="line">                    minCapacity - oldCapacity, /* minimum growth */</span><br><span class="line">                    oldCapacity &gt;&gt; 1           /* preferred growth */);</span><br><span class="line">            return elementData = Arrays.copyOf(elementData, newCapacity);</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    判断你是否为空数组</span><br><span class="line">    如果是的话就传一个grow方法</span><br><span class="line">    然后将 elementData[s] = e; 对象传入</span><br><span class="line">    后自加1</span><br><span class="line">    回调grow（）类似于递归的操作 </span><br><span class="line"></span><br></pre></td></tr></table></figure><p>modCount++;用来记录修改的记录</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> JAVA </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 集合类 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Zookeeper的基本介绍</title>
       <link href="/2022/03/19/zookeeper%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/"/>
       <url>/2022/03/19/zookeeper%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
@@ -70,7 +95,7 @@
       
         <tags>
             
-            <tag> JAVA </tag>
+            <tag> 集合 </tag>
             
         </tags>
       
