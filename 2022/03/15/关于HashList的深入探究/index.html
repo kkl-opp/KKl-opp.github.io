@@ -409,8 +409,8 @@ HashSet">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9B%86%E5%90%88/">
-                                <span class="chip bg-color">集合</span>
+                            <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
+                                <span class="chip bg-color">集合类</span>
                             </a>
                         
                     </div>
@@ -479,7 +479,7 @@ HashSet">
 <h2 id="HashSet本质是HashMap"><a href="#HashSet本质是HashMap" class="headerlink" title="HashSet本质是HashMap"></a>HashSet本质是HashMap</h2><p>HashSet是一个不允许有重复元素的集合。</p>
 <p>它实现了set接口 可以存放null值，但是只能有一个null</p>
 <p>和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。</p>
-<p>HashSet是非同步的。如果多个线程同时访问一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%93%88%E5%B8%8C&spm=1001.2101.3001.7020">哈希</a> set，而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，以防止对该 set 进行意外的不同步访问：</p>
+<p>HashSet是非同步的。如果多个线程同时访问一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%93%88%E5%B8%8C&spm=1001.2101.3001.7020">哈希</a> set，<br>而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。<br>如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，<br>以防止对该 set 进行意外的不同步访问：</p>
 <pre><code>
 HashSet set = new HashSet();
 //1.add方法返回的是一个boolean值 添加成功则为true 失败为false
@@ -670,8 +670,8 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9B%86%E5%90%88/">
-                                    <span class="chip bg-color">集合</span>
+                                <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
+                                    <span class="chip bg-color">集合类</span>
                                 </a>
                             
                         </div>
