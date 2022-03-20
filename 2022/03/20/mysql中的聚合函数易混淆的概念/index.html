@@ -8,7 +8,9 @@
     <meta name="description" content="聚合函数与其他查询不同，普通的查询做的都是横向查询，它们都是根据条件一行一行的进行判断，而使用聚合函数查询是纵向查询，
 它是对一列的值进行计算，然后返回一个单一的值；另外聚合函数会忽略空值。
 
-">
+从案例引出问题：
+我们基于以上表作为查询：
+s">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -451,14 +453,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    87
+                    951
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    3 分
                 </div>
                 
 
@@ -481,6 +483,81 @@
                 <h1 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h1><p>与其他查询不同，普通的查询做的都是横向查询，它们都是根据条件一行一行的进行判断，而使用聚合函数查询是纵向查询，</p>
 <p>它是对一列的值进行计算，然后返回一个单一的值；另外聚合函数会忽略空值。</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/11.png"></p>
+<h3 id="从案例引出问题："><a href="#从案例引出问题：" class="headerlink" title="从案例引出问题："></a>从案例引出问题：</h3><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220320154124681.png"></p>
+<p>我们基于以上表作为查询：</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> product<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">-- 返回18 没有任何问题</span>
+
+<span class="token keyword">select</span> pid<span class="token punctuation">,</span><span class="token function">min</span><span class="token punctuation">(</span>price<span class="token punctuation">)</span> <span class="token keyword">from</span> product <span class="token punctuation">;</span>
+<span class="token keyword">select</span> pid<span class="token punctuation">,</span><span class="token function">max</span><span class="token punctuation">(</span>price<span class="token punctuation">)</span> <span class="token keyword">from</span> product <span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">-- 此时不报错 pid显示结果都为1  </span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>Q；为什么会产生这种现象？</p>
+<p>因为聚合函数是对列进行操作和pid字段没有产生联系 ，系统pid默认的值全为1</p>
+<p>此时我们可以考虑子查询＋AND 来解决类似hive里的窗口函数的功能</p>
+<pre><code>select pid ,price from product where price = (select min(price) from product);
+</code></pre>
+<p>聚合函数一般会和分组查询group by 结合使用</p>
+<p>格式：</p>
+<p>select 字段1,字段2… from 表名 group by 分组字段 having 分组条件;</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 1 统计各个分类商品的个数</span>
+<span class="token keyword">select</span> category_id <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> product <span class="token keyword">group</span> <span class="token keyword">by</span> category_id <span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220320160246892.png"></p>
+<p>执行结果如上：</p>
+<p>执行顺序是先分组 再进行count聚合  </p>
+<p>注意：如果要进行分组的话，则SELECT子句之后，只能出现分组的字段和统计函数，其他的字段不能出现</p>
+<h3 id="having与where的区别"><a href="#having与where的区别" class="headerlink" title="having与where的区别"></a>having与where的区别</h3><ul>
+<li><p>分组之后对统计结果进行筛选的话必须使用having，不能使用where</p>
+</li>
+<li><p>where子句用来筛选 FROM 子句中指定的操作所产生的   行 </p>
+</li>
+<li><p>group  by  子句用来分组 WHERE 子句的输出。 </p>
+</li>
+<li><p>having 子句用来从分组的结果中筛选行</p>
+</li>
+</ul>
+<pre class="line-numbers language-sql"><code class="language-sql">
+<span class="token keyword">select</span> category_id <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> product <span class="token keyword">where</span> price<span class="token operator">></span><span class="token number">300</span> <span class="token keyword">group</span> <span class="token keyword">by</span> category_id <span class="token keyword">having</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">3</span><span class="token punctuation">;</span>
+<span class="token keyword">select</span> category_id <span class="token punctuation">,</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token keyword">from</span> product <span class="token keyword">group</span> <span class="token keyword">by</span> category_id <span class="token keyword">having</span> <span class="token function">count</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">3</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">-- 思考以上语句哪条会有问题？</span>
+<span class="token comment" spellcheck="true">-- 答案是都没问题 where首先把不满足的行去掉后进行分组，筛选出特定的组 </span>
+<span class="token comment" spellcheck="true">-- 另一个也是将条件不满足的筛选掉 只不过是分组后进行 顺序问题</span>
+<span class="token comment" spellcheck="true">-- 执行顺序where>group by>count(*) > having </span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="一些注意的点"><a href="#一些注意的点" class="headerlink" title="一些注意的点"></a>一些注意的点</h3><p>mysql 5.6环境下除了count(*)为特例（不忽略null值）外，其余聚集函数确实是忽略null值</p>
+<p>聚合函数默认忽略字段为null的记录 要想列值为null的记录也参与计算，必须使用ifnull函数对null值做替换  这里不做过多演示</p>
+<p>使用Group By子句返回的组没有特定的顺序，可以使用Order By子句指定次序。</p>
+<p>group by和order by连用的确会出现问题</p>
+<h4 id="Group-by中子查询order-by排序失效问题分析"><a href="#Group-by中子查询order-by排序失效问题分析" class="headerlink" title="Group by中子查询order by排序失效问题分析"></a>Group by中子查询order by排序失效问题分析</h4><p>依然要考虑执行顺序</p>
+<p><strong>获取sql分组中id最大的记录</strong></p>
+<p>select id,name from (select id,name from tt order by id desc) as t group by name</p>
+<p>从from开始执行顺序   group by的执行顺序&gt; select  每个组默认取了第一条数据。</p>
+<pre><code>// 表数据如下：
+id,name
+1,name1
+2,name1
+3,name2
+4,name2
+
+select id,name from (select id,name from tt order by id desc) as t group by name
+// 输出结果如下：
+id,name
+1,name1
+3,name2
+</code></pre>
+<p>这是为什么呢？因为mysql 5.6之后版本对排序的sql解析做了优化，子查询中的排序是会被忽略的，所以上面的order by id desc未起到作用。如果子语句中排序不做优化那不就可以了么，查阅资料发现可以在子语句中加上limit来避免这种优化（加上limit相当于临时表限定了取值范围不会进行优化，如果是全表的话就被优化掉了）。</p>
+<p>正确写法：</p>
+<pre><code>// 加上limit
+select id,name from (select id,name from tt order by id desc limit 1024) as t group by name
+ 
+// 输出结果如下：
+id,name
+2,name1
+4,name2
+</code></pre>
 
                 
             </div>
@@ -850,7 +927,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">8.7k</span>
+                        class="white-color">9.5k</span>
             
             
             
