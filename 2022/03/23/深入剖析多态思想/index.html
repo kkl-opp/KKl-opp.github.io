@@ -4,12 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于HashList的深入探究, Aiplex">
-    <meta name="description" content="
-HashSet本质是HashMapHashSet是一个不允许有重复元素的集合。
-它实现了set接口 可以存放null值，但是只能有一个null
-和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。
-HashSet">
+    <meta name="keywords" content="深入剖析多态思想, Aiplex">
+    <meta name="description" content="多态
+多态与属性无关，多态指的是方法的多态
+
+">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +20,7 @@ HashSet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于HashList的深入探究 | Aiplex</title>
+    <title>深入剖析多态思想 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -288,12 +287,12 @@ HashSet">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于HashList的深入探究</h1>
+                    <h1 class="description center-align post-title">深入剖析多态思想</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +408,8 @@ HashSet">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                <span class="chip bg-color">集合类</span>
+                            <a href="/tags/JAVA/">
+                                <span class="chip bg-color">JAVA</span>
                             </a>
                         
                     </div>
@@ -434,28 +433,28 @@ HashSet">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-15
+                    2022-03-23
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-19
+                    2022-03-23
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    934
+                    19
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    1 分
                 </div>
                 
 
@@ -475,137 +474,9 @@ HashSet">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220315223146221.png"></p>
-<h2 id="HashSet本质是HashMap"><a href="#HashSet本质是HashMap" class="headerlink" title="HashSet本质是HashMap"></a>HashSet本质是HashMap</h2><p>HashSet是一个不允许有重复元素的集合。</p>
-<p>它实现了set接口 可以存放null值，但是只能有一个null</p>
-<p>和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。</p>
-<p>HashSet是非同步的。如果多个线程同时访问一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%93%88%E5%B8%8C&spm=1001.2101.3001.7020">哈希</a> set，<br>而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。<br>如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，<br>以防止对该 set 进行意外的不同步访问：</p>
-<pre><code>
-HashSet set = new HashSet();
-//1.add方法返回的是一个boolean值 添加成功则为true 失败为false
-//2.remove的方法指定删除对象
-
-
-
-</code></pre>
-<h2 id="HASHMAP"><a href="#HASHMAP" class="headerlink" title="HASHMAP"></a>HASHMAP</h2><p>HashMap底层是数组+链表+红黑树</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20160605101246837.png"></p>
-<h3 id="数组元素Node-lt-K-V-gt-实现了Entry接口"><a href="#数组元素Node-lt-K-V-gt-实现了Entry接口" class="headerlink" title="数组元素Node&lt;K,V&gt;实现了Entry接口"></a>数组元素Node&lt;K,V&gt;实现了Entry接口</h3><pre><code>//Node是单向链表，它实现了Map.Entry接口
-static class Node&lt;k,v&gt; implements Map.Entry&lt;k,v&gt; &#123;
-    final int hash;
-    final K key;
-    V value;
-    Node&lt;k,v&gt; next;
-    //构造函数Hash值 键 值 下一个节点
-    Node(int hash, K key, V value, Node&lt;k,v&gt; next) &#123;
-        this.hash = hash;
-        this.key = key;
-        this.value = value;
-        this.next = next;
-    &#125;
- 
-    public final K getKey()        &#123; return key; &#125;
-    public final V getValue()      &#123; return value; &#125;
-    public final String toString() &#123; return key + = + value; &#125;
- 
-    public final int hashCode() &#123;
-        return Objects.hashCode(key) ^ Objects.hashCode(value);
-    &#125;
- 
-    public final V setValue(V newValue) &#123;
-        V oldValue = value;
-        value = newValue;
-        return oldValue;
-    &#125;
-    //判断两个node是否相等,若key和value都相等，返回true。可以与自身比较为true
-    public final boolean equals(Object o) &#123;
-        if (o == this)
-            return true;
-        if (o instanceof Map.Entry) &#123;
-            Map.Entry&lt;!--?,?--&gt; e = (Map.Entry&lt;!--?,?--&gt;)o;
-            if (Objects.equals(key, e.getKey()) &amp;&amp;
-                Objects.equals(value, e.getValue()))
-                return true;
-        &#125;
-        return false;
-    &#125;
-</code></pre>
-<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><pre><code>//红黑树
-static final class TreeNode&lt;k,v&gt; extends LinkedHashMap.Entry&lt;k,v&gt; &#123;
-    TreeNode&lt;k,v&gt; parent;  // 父节点
-    TreeNode&lt;k,v&gt; left; //左子树
-    TreeNode&lt;k,v&gt; right;//右子树
-    TreeNode&lt;k,v&gt; prev;    // needed to unlink next upon deletion
-    boolean red;    //颜色属性
-    TreeNode(int hash, K key, V val, Node&lt;k,v&gt; next) &#123;
-        super(hash, key, val, next);
-    &#125;
- 
-    //返回当前节点的根节点
-    final TreeNode&lt;k,v&gt; root() &#123;
-        for (TreeNode&lt;k,v&gt; r = this, p;;) &#123;
-            if ((p = r.parent) == null)
-                return r;
-            r = p;
-        &#125;
-    &#125;
-</code></pre>
-<p>HashMap有四个构造函数可供我们使用</p>
-<pre><code>
-//默认无参构造，指定一个默认的加载因子
-public HashMap() &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR; 
-&#125;
-
-//可指定容量的有参构造，但是需要注意当前我们指定的容量并不一定就是实际的容量，下面会说
-public HashMap(int initialCapacity) &#123;
-    //同样使用默认加载因子
-    this(initialCapacity, DEFAULT_LOAD_FACTOR);
-&#125;
-
-//可指定容量和加载因子，但是笔者不建议自己手动指定非0.75的加载因子
-public HashMap(int initialCapacity, float loadFactor) &#123;
-    if (initialCapacity &lt; 0)
-        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
-                                           initialCapacity);
-    if (initialCapacity &gt; MAXIMUM_CAPACITY)
-        initialCapacity = MAXIMUM_CAPACITY;
-    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
-        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
-                                           loadFactor);
-    this.loadFactor = loadFactor;
-    //这里就是把我们指定的容量改为一个大于它的的最小的2次幂值，如传过来的容量是14，则返回16
-
-
-    this.threshold = tableSizeFor(initialCapacity);
-&#125;
-
-//可传入一个已有的map
-public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR;
-    putMapEntries(m, false);
-&#125;
-
-//把传入的map里边的元素都加载到当前map
-final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &#123;
-    int s = m.size();
-    if (s &gt; 0) &#123;
-        if (table == null) &#123; // pre-size
-            float ft = ((float)s / loadFactor) + 1.0F;
-            int t = ((ft &lt; (float)MAXIMUM_CAPACITY) ?
-                     (int)ft : MAXIMUM_CAPACITY);
-            if (t &gt; threshold)
-                threshold = tableSizeFor(t);
-        &#125;
-        else if (s &gt; threshold)
-            resize();
-        for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet()) &#123;
-            K key = e.getKey();
-            V value = e.getValue();    putVal(hash(key), key, value, false, evict);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+                <h1 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h1><ul>
+<li><h5 id="多态与属性无关，多态指的是方法的多态"><a href="#多态与属性无关，多态指的是方法的多态" class="headerlink" title="多态与属性无关，多态指的是方法的多态"></a>多态与属性无关，多态指的是方法的多态</h5></li>
+</ul>
 
                 
             </div>
@@ -632,7 +503,7 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/">https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/</a>
+                    <a href="https://kkl-opp.github.io/2022/03/23/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90%E5%A4%9A%E6%80%81%E6%80%9D%E6%83%B3/">https://kkl-opp.github.io/2022/03/23/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90%E5%A4%9A%E6%80%81%E6%80%9D%E6%83%B3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -670,8 +541,8 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                    <span class="chip bg-color">集合类</span>
+                                <a href="/tags/JAVA/">
+                                    <span class="chip bg-color">JAVA</span>
                                 </a>
                             
                         </div>
@@ -723,13 +594,13 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/17/%E5%85%B3%E4%BA%8Esuper%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthis%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                <a href="/2022/03/27/%E6%90%AD%E5%BB%BAmybatis%E6%8C%87%E5%8D%97/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="关于super关键字和this的区别">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="搭建mybatis指南">
                         
-                        <span class="card-title">关于super关键字和this的区别</span>
+                        <span class="card-title">搭建mybatis指南</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -740,14 +611,14 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-17
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/JAVA/" class="post-category">
-                                    JAVA
+                            <a href="/categories/ORM/" class="post-category">
+                                    ORM
                                 </a>
                             
                             
@@ -757,8 +628,8 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/mybatis/">
+                        <span class="chip bg-color">mybatis</span>
                     </a>
                     
                 </div>
@@ -772,13 +643,13 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/13/dp%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95/">
+                <a href="/2022/03/20/mysql%E4%B8%AD%E7%9A%84%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="dp动态规划">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="mysql中的聚合函数易混淆的概念">
                         
-                        <span class="card-title">dp动态规划</span>
+                        <span class="card-title">mysql中的聚合函数易混淆的概念</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -789,12 +660,16 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-20
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            liming
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/mysql/" class="post-category">
+                                    mysql
+                                </a>
+                            
                             
                         </span>
                     </div>
@@ -802,8 +677,12 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/mysql/">
+                        <span class="chip bg-color">mysql</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0/">
+                        <span class="chip bg-color">聚合函数</span>
                     </a>
                     
                 </div>

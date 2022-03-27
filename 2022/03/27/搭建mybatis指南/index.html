@@ -4,12 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于HashList的深入探究, Aiplex">
-    <meta name="description" content="
-HashSet本质是HashMapHashSet是一个不允许有重复元素的集合。
-它实现了set接口 可以存放null值，但是只能有一个null
-和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。
-HashSet">
+    <meta name="keywords" content="搭建mybatis指南, Aiplex">
+    <meta name="description" content="一、搭建MyBatis1.开发环境IDEA version : 2021.2.2
+mysql version ：8.0.23
+mybatis version : 3.5.2
+maven version : 3.5.7
+2.创建maven工程">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +21,7 @@ HashSet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于HashList的深入探究 | Aiplex</title>
+    <title>搭建mybatis指南 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -288,12 +288,12 @@ HashSet">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于HashList的深入探究</h1>
+                    <h1 class="description center-align post-title">搭建mybatis指南</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +409,8 @@ HashSet">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                <span class="chip bg-color">集合类</span>
+                            <a href="/tags/mybatis/">
+                                <span class="chip bg-color">mybatis</span>
                             </a>
                         
                     </div>
@@ -421,8 +421,8 @@ HashSet">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JAVA/" class="post-category">
-                                JAVA
+                            <a href="/categories/ORM/" class="post-category">
+                                ORM
                             </a>
                         
                     </div>
@@ -434,28 +434,28 @@ HashSet">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-15
+                    2022-03-27
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-19
+                    2022-03-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    934
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    6 分
                 </div>
                 
 
@@ -475,136 +475,183 @@ HashSet">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220315223146221.png"></p>
-<h2 id="HashSet本质是HashMap"><a href="#HashSet本质是HashMap" class="headerlink" title="HashSet本质是HashMap"></a>HashSet本质是HashMap</h2><p>HashSet是一个不允许有重复元素的集合。</p>
-<p>它实现了set接口 可以存放null值，但是只能有一个null</p>
-<p>和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。</p>
-<p>HashSet是非同步的。如果多个线程同时访问一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%93%88%E5%B8%8C&spm=1001.2101.3001.7020">哈希</a> set，<br>而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。<br>如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，<br>以防止对该 set 进行意外的不同步访问：</p>
+                <h1 id="一、搭建MyBatis"><a href="#一、搭建MyBatis" class="headerlink" title="一、搭建MyBatis"></a>一、<strong>搭建</strong>MyBatis</h1><h2 id="1-开发环境"><a href="#1-开发环境" class="headerlink" title="1.开发环境"></a>1.开发环境</h2><p>IDEA version : 2021.2.2</p>
+<p>mysql version ：8.0.23</p>
+<p>mybatis version : 3.5.2</p>
+<p>maven version : 3.5.7</p>
+<h2 id="2-创建maven工程"><a href="#2-创建maven工程" class="headerlink" title="2.创建maven工程"></a>2.创建maven工程</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220327134903258.png"></p>
+<p>next-&gt;Name(存放路径)-&gt;groupID(com.lyc.mybatis)-&gt;finish</p>
+<p>加入依赖</p>
+<pre><code>&lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.11&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;3.5.2&lt;/version&gt;
+        &lt;/dependency&gt;
+
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;8.0.25&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.13.2&lt;/version&gt;
+            &lt;scope&gt;compile&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+</code></pre>
+<h2 id="3-创建数据库连接信息配置文件"><a href="#3-创建数据库连接信息配置文件" class="headerlink" title="3.创建数据库连接信息配置文件"></a>3.创建数据库连接信息配置文件</h2><p>在项目中的src&#x2F;main&#x2F;resources目录下创建db.properties</p>
+<pre class="line-numbers language-sql"><code class="language-sql">driver <span class="token operator">=</span> com<span class="token punctuation">.</span>mysql<span class="token punctuation">.</span>cj<span class="token punctuation">.</span>jdbc<span class="token punctuation">.</span>Driver
+url <span class="token operator">=</span> jdbc:mysql:<span class="token comment" spellcheck="true">//localhost:3306/mybatis?serverTimezone=UTC&amp;\</span>
+            characterEncoding<span class="token operator">=</span>utf8<span class="token operator">&amp;</span>useUnicode<span class="token operator">=</span><span class="token boolean">true</span><span class="token operator">&amp;</span>useSSL<span class="token operator">=</span><span class="token boolean">false</span>
+username <span class="token operator">=</span> root
+password <span class="token operator">=</span> <span class="token number">123456</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="4-创建MyBatis的核心配置文件"><a href="#4-创建MyBatis的核心配置文件" class="headerlink" title="4.创建MyBatis的核心配置文件"></a>4.创建MyBatis的核心配置文件</h2><p>在项目中的src&#x2F;main&#x2F;resources目录下创建MyBatis的核心配置文件</p>
+<p>用于项目的环境配置，如数据库连接相关配置等。建议命名为mybatis-config.xml</p>
+<pre class="line-numbers language-xml"><code class="language-xml"><span class="token prolog">&lt;?xml version="1.0" encoding="UTF-8" ?></span> 
+<span class="token doctype">&lt;!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd"></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>configuration</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>properties</span> <span class="token attr-name">resource</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>db.properties<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--设置连接数据库的环境--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>environments</span> <span class="token attr-name">default</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>development<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>environment</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>development<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>transactionManager</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>JDBC<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dataSource</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>POOLED<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>driver<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${driver}<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>url<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${url}<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>username<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${username}<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>property</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>password<span class="token punctuation">"</span></span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>${password}<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dataSource</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>environment</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>environments</span><span class="token punctuation">></span></span>
+    <span class="token comment" spellcheck="true">&lt;!--引入映射文件--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mappers</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>mapper</span> <span class="token attr-name">resource</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>mappers/UserMapper.xml<span class="token punctuation">"</span></span><span class="token punctuation">/></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>mappers</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>configuration</span><span class="token punctuation">></span></span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>参数详细：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;  xml的版本号
+&lt;!DOCTYPE configuration  mybatis中的约束  dtd文件
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot; &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+configuration 根标签
+environments 可嵌套多个单数标签 &lt;!--设置连接数据库的环境--&gt;
+&lt;mappers&gt;        &lt;!--引入映射文件--&gt;
+&lt;transactionManager type=&quot;JDBC&quot;/&gt; 事务的管理方式以jdbc的方式进行管理
+&lt;dataSource type=&quot;POOLED&quot;&gt; 数据库连接池 下一次使用直接调用
+
+
+</code></pre>
+<h2 id="5-创建POJO实体"><a href="#5-创建POJO实体" class="headerlink" title="5.创建POJO实体"></a>5.创建POJO实体</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220327143310015.png"></p>
+<p>这是我们的表中的数据 跟实体类的属性要一致（默认的映射规则）-&gt;为属性名赋值</p>
+<p>在src&#x2F;main&#x2F;java 目录下创建com.lyc.mybatis.pojo包 在pojo包下创建User类 该类用于封装User对象的属性 如下：</p>
+<pre><code>public class User &#123;
+
+    private int uid;
+    private String uname;
+    private int uage;
+
+    public int getUid() &#123;
+        return uid;
+    &#125;
+
+    public void setUid(int uid) &#123;
+        this.uid = uid;
+    &#125;
+
+    public String getUname() &#123;
+        return uname;
+    &#125;
+
+    public void setUname(String uname) &#123;
+        this.uname = uname;
+    &#125;
+
+    public int getUage() &#123;
+        return uage;
+    &#125;
+
+    public void setUage(int uage) &#123;
+        this.uage = uage;
+    &#125;
+</code></pre>
+<h2 id="6-创建mapper接口"><a href="#6-创建mapper接口" class="headerlink" title="6.创建mapper接口"></a>6.创建mapper接口</h2><p>MyBatis中的mapper接口相当于以前的dao。但是区别在于，mapper仅仅是接口，我们不需要</p>
+<p>提供实现类。</p>
+<p>在src&#x2F;main&#x2F;java&#x2F;com.lyc.mybatis下创建mapper文件夹</p>
+<p>在文件夹下创建UserMapper接口</p>
+<pre><code>int insertUser();
+</code></pre>
+<h2 id="7-创建映射文件UserMapper-xml"><a href="#7-创建映射文件UserMapper-xml" class="headerlink" title="7.创建映射文件UserMapper.xml"></a>7.创建映射文件UserMapper.xml</h2><p>在src&#x2F;main&#x2F;resources下创建一个mappers文件夹 在文件下创建映射文件UserMapper.xml</p>
+<p>用于配置真正的sql与java对象之间的映射  </p>
+<p><strong>1.MyBatis映射文件用于编写SQL，访问以及操作表中的数据</strong></p>
+<p><strong>2、MyBatis中可以面向接口操作数据，要保证两个一致：</strong> </p>
+<p>a&gt;mapper接口的全类名和映射文件的命名空间（namespace）保持一致</p>
+<p>b&gt;mapper接口中方法的方法名和映射文件中编写SQL的标签的id属性保持一致</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!--sql与java之间的映射 --&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;mapper namespace=&quot;com.lyc.mybatis.mapper.UserMapper&quot;&gt;
+
+    &lt;insert id=&quot;insertUser&quot;&gt;
+        insert into users values (4,&#39;王五&#39;,19)
+    &lt;/insert&gt;
+&lt;/mapper&gt;
+</code></pre>
+<p>映射文件的命名规则：</p>
+<p>表所对应的实体类的类名+Mapper.xml</p>
+<p>例如：表t_user，映射的实体类为Users，所对应的映射文件为UsersMapper.xml</p>
+<h2 id="8-测试"><a href="#8-测试" class="headerlink" title="8.测试"></a>8.测试</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220327152644515.png"></p>
+<pre><code>import com.lyc.mybatis.mapper.UserMapper;
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MapperTest01 &#123;
+    @Test
+    public void TestMapper() throws IOException &#123;
+        //读取MyBatis的核心配置文件 InputStream is = Resources.g
+        InputStream resourceAsStream =   Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+
+            
+        ////通过核心配置文件所对应的字节输入流创建工厂类SqlSessionFactory，生产SqlSession对象
+        SqlSessionFactoryBuilder sqlSessionFactoryBuilder = new SqlSessionFactoryBuilder();
+        SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(resourceAsStream);
+        SqlSession session = sqlSessionFactory.openSession();
+
+        
+        UserMapper mapper = session.getMapper(UserMapper.class);
+        
+        //调用UserMapper接口中的方法，就可以根据UserMapper的全类名匹配元素文件，通过调用的方法名匹配 映射文件中的SQL标            签，并执行标签中的SQL语句
+        int result = mapper.insertUser();
+       
+       //事务提交
+        session.commit();
+        System.out.println(&quot;result&quot;+result);
+
+    &#125;
+&#125;
+</code></pre>
 <pre><code>
-HashSet set = new HashSet();
-//1.add方法返回的是一个boolean值 添加成功则为true 失败为false
-//2.remove的方法指定删除对象
-
-
-
-</code></pre>
-<h2 id="HASHMAP"><a href="#HASHMAP" class="headerlink" title="HASHMAP"></a>HASHMAP</h2><p>HashMap底层是数组+链表+红黑树</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20160605101246837.png"></p>
-<h3 id="数组元素Node-lt-K-V-gt-实现了Entry接口"><a href="#数组元素Node-lt-K-V-gt-实现了Entry接口" class="headerlink" title="数组元素Node&lt;K,V&gt;实现了Entry接口"></a>数组元素Node&lt;K,V&gt;实现了Entry接口</h3><pre><code>//Node是单向链表，它实现了Map.Entry接口
-static class Node&lt;k,v&gt; implements Map.Entry&lt;k,v&gt; &#123;
-    final int hash;
-    final K key;
-    V value;
-    Node&lt;k,v&gt; next;
-    //构造函数Hash值 键 值 下一个节点
-    Node(int hash, K key, V value, Node&lt;k,v&gt; next) &#123;
-        this.hash = hash;
-        this.key = key;
-        this.value = value;
-        this.next = next;
-    &#125;
- 
-    public final K getKey()        &#123; return key; &#125;
-    public final V getValue()      &#123; return value; &#125;
-    public final String toString() &#123; return key + = + value; &#125;
- 
-    public final int hashCode() &#123;
-        return Objects.hashCode(key) ^ Objects.hashCode(value);
-    &#125;
- 
-    public final V setValue(V newValue) &#123;
-        V oldValue = value;
-        value = newValue;
-        return oldValue;
-    &#125;
-    //判断两个node是否相等,若key和value都相等，返回true。可以与自身比较为true
-    public final boolean equals(Object o) &#123;
-        if (o == this)
-            return true;
-        if (o instanceof Map.Entry) &#123;
-            Map.Entry&lt;!--?,?--&gt; e = (Map.Entry&lt;!--?,?--&gt;)o;
-            if (Objects.equals(key, e.getKey()) &amp;&amp;
-                Objects.equals(value, e.getValue()))
-                return true;
-        &#125;
-        return false;
-    &#125;
-</code></pre>
-<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><pre><code>//红黑树
-static final class TreeNode&lt;k,v&gt; extends LinkedHashMap.Entry&lt;k,v&gt; &#123;
-    TreeNode&lt;k,v&gt; parent;  // 父节点
-    TreeNode&lt;k,v&gt; left; //左子树
-    TreeNode&lt;k,v&gt; right;//右子树
-    TreeNode&lt;k,v&gt; prev;    // needed to unlink next upon deletion
-    boolean red;    //颜色属性
-    TreeNode(int hash, K key, V val, Node&lt;k,v&gt; next) &#123;
-        super(hash, key, val, next);
-    &#125;
- 
-    //返回当前节点的根节点
-    final TreeNode&lt;k,v&gt; root() &#123;
-        for (TreeNode&lt;k,v&gt; r = this, p;;) &#123;
-            if ((p = r.parent) == null)
-                return r;
-            r = p;
-        &#125;
-    &#125;
-</code></pre>
-<p>HashMap有四个构造函数可供我们使用</p>
-<pre><code>
-//默认无参构造，指定一个默认的加载因子
-public HashMap() &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR; 
-&#125;
-
-//可指定容量的有参构造，但是需要注意当前我们指定的容量并不一定就是实际的容量，下面会说
-public HashMap(int initialCapacity) &#123;
-    //同样使用默认加载因子
-    this(initialCapacity, DEFAULT_LOAD_FACTOR);
-&#125;
-
-//可指定容量和加载因子，但是笔者不建议自己手动指定非0.75的加载因子
-public HashMap(int initialCapacity, float loadFactor) &#123;
-    if (initialCapacity &lt; 0)
-        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
-                                           initialCapacity);
-    if (initialCapacity &gt; MAXIMUM_CAPACITY)
-        initialCapacity = MAXIMUM_CAPACITY;
-    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
-        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
-                                           loadFactor);
-    this.loadFactor = loadFactor;
-    //这里就是把我们指定的容量改为一个大于它的的最小的2次幂值，如传过来的容量是14，则返回16
-
-
-    this.threshold = tableSizeFor(initialCapacity);
-&#125;
-
-//可传入一个已有的map
-public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR;
-    putMapEntries(m, false);
-&#125;
-
-//把传入的map里边的元素都加载到当前map
-final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &#123;
-    int s = m.size();
-    if (s &gt; 0) &#123;
-        if (table == null) &#123; // pre-size
-            float ft = ((float)s / loadFactor) + 1.0F;
-            int t = ((ft &lt; (float)MAXIMUM_CAPACITY) ?
-                     (int)ft : MAXIMUM_CAPACITY);
-            if (t &gt; threshold)
-                threshold = tableSizeFor(t);
-        &#125;
-        else if (s &gt; threshold)
-            resize();
-        for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet()) &#123;
-            K key = e.getKey();
-            V value = e.getValue();    putVal(hash(key), key, value, false, evict);
-        &#125;
-    &#125;
-&#125;
 </code></pre>
 
                 
@@ -632,7 +679,7 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/">https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/</a>
+                    <a href="https://kkl-opp.github.io/2022/03/27/%E6%90%AD%E5%BB%BAmybatis%E6%8C%87%E5%8D%97/">https://kkl-opp.github.io/2022/03/27/%E6%90%AD%E5%BB%BAmybatis%E6%8C%87%E5%8D%97/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -670,8 +717,8 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                    <span class="chip bg-color">集合类</span>
+                                <a href="/tags/mybatis/">
+                                    <span class="chip bg-color">mybatis</span>
                                 </a>
                             
                         </div>
@@ -719,17 +766,18 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/17/%E5%85%B3%E4%BA%8Esuper%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthis%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                <a href="/2022/03/27/%E6%90%AD%E5%BB%BAmybatis%E6%8C%87%E5%8D%97/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="关于super关键字和this的区别">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="搭建mybatis指南">
                         
-                        <span class="card-title">关于super关键字和this的区别</span>
+                        <span class="card-title">搭建mybatis指南</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -739,9 +787,59 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-17
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/ORM/" class="post-category">
+                                    ORM
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mybatis/">
+                        <span class="chip bg-color">mybatis</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/23/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90%E5%A4%9A%E6%80%81%E6%80%9D%E6%83%B3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="深入剖析多态思想">
+                        
+                        <span class="card-title">深入剖析多态思想</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-23
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -759,51 +857,6 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                     <a href="/tags/JAVA/">
                         <span class="chip bg-color">JAVA</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/03/13/dp%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="dp动态规划">
-                        
-                        <span class="card-title">dp动态规划</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-13
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            liming
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
                     </a>
                     
                 </div>
