@@ -29,31 +29,6 @@
     
     
     <entry>
-      <title>深入剖析多态思想</title>
-      <link href="/2022/03/23/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90%E5%A4%9A%E6%80%81%E6%80%9D%E6%83%B3/"/>
-      <url>/2022/03/23/%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90%E5%A4%9A%E6%80%81%E6%80%9D%E6%83%B3/</url>
-      
-        <content type="html"><![CDATA[<h1 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h1><ul><li><h5 id="多态与属性无关，多态指的是方法的多态"><a href="#多态与属性无关，多态指的是方法的多态" class="headerlink" title="多态与属性无关，多态指的是方法的多态"></a>多态与属性无关，多态指的是方法的多态</h5></li></ul>]]></content>
-      
-      
-      <categories>
-          
-          <category> JAVA </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> JAVA </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>mysql中的聚合函数易混淆的概念</title>
       <link href="/2022/03/20/mysql%E4%B8%AD%E7%9A%84%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/"/>
       <url>/2022/03/20/mysql%E4%B8%AD%E7%9A%84%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%A6%82%E5%BF%B5/</url>
