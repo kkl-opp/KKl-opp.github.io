@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="hive的配置, Aiplex">
-    <meta name="description" content="认识hive的基本配置Metastore
-Metastores是元数据服务，元数据的服务组件，这个组件存储着hive的元数据。作用：管理metadata元数据，让客户端通过连接Metastore服务，再由metastore去连接MySQL数">
+    <meta name="keywords" content="关于StringBuider的使用, Aiplex">
+    <meta name="description" content="String与StringBuilder的区别1.StringString类位于Java的lang包下 无需导包即可调用
+String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且浪费大量优">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +18,7 @@ Metastores是元数据服务，元数据的服务组件，这个组件存储着h
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>hive的配置 | Aiplex</title>
+    <title>关于StringBuider的使用 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -285,12 +285,12 @@ Metastores是元数据服务，元数据的服务组件，这个组件存储着h
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">hive的配置</h1>
+                    <h1 class="description center-align post-title">关于StringBuider的使用</h1>
                 </div>
             </div>
         </div>
@@ -406,8 +406,8 @@ Metastores是元数据服务，元数据的服务组件，这个组件存储着h
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/HIVE/">
-                                <span class="chip bg-color">HIVE</span>
+                            <a href="/tags/JAVA/">
+                                <span class="chip bg-color">JAVA</span>
                             </a>
                         
                     </div>
@@ -418,8 +418,8 @@ Metastores是元数据服务，元数据的服务组件，这个组件存储着h
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
-                                大数据生态圈
+                            <a href="/categories/JAVA/" class="post-category">
+                                JAVA
                             </a>
                         
                     </div>
@@ -431,21 +431,21 @@ Metastores是元数据服务，元数据的服务组件，这个组件存储着h
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-10
+                    2022-03-30
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-13
+                    2022-03-30
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    2.7k
                 </div>
                 
 
@@ -472,188 +472,167 @@ Metastores是元数据服务，元数据的服务组件，这个组件存储着h
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="认识hive的基本配置"><a href="#认识hive的基本配置" class="headerlink" title="认识hive的基本配置"></a>认识hive的基本配置</h1><h5 id="Metastore"><a href="#Metastore" class="headerlink" title="Metastore"></a>Metastore</h5><ol>
-<li><p>Metastores是元数据服务，元数据的服务组件，这个组件存储着hive的元数据。<br>作用：管理metadata元数据，让客户端通过连接Metastore服务，再由metastore去<br>连接MySQL数据库存取元数据。可以间接保证数据的安全。</p>
-</li>
-<li><p>有了metastore服务，就可以有多个客户端同时连接，而且这些客户端不需要知道<br>MySQL数据库的用户名和密码，只需要连接metastore 服务即可。</p>
-</li>
-</ol>
-<h5 id="Metadata"><a href="#Metadata" class="headerlink" title="Metadata"></a>Metadata</h5><p>关于数据的数据或者叫做用来描述数据的数据或者叫做信息的信息。可以理解为最小的数据单元。<br>元数据可以为数据说明其元素或属性（名称、大小、数据类型、等），或其结构（长度、字段、数据列）</p>
-<h3 id="Metastore启动方式"><a href="#Metastore启动方式" class="headerlink" title="Metastore启动方式"></a>Metastore启动方式</h3><p>Metastore的启动方式有三种：</p>
-<p><strong>（1）嵌入模式</strong></p>
-<p>内嵌模式使用的是内嵌的Derby数据库来存储元数据，也不需要额外起Metastore服务。<br>数据库和Metastore服务都嵌入在主Hive Server进程中。这个是默认的，配置简单，<br>但是一次只能一个客户端连接，适用于用来实验，不适用于生产环境。</p>
-<p>解压hive安装包 bin&#x2F;hive 启动即可使用</p>
-<p>缺点：不同路径启动hive，每一个hive拥有一套自己的元数据，无法共享。</p>
-<p><strong>（2）本地模式</strong></p>
-<p>本地模式采用外部数据库来存储元数据，目前支持的数据库有：<br>MySQL、Postgres、Oracle、MS SQL Server.在这里我们使用MySQL。</p>
-<p>本地模式不需要单独起metastore服务，用的是跟hive在同一个进程里的metastore服务。<br>也就是说当你启动一个hive 服务，里面默认会帮我们启动一个metastore线程服务。<br>hive根据hive.metastore.uris，如果为空，则为本地模式。</p>
-<p>缺点是：每启动一次hive服务，都内置启动了一个metastore。</p>
-<p><strong>（3）远程模式</strong></p>
-<p>远程模式下，需要单独起metastore服务（hive –service metastore），然后每个客户端</p>
-<p>都在配置文件里配置连接到该metastore服务。</p>
-<p>远程模式的metastore服务和hive运行在不同的进程里。</p>
-<p>在生产环境中，建议用远程模式来配置Hive Metastore。</p>
-<p>在这种情况下，其他依赖hive的软件都可以通过** Metastore访问hive。**</p>
-<p>远程模式下，需要配置hive.metastore.uris 参数来指定metastore服务运行的机器ip和端口，<br>并且需要单独手动启动metastore服务，如有多个metastore服务器，URI之间用逗号分隔。</p>
-<h2 id="版本介绍"><a href="#版本介绍" class="headerlink" title="版本介绍"></a>版本介绍</h2><p>本次安装的hive版本为3.0x 基于Hadoop3.0x进行远程模式的搭建</p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p><strong>基本的hadoop集群环境要确保能够正常启动</strong></p>
-<h4 id="1-防火墙管理"><a href="#1-防火墙管理" class="headerlink" title="1.防火墙管理"></a>1.防火墙管理</h4><p><strong>(1)防火墙状态查询</strong>：systemctl status firewalld.service<br><strong>(2)防火墙关闭</strong>：systemctl stop firewalld.service<br><strong>(3)禁止防火墙开机启动</strong>：systemctl disable firewalld.service</p>
-<h4 id="2-mysql安装配置成功"><a href="#2-mysql安装配置成功" class="headerlink" title="2.mysql安装配置成功"></a>2.mysql安装配置成功</h4><p>Mysql安装配置成功并能使用 mysql -uroot -p 进行登入</p>
-<h4 id="3-JAVA-JDK配置"><a href="#3-JAVA-JDK配置" class="headerlink" title="3.JAVA JDK配置"></a>3.JAVA JDK配置</h4><p>JDK安装配置成功，并能查看java 版本信息</p>
-<h4 id="4-Hadoop与hive整合"><a href="#4-Hadoop与hive整合" class="headerlink" title="4.Hadoop与hive整合"></a>4.Hadoop与hive整合</h4><p>因为Hive需要把数据存储在HDFS上，并且通过MapReduce作为执行引擎处理数据；<br>修改Hadoop中core-site.xml，并且Hadoop集群同步配置文件，重启生效。</p>
-<pre><code>
-&lt;!-- 整合hive --&gt;
-  &lt;property&gt;  
-  &lt;name&gt;hadoop.proxyuser.root.hosts&lt;/name&gt;  
-  &lt;value&gt;*&lt;/value&gt;
-  &lt;/property&gt;
-  &lt;property&gt;  
-  &lt;name&gt;hadoop.proxyuser.root.groups&lt;/name&gt;  
-  &lt;value&gt;*&lt;/value&gt;
-  &lt;/property&gt;
+                <h1 id="String与StringBuilder的区别"><a href="#String与StringBuilder的区别" class="headerlink" title="String与StringBuilder的区别"></a>String与StringBuilder的区别</h1><h2 id="1-String"><a href="#1-String" class="headerlink" title="1.String"></a>1.String</h2><p>String类位于Java的lang包下 无需导包即可调用</p>
+<p>String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且浪费大量优先的内存空间</p>
+<p>每创建一个String对象就要在栈中 开辟空间 当修改String的值的时候 会在堆中新开辟一块空间 造成空间的浪费</p>
+<h4 id="用String类创建对象通常有两种形式："><a href="#用String类创建对象通常有两种形式：" class="headerlink" title="用String类创建对象通常有两种形式："></a>用String类创建对象通常有两种形式：</h4><p>1、String str &#x3D; “abc”</p>
+<p>2、String str1 &#x3D; new String(“abc”);</p>
+<p>方法1：通过字面量直接给字符串进行赋值，在栈中创建字符串str时，会先在字符串常量池中检查是否已有该字符串，如果没有则创建并存入字符串常量池中，如果已存在则直接从常量池中获取。</p>
+<p>方法2：创建的字符串，不管内存有没有为“abc”字符串分配内存，都会在内存中重新分配一个内存区域存放“abc”，然后用str1指向它，相当于内存中有两个“abc”，只是存放的地址不一样。</p>
+<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>1、public String();</p>
+<p>String类的无参构造方法，用来创建空字符串的String类；</p>
+<p>案例：String str &#x3D; new String();</p>
+<p>2、public String(String value);</p>
+<p>用已知的字符串value值来创建一个字符串对象；</p>
+<p>案例：String str1 &#x3D; new String(“aaa”);</p>
+<p>3、public String(char[] value)</p>
+<p>用字符数组value创建一个String对象。</p>
+<p>案例：char[] value &#x3D; {“ab”,”cd”,”efg”};</p>
+<h2 id="2-StringBuffer"><a href="#2-StringBuffer" class="headerlink" title="2. StringBuffer"></a>2. StringBuffer</h2><p> StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象。每个StringBuffer对象都有一定的缓冲区容量，当字符串大小没有超过容量时，不会分配新的容量，当字符串大小超过容量时，会自动增加容量 </p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20180411092328691"></p>
+<p><img src="C:\Users\lyc\AppData\Roaming\Typora\typora-user-images\image-20220330183450896.png"></p>
+<p>我们调用equals方法  显而易见结果是false</p>
+<p>一些常用的方法 看参数 你应该就知道如何使用  无非就是增删改查 类型转换 多练即可掌握</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220330183812261.png"></p>
+<p> (1) String中的是常量(final)数组，只能被赋值一次。<br>   比如：new String(“abc”)使得value[]&#x3D;{‘a’,’b’,’c’}(查看jdk String 就是这么实现的)，之后这个String对象中的value[]再也不能改变了。这也正是大家常说的，String是不可变的原因 。<br>   注意：这个对初学者来说有个误区，有人说String str1&#x3D;new String(“abc”); str1&#x3D;new String(“cba”);不是改变了字符串str1吗？那么你有必要先搞懂对象引用和对象本身的区别。这里我简单的说明一下，对象本身指的是存放在堆空间中的该对象的实例数据(非静态非常量字段)。而对象引用指的是堆中对象本身所存放的地址，一般方法区和Java栈中存储的都是对象引用，而非对象本身的数据。</p>
+<p>   (2) StringBuffer中的value[]就是一个很普通的数组，而且可以通过append()方法将新字符串加入value[]末尾。这样也就改变了value[]的内容和大小了。</p>
+<p>   比如：new StringBuffer(“abc”)使得value[]&#x3D;{‘a’,’b’,’c’,’’,’’…}(注意构造的长度是str.length()+16)。如果再将这个对象append(“abc”)，那么这个对象中的value[]&#x3D;{‘a’,’b’,’c’,’a’,’b’,’c’,’’….}。这也就是为什么大家说 StringBuffer是可变字符串 的涵义了。从这一点也可以看出，StringBuffer中的value[]完全可以作为字符串的缓冲区功能。其累加性能是很不错的</p>
+<p>   总结，讨论String和StringBuffer可不可变。本质上是指对象中的value[]字符数组可不可变，而不是对象引用可不可变。 </p>
+<h2 id="3-StringBuilder"><a href="#3-StringBuilder" class="headerlink" title="3.StringBuilder"></a>3.StringBuilder</h2><p>程序开发过程中，我们常常碰到字符串连接的情况，方便和直接的方式是通过”+”符号来实现，但是这种方式达到目的的效率比较低，且每执行一次都会创建一个String对象，即耗时，又浪费空间。使用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=StringBuilder%E7%B1%BB&spm=1001.2101.3001.7020">StringBuilder类</a>就可以避免这种问题的发生，下面就Stringbuilder的使用做个简要的总结：</p>
+<p>StringBuilder 类在 Java 5 中被提出，它和 StringBuffer 之间的最大不同在于 StringBuilder 的方法不是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8&spm=1001.2101.3001.7020">线程安全</a>的（不能同步访问）。</p>
+<p>由于 StringBuilder 相较于 StringBuffer 有速度优势，<strong>所以多数情况下建议使用 StringBuilder 类</strong>。然而在应用程序要求线程安全的情况下，则必须使用 StringBuffer 类。</p>
+<h3 id="String和StringBuilder的区别："><a href="#String和StringBuilder的区别：" class="headerlink" title="String和StringBuilder的区别："></a>String和StringBuilder的区别：</h3><p>   ●String：内容不可变   </p>
+<p>   ●StringBuilder：内容是可变的</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1.无参数  stringBuilder  s&#x3D;new stringBuilder();</p>
+<p>实例化时会有一个默认的16字符的空间，当追加字符超过16个字符时，会新开一个翻倍的空间，而原油空间会浪费掉</p>
+<p>2.有参数：stringBulider s&#x3D;new stringBuilder(20);</p>
+<p>可以在实例化的时候创建一个固定大小的空间，避免资源的浪费。</p>
+<p>常见的方法：</p>
+<p>StringBuilder的常见用法。</p>
+<p>1、初始化一个StringBuilder。</p>
+<pre><code>StringBuilder sb = new StringBuilder()；
 </code></pre>
-<h4 id="5-hive的jar包准备"><a href="#5-hive的jar包准备" class="headerlink" title="5.hive的jar包准备"></a>5.hive的jar包准备</h4><p>地址：<a target="_blank" rel="noopener" href="http://archive.apache.org/dist/hive/hive-3.1.0/">http://archive.apache.org/dist/hive/hive-3.1.0/</a><br>选择apache-hive-3.1.0-bin.tar.gz 进行下载</p>
-<h2 id="安装流程"><a href="#安装流程" class="headerlink" title="安装流程"></a>安装流程</h2><h5 id="上传解压安装包"><a href="#上传解压安装包" class="headerlink" title="上传解压安装包"></a>上传解压安装包</h5><ol>
-<li>解压hive安装包<pre><code>tar -zxvf apache-hive-3.1.0-bin.tar.gz  -C 
-mv apache-hive-3.1.0-bin hive
+<p>2、填充：使用append() 来追加字符串填充到sb中：</p>
+<pre><code>  sb.append(&quot;xxxx&quot;).append(&quot; xxx&quot;)....可继续延伸
 </code></pre>
-</li>
-<li>解决hadoop、hive之间guava版本差异</li>
-</ol>
-<p>进入hive目录 将guava-27.0-jre.jar 拷贝至lib目录下</p>
-<pre><code>rm -rf lib/guava-19.0.jar
-cp /export/server/hadoop-3.1.3/share/hadoop/common/lib/guava-27.0-jre.jar ./lib/
+<p>3、删除sb里面的已有的内容：</p>
+<pre><code>  sb.delete(0,sb.length());将删除sb里面从0开始到结尾的所有内容，也可以自己定义区间
 </code></pre>
-<ol start="3">
-<li>添加mysql jdbc驱动到hive安装包lib&#x2F;文件下<br>下载地址：<a target="_blank" rel="noopener" href="https://maven.ityuan.com/maven2/mysql/mysql-connector-java/5.1.32">https://maven.ityuan.com/maven2/mysql/mysql-connector-java/5.1.32</a></li>
-</ol>
-<h3 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h3><p>可参照自己的文件存放的位置进行修改<br>cd &#x2F;export&#x2F;server&#x2F;hive&#x2F;conf&#x2F;<br>mv hive-env.sh.template hive-env.sh<br>vim hive-env.sh<br>export HADOOP_HOME&#x3D;&#x2F;export&#x2F;server&#x2F;hadoop-3.1.0<br>export HIVE_CONF_DIR&#x3D;&#x2F;export&#x2F;server&#x2F;hive&#x2F;conf<br>export HIVE_AUX_JARS_PATH&#x3D;&#x2F;export&#x2F;server&#x2F;hive&#x2F;lib</p>
-<p>修改conf路径下的hive-site.xml</p>
-<p>vim hive-site.xml (配置路径与mysql)</p>
-<pre><code>&lt;configuration&gt;
-    &lt;!-- 存储元数据mysql相关配置 --&gt;
-    &lt;property&gt;
-        &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;
-        &lt;value&gt; jdbc:mysql://hadoop102:3306/hive?createDatabaseIfNotExist=true&amp;amp;useSSL=false&amp;amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;property&gt;
-        &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;
-        &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;property&gt;
-        &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;
-        &lt;value&gt;root&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;property&gt;
-        &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;
-        &lt;value&gt;hadoop&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;!-- H2S运行绑定host --&gt;
-    &lt;property&gt;
-        &lt;name&gt;hive.server2.thrift.bind.host&lt;/name&gt;
-        &lt;value&gt;hadoop102&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;!-- 远程模式部署metastore 服务地址 --&gt;
-    &lt;property&gt;
-        &lt;name&gt;hive.metastore.uris&lt;/name&gt;
-        &lt;value&gt;thrift://hadoop102:9083&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;!-- 关闭元数据存储授权  --&gt;
-    &lt;property&gt;
-        &lt;name&gt;hive.metastore.event.db.notification.api.auth&lt;/name&gt;
-        &lt;value&gt;false&lt;/value&gt;
-    &lt;/property&gt;
-
-    &lt;!-- 关闭元数据存储版本的验证 --&gt;
-    &lt;property&gt;
-        &lt;name&gt;hive.metastore.schema.verification&lt;/name&gt;
-        &lt;value&gt;false&lt;/value&gt;
-    &lt;/property&gt;
-&lt;/configuration&gt;
+<p>4、sb里面的内容要显示时需要转换成String类型</p>
+<pre><code>  System.out.println(sb.toString());r reverse() 返回相反的字符序列
 </code></pre>
-<h3 id="初始化metadata"><a href="#初始化metadata" class="headerlink" title="初始化metadata"></a>初始化metadata</h3><p>cd &#x2F;export&#x2F;server&#x2F;hive<br>bin&#x2F;schematool -initSchema -dbType mysql -verbos<br>初始化成功会在mysql中创建74张表</p>
-<h2 id="hiveserver2"><a href="#hiveserver2" class="headerlink" title="hiveserver2"></a>hiveserver2</h2><p>Hive发展至今，总共历经了两代客户端工具。</p>
-<ol>
-<li><p>第一代客户端（deprecated不推荐使用）：$HIVE_HOME&#x2F;bin&#x2F;hive, 是一个 shellUtil。<br>主要功能：一是可用于以交互或批处理模式运行Hive查询；二是用于Hive相关服务的启动，比如metastore服务。</p>
-</li>
-<li><p>第二代客户端（recommended 推荐使用）：$HIVE_HOME&#x2F;bin&#x2F;beeline，是一个JDBC客户端，<br>是官方强烈推荐使用的Hive命令行工具，和第一代客户端相比，性能加强安全性提高。</p>
-</li>
-</ol>
-<p>Q:为什么我们要使用hiveserver2？</p>
-<p>HiveServer2支持多客户端的并发和身份认证，旨在为开放API客户端如JDBC、ODBC提供更好的支持。</p>
-<p>HiveServer2通过Metastore服务读写元数据。所以在远程模式下，启动HiveServer2之前<strong>必须先首先启动metastore服务</strong></p>
-<h3 id="配置bin-x2F-hive-客户端（可选）"><a href="#配置bin-x2F-hive-客户端（可选）" class="headerlink" title="配置bin&#x2F;hive 客户端（可选）"></a>配置bin&#x2F;hive 客户端（可选）</h3><p>上传hive安装包到另一个机器上，比如node3<br>cd &#x2F;export&#x2F;server&#x2F;tar zxvf apache-hive-3.1.0-bin.tar.gzmv apache-hive-3.1.0-bin hive#</p>
-<pre><code># 解决hadoop、hive之间guava版本差异
-cd /export/server/hive/rm -rf lib/guava-19.0.jarcp 
-/export/server/hadoop-3.1.3/share/hadoop/common/lib/guava-27.0-jre.jar ./lib/
+<p>5.reverse 可以反转</p>
+<h2 id="4-从源码出发（进阶）吊打面试官"><a href="#4-从源码出发（进阶）吊打面试官" class="headerlink" title="4.从源码出发（进阶）吊打面试官"></a>4.从源码出发（进阶）吊打面试官</h2><p>stringbuffer和stringbuild区别<br>1、StringBuffer 与 StringBuilder 是长度可变得。<br>2、只是StringBuffer 中的方法大都采用了 synchronized 关键字进行修饰，因此是线程安全的，而 StringBuilder 没有这个修饰，可以被认为是线程不安全的。<br>3、在单线程程序下，StringBuilder效率更快，因为它不需要加锁，不具备多线程安全。而StringBuffer则每次都需要判断锁，效率相对更低。</p>
+<p>public final class String implements java.io.Serializable, Comparable<String>, CharSequence {<br>    &#x2F;** The value is used for character storage. *&#x2F;<br>    private final char value[];</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** Cache the hash code for the string */</span>
+<span class="token keyword">private</span> <span class="token keyword">int</span> hash<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Default to 0</span>
 
-# 修改hive环境变量文件 添加Hadoop_HOME
-cd /export/server/hive/conf
-mv hive-env.sh.template hive-env.sh
-vim hive-env.sh
-export HADOOP_HOME=/export/server/hadoop-3.1.4
+<span class="token comment" spellcheck="true">/** use serialVersionUID from JDK 1.0.2 for interoperability */</span>
+<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token operator">-</span>6849794470754667710L<span class="token punctuation">;</span>
 
-# 添加metastore服务地址
-cd /export/server/hive/conf/
-vim  hive-site.xml
-&lt;configuration&gt;
-&lt;property&gt;   
- &lt;name&gt;hive.metastore.uris&lt;/name&gt; 
-   &lt;value&gt;thrift://hadoop102:9083&lt;/value&gt;
- &lt;/property&gt;
-  &lt;/configuration&gt;
-</code></pre>
-<p>hive经过发展，推出了第二代客户端beeline，但是beeline客户端不是直接访问metastore服务的，而是需要单独启动hiveserver2服务。<br>在hive安装的服务器上，首先启动metastore服务，然后启动hiveserver2服务。</p>
-<h2 id="hive的使用"><a href="#hive的使用" class="headerlink" title="hive的使用"></a>hive的使用</h2><p>后台挂起 可使用jps命令查看是否开启 正常的话就是runjar<br>注意hivesever2开启后要等一段时间才可以使用 </p>
-<pre><code>nohup /export/servers/hive/bin/hive --service metastore &amp;
-nohup /export/servers/hive/bin/hive --service hiveserver2 &amp;
-</code></pre>
-<p>cd 到hive的bin目录下</p>
-<pre><code>! connect jdbc:hive2://hadoop:10000
-Enter username for jdbc:hive2://hadoop102:10000: root
-Enter password for jdbc:hive2://node1:10000: Connected to: Apache Hive (version 3.1.0)
-</code></pre>
-<p>创建一个数据库<br>如果可以创建则表明成功，后续自行使用idea连接hive即可</p>
-<h3 id="一些BUG解决方案"><a href="#一些BUG解决方案" class="headerlink" title="一些BUG解决方案"></a>一些BUG解决方案</h3><ol>
-<li>User: root is not allowed to impersonate root(state&#x3D;08S01,code&#x3D;0)<pre><code>&lt;property&gt;
- &lt;name&gt;hadoop.proxyuser.root.hosts&lt;/name&gt;
- &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-&lt;property&gt;
- &lt;name&gt;hadoop.proxyuser.root.groups&lt;/name&gt;
- &lt;value&gt;*&lt;/value&gt;
-&lt;/property&gt;
-</code></pre>
-</li>
-</ol>
-<p>在hive的conf下修改配置文件hive-site.xml</p>
-<pre><code>&lt;property&gt;
-&lt;name&gt;hive.server2.enable.doAs&lt;/name&gt;
-&lt;value&gt;false&lt;/value&gt;
-&lt;/property&gt;
-端口号
-&lt;property&gt;
-&lt;name&gt;hive.server2.thrift.port&lt;/name&gt;
-&lt;value&gt;10000&lt;/value&gt;
-&lt;/property&gt;
-</code></pre>
-<p>hdfs dfs -chmod -R 777 &#x2F;tmp</p>
-<ol start="2">
-<li>Permission denied: user&#x3D;root, access&#x3D;WRITE, inode&#x3D;”&#x2F;user”:hdfs:supergroup:drwxr-xr-x</li>
-</ol>
-<p>众所周知，HDFS文件系统的目录基本都属于supergroup用户组，<br>所以我们就把就把用户添加到该用户组，即可解决很多权限问题，<br>例如连接Hive却无法操作的创建库、表的问题…</p>
-<p><strong>解决hive中root权限不能写的问题</strong></p>
-<p>1、在Linux执行如下命令增加supergroup<br>sudo groupadd supergroup</p>
-<p>2、将用户增加到supergroup中<br>sudo usermod -a -G supergroup root</p>
-<p>3、同步系统的权限信息到HDFS文件系统<br>hdfs dfsadmin -refreshUserToGroupsMappings</p>
-<p>4、查看属于supergroup用户组的用户<br>grep ‘supergroup:’ &#x2F;etc&#x2F;group</p>
-<p>重新连接 发现问题解决！</p>
+ <span class="token keyword">public</span> <span class="token function">String</span><span class="token punctuation">(</span><span class="token keyword">char</span> value<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> offset<span class="token punctuation">,</span> <span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>offset<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">&lt;=</span> value<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">// Note: offset or count might be near -1>>>1.</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">></span> value<span class="token punctuation">.</span>length <span class="token operator">-</span> count<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>offset <span class="token operator">+</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">copyOfRange</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> offset<span class="token operator">+</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>一个被final关键字修饰的char[]数组，所以实现细节上也是不允许改变，这就是String类的Immutable（不可变）属性(你知道String类为什么不能被继承吗？)，导致每次对String的操作都会生成新的String对象导致每次对String的操作都会生成新的String对象，这样不仅效率低下，而且大量浪费有限的内存空间。<br>2、StringBuffer和StringBuild</p>
+<p>public final class StringBuilder    extends AbstractStringBuilder    implements java.io.Serializable, CharSequence {}</p>
+<p>public final class StringBuffer    extends AbstractStringBuilder    implements java.io.Serializable, CharSequence {}</p>
+<pre class="line-numbers language-java"><code class="language-java">
+
+<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">String</span>
+    <span class="token keyword">implements</span> <span class="token class-name">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>Serializable</span><span class="token punctuation">,</span> Comparable<span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">,</span> CharSequence <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/** The value is used for character storage. */</span>
+
+<span class="token comment" spellcheck="true">//final修饰的char数组</span>
+<span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">char</span> value<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">AbstractStringBuilder</span> <span class="token keyword">implements</span> <span class="token class-name">Appendable</span><span class="token punctuation">,</span> CharSequence <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * The value is used for character storage.
+     */</span>
+    <span class="token comment" spellcheck="true">//stringbuilder和stringbuffer都继承了AbstractStringBuilder 但AbstractStringBuilder 中的     </span>
+<span class="token comment" spellcheck="true">//char数组没有使用final修饰，这就是为什么string是不可变，但stringbuffer和stringbuilder是可变的</span>
+    <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> value<span class="token punctuation">;</span>
+ 
+    <span class="token comment" spellcheck="true">/**
+     * The count is the number of characters used.
+     */</span>
+    <span class="token keyword">int</span> count<span class="token punctuation">;</span>
+ 
+    <span class="token comment" spellcheck="true">/**
+     * This no-arg constructor is necessary for serialization of subclasses.
+     */</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>通过Stringbuffer和Stringbuilder的源码和类结构图，可以发现Stringbuilder和Stringbuffer都是继承了abstractStringbuilder这个抽象类，然后实现了Serializable, CharSequence接口。其次Stringbuilder和Stringbuffer的内部实现其实跟String是一样的，都是通过一个char类型的数组进行存储字符串的，但是是String类中的char数组是final修饰的，是不可变的，而StringBuilder和StringBuffer中的char数组没有被final修饰，是可变的。这就是StringBuilder和StringBuffer和String的区别。</p>
+<p>在多线程编程中有个概念叫原子操作，原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有切换到任何的一个其他的线程）。上述代码中的count+&#x3D;len就不是一个原子操作，它等同于count&#x3D;count+len，比如在上诉代码中，执行到count的值为99998的时候，新建一个len长度为1，但是当有两个线程同时执行到了count+&#x3D;len的时候，他们的count的值都是99998，然后分别各自都执行了count+&#x3D;len，则执行完之后的值都是99999，然后将值赋给count，则count最后的结果是99999，不是正确的100000，所以在多线程中执行stringbuilder的值始终会小于正确的结果。但是StringBuilder和stringbuffer都是继承了abstractstringbuilder为什么结果不一样呢。既然abstractstringbuilder中的append方法肯定都是一样的,再来看看stringbuffer中的</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+    <span class="token comment" spellcheck="true">//append操作被synchronized 关键字修饰了</span>
+    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> StringBuffer <span class="token function">append</span><span class="token punctuation">(</span>Object obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        toStringCache <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token annotation punctuation">@Override</span>
+   <span class="token comment" spellcheck="true">//append操作被synchronized 关键字修饰了</span>
+    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> StringBuffer <span class="token function">append</span><span class="token punctuation">(</span>String str<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        toStringCache <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以发现stringbuffer中的append操作被synchronized关键字修饰了。这个关键字肯定不会陌生，主要用来保证多线程中的线程同步和保证数据的准确性。所以再多线程中使用stringbuffer是线程安全的。在AbstractStringBuilder的append方法中有这样的两个个操作:</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token function">ensureCapacityInternal</span><span class="token punctuation">(</span>count <span class="token operator">+</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//1</span>
+str<span class="token punctuation">.</span><span class="token function">getChars</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">,</span> value<span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//2</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>转到第一个操作方法的源码，可以发现这是一个是检查StringBuilder对象的原数组的大小是否能装下新的字符串的方法，如果装不下了就new一个新的数组，新的数组的容量是原来char数组的两倍，再通过CopyOf()方法将原数组的内容复制到新数组。</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+     * For positive values of {@code minimumCapacity}, this method
+     * behaves like {@code ensureCapacity}, however it is never
+     * synchronized.
+     * If {@code minimumCapacity} is non positive due to numeric
+     * overflow, this method throws {@code OutOfMemoryError}.
+     */</span>
+    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">ensureCapacityInternal</span><span class="token punctuation">(</span><span class="token keyword">int</span> minimumCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// overflow-conscious code</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>minimumCapacity <span class="token operator">-</span> value<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            value <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">copyOf</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span>
+                    <span class="token function">newCapacity</span><span class="token punctuation">(</span>minimumCapacity<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后第二步操作是将String对象里面char数组里面的内容拷贝到StringBuilder对象的char数组里面。getchars源码如下：</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">getChars</span><span class="token punctuation">(</span><span class="token keyword">int</span> srcBegin<span class="token punctuation">,</span> <span class="token keyword">int</span> srcEnd<span class="token punctuation">,</span> <span class="token keyword">char</span> dst<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> dstBegin<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//1       </span>
+ <span class="token keyword">if</span> <span class="token punctuation">(</span>srcBegin <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>srcBegin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//2   </span>
+     <span class="token keyword">if</span> <span class="token punctuation">(</span>srcEnd <span class="token operator">></span> value<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>srcEnd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//3   </span>
+     <span class="token keyword">if</span> <span class="token punctuation">(</span>srcBegin <span class="token operator">></span> srcEnd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>srcEnd <span class="token operator">-</span> srcBegin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span><span class="token function">arraycopy</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> srcBegin<span class="token punctuation">,</span> dst<span class="token punctuation">,</span> dstBegin<span class="token punctuation">,</span> srcEnd <span class="token operator">-</span> srcBegin<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以看到原来在这里会抛出StringIndexOutOfBoundsException的异常。假设前面的代码中有两个线程a和线程b同时执行了append方法，并且都执行完了ensureCapacityInternal()方法，这个时候count的值为99997，如果当线程a执行完了，则轮到线程2继续执行，线程b执行完了append方法之后，count变成了99998，这个时候如果线程a执行到了上面的getchars方法的时候线程a得到的count的值就是99998了，而它本来的值应该是99997，所以在这个时候就会抛出ArrayIndexOutOfBoundsException的异常了。</p>
 
                 
             </div>
@@ -680,7 +659,7 @@ Enter password for jdbc:hive2://node1:10000: Connected to: Apache Hive (version
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/10/hive%E4%B8%93%E9%A2%98/">https://kkl-opp.github.io/2022/03/10/hive%E4%B8%93%E9%A2%98/</a>
+                    <a href="https://kkl-opp.github.io/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/">https://kkl-opp.github.io/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -718,8 +697,8 @@ Enter password for jdbc:hive2://node1:10000: Connected to: Apache Hive (version
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/HIVE/">
-                                    <span class="chip bg-color">HIVE</span>
+                                <a href="/tags/JAVA/">
+                                    <span class="chip bg-color">JAVA</span>
                                 </a>
                             
                         </div>
@@ -767,62 +746,18 @@ Enter password for jdbc:hive2://node1:10000: Connected to: Apache Hive (version
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/13/dp%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95/">
+                <a href="/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="dp动态规划">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="关于StringBuider的使用">
                         
-                        <span class="card-title">dp动态规划</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-13
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            liming
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/03/10/%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%94%A8/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="单链表的基本运用">
-                        
-                        <span class="card-title">单链表的基本运用</span>
+                        <span class="card-title">关于StringBuider的使用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -833,7 +768,7 @@ Enter password for jdbc:hive2://node1:10000: Connected to: Apache Hive (version
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-30
                             </span>
                         <span class="publish-author">
                             
@@ -847,15 +782,61 @@ Enter password for jdbc:hive2://node1:10000: Connected to: Apache Hive (version
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
                     <a href="/tags/JAVA/">
                         <span class="chip bg-color">JAVA</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/03/27/%E6%90%AD%E5%BB%BAmybatis%E6%8C%87%E5%8D%97/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="搭建mybatis指南">
+                        
+                        <span class="card-title">搭建mybatis指南</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/ORM/" class="post-category">
+                                    ORM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mybatis/">
+                        <span class="chip bg-color">mybatis</span>
                     </a>
                     
                 </div>
