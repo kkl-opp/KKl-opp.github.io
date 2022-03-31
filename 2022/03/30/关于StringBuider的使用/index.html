@@ -438,14 +438,14 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-30
+                    2022-03-31
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    2.8k
                 </div>
                 
 
@@ -503,6 +503,7 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
 <p>由于 StringBuilder 相较于 StringBuffer 有速度优势，<strong>所以多数情况下建议使用 StringBuilder 类</strong>。然而在应用程序要求线程安全的情况下，则必须使用 StringBuffer 类。</p>
 <h3 id="String和StringBuilder的区别："><a href="#String和StringBuilder的区别：" class="headerlink" title="String和StringBuilder的区别："></a>String和StringBuilder的区别：</h3><p>   ●String：内容不可变   </p>
 <p>   ●StringBuilder：内容是可变的</p>
+<p>好处：效率高   但线程不安全</p>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1.无参数  stringBuilder  s&#x3D;new stringBuilder();</p>
 <p>实例化时会有一个默认的16字符的空间，当追加字符超过16个字符时，会新开一个翻倍的空间，而原油空间会浪费掉</p>
 <p>2.有参数：stringBulider s&#x3D;new stringBuilder(20);</p>
@@ -746,18 +747,17 @@ str<span class="token punctuation">.</span><span class="token function">getChars
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                <a href="/2022/03/31/Scala%E4%B8%AD%E7%9A%84Map%E9%9B%86%E5%90%88/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="关于StringBuider的使用">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Scala中的Map集合">
                         
-                        <span class="card-title">关于StringBuider的使用</span>
+                        <span class="card-title">Scala中的Map集合</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -767,27 +767,22 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-30
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/JAVA/" class="post-category">
-                                    JAVA
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            liming
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/scala/">
+                        <span class="chip bg-color">scala</span>
                     </a>
                     
                 </div>
@@ -994,7 +989,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">13.4k</span>
+                        class="white-color">14k</span>
             
             
             
