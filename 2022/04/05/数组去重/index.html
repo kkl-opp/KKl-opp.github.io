@@ -4,9 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="删除LinkedList中的重复项, Aiplex">
-    <meta name="description" content="CHARACTERQ:LinkedList 去除重复元素
-阿牛最近在学习 LinkedList 的知识，现在他想要测试一下自己究竟学会了多少，他成功的发现了自己并没有掌握相关知识点，现在需要你帮助他完成这道题目，给定六个字符串，将这些字符串">
+    <meta name="keywords" content="数组去重, Aiplex">
+    <meta name="description" content="数组去重也是比经典的一个算法 这里演示了三种不同的数组去重操作
+1.利用Hashset本身无序的特性进行去重
+public class Test04 {
+    public void remove() {
+        Set&amp;lt;I">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +21,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>删除LinkedList中的重复项 | Aiplex</title>
+    <title>数组去重 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -285,12 +288,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">删除LinkedList中的重复项</h1>
+                    <h1 class="description center-align post-title">数组去重</h1>
                 </div>
             </div>
         </div>
@@ -426,7 +429,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-02
+                    2022-04-05
                 </div>
                 
 
@@ -440,7 +443,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    246
+                    202
                 </div>
                 
 
@@ -467,46 +470,53 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="CHARACTER"><a href="#CHARACTER" class="headerlink" title="CHARACTER"></a>CHARACTER</h1><p>Q:LinkedList 去除重复元素</p>
-<p>阿牛最近在学习 <code>LinkedList</code> 的知识，现在他想要测试一下自己究竟学会了多少，他成功的发现了自己并没有掌握相关知识点，现在需要你帮助他完成这道题目，给定六个字符串，将这些字符串存放在 <code>LinkedList</code> 中，然后将 <code>LinkedList</code> 中重复的元素删除，最后将 <code>LinkedList</code> 中所有元素用迭代器方式打印在标准输出流（控制台）中，请你帮助她完成这道题目。</p>
-<p>挺简单的一道题 代码如下 </p>
-<pre class="line-numbers language-java"><code class="language-java">
-<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>Iterator<span class="token punctuation">;</span>
-<span class="token keyword">import</span> java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>LinkedList<span class="token punctuation">;</span>
-
-<span class="token comment" spellcheck="true">//解法一</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Permanent</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> LinkedList<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">Weighting</span><span class="token punctuation">(</span>LinkedList<span class="token operator">&lt;</span>String<span class="token operator">></span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        LinkedList<span class="token operator">&lt;</span>String<span class="token operator">></span>linkedList <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">LinkedList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        Iterator<span class="token operator">&lt;</span>String<span class="token operator">></span> iterator <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">iterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">while</span> <span class="token punctuation">(</span>iterator<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            String str <span class="token operator">=</span> iterator<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>linkedList<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                linkedList<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <p>数组去重也是比经典的一个算法 这里演示了三种不同的数组去重操作</p>
+<p>1.利用Hashset本身无序的特性进行去重</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test04</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Set<span class="token operator">&lt;</span>Integer<span class="token operator">></span> set <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> arr <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">:</span>arr<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>set<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>2.利用ArrayList进行去重</p>
+<pre><code>    public void remove() &#123;
+        List&lt;Integer&gt; list = new ArrayList&lt;&gt;();
+        int[] arr = &#123;1, 2, 3, 4, 5, 6, 2, 3, 4&#125;;
+        for (int i :arr)&#123;
+            if (!list.contains(i))&#123;
+                list.add(i);
+            &#125;
+        &#125;
+        System.out.println(list);
+    &#125;
+&#125;
+</code></pre>
+<p>3.双重for循环</p>
+<pre class="line-numbers language-java"><code class="language-java">    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> temp <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+        ArrayList<span class="token operator">&lt;</span>Integer<span class="token operator">></span> Arr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>x<span class="token operator">&lt;</span>temp<span class="token punctuation">.</span>length<span class="token punctuation">;</span>x<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">boolean</span> flag<span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> y<span class="token operator">=</span>x<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>y<span class="token operator">&lt;</span>temp<span class="token punctuation">.</span>length<span class="token punctuation">;</span>y<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>temp<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token operator">==</span>temp<span class="token punctuation">[</span>y<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    flag<span class="token operator">=</span><span class="token boolean">false</span><span class="token punctuation">;</span>
+                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span><span class="token punctuation">{</span>
+               Arr<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>temp<span class="token punctuation">[</span>x<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> linkedList<span class="token punctuation">;</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Arr<span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-
-<span class="token comment" spellcheck="true">//解法二</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Permanent</span> <span class="token punctuation">{</span>
-        <span class="token keyword">public</span> <span class="token keyword">static</span> LinkedList<span class="token operator">&lt;</span>String<span class="token operator">></span> <span class="token function">Weighting</span><span class="token punctuation">(</span>LinkedList<span class="token operator">&lt;</span>String<span class="token operator">></span> list<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            HashSet set <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            Iterator iter <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">listIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">while</span> <span class="token punctuation">(</span>iter<span class="token punctuation">.</span><span class="token function">hasNext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                String str <span class="token operator">=</span> <span class="token punctuation">(</span>String<span class="token punctuation">)</span> iter<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>set<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                    set<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                    iter<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token punctuation">}</span>
-            <span class="token punctuation">}</span>
-            <span class="token keyword">return</span> list<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -533,7 +543,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/04/02/%E5%88%A0%E9%99%A4LinkedList%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/">https://kkl-opp.github.io/2022/04/02/%E5%88%A0%E9%99%A4LinkedList%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/</a>
+                    <a href="https://kkl-opp.github.io/2022/04/05/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D/">https://kkl-opp.github.io/2022/04/05/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -628,13 +638,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2022/04/05/%E6%95%B0%E7%BB%84%E5%8E%BB%E9%87%8D/">
+                <a href="/2022/04/05/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="数组去重">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="二分查找">
                         
-                        <span class="card-title">数组去重</span>
+                        <span class="card-title">二分查找</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -677,13 +687,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/31/Scala%E4%B8%AD%E7%9A%84Map%E9%9B%86%E5%90%88/">
+                <a href="/2022/04/02/%E5%88%A0%E9%99%A4LinkedList%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Scala中的Map集合">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="删除LinkedList中的重复项">
                         
-                        <span class="card-title">Scala中的Map集合</span>
+                        <span class="card-title">删除LinkedList中的重复项</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -694,7 +704,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
                             </span>
                         <span class="publish-author">
                             
@@ -707,8 +717,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/scala/">
-                        <span class="chip bg-color">scala</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%85%A5%E9%97%A8/">
+                        <span class="chip bg-color">入门</span>
                     </a>
                     
                 </div>
