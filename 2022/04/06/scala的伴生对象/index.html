@@ -4,12 +4,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于HashList的深入探究, Aiplex">
-    <meta name="description" content="
-HashSet本质是HashMapHashSet是一个不允许有重复元素的集合。
-它实现了set接口 可以存放null值，但是只能有一个null
-和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。
-HashSet">
+    <meta name="keywords" content="scala的伴生对象, Aiplex">
+    <meta name="description" content="伴生对象​    一个class和object具有同样的名字。这个object称为伴生对象，这个class称为伴生类
+
+伴生对象必须要和伴生类一样的名字；
+伴生对象和伴生类在同一个scala源文件中；
+伴生对象和伴生类可以互相访问priva">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +21,7 @@ HashSet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于HashList的深入探究 | Aiplex</title>
+    <title>scala的伴生对象 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -288,12 +288,12 @@ HashSet">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于HashList的深入探究</h1>
+                    <h1 class="description center-align post-title">scala的伴生对象</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +409,8 @@ HashSet">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                <span class="chip bg-color">集合类</span>
+                            <a href="/tags/scala/">
+                                <span class="chip bg-color">scala</span>
                             </a>
                         
                     </div>
@@ -421,8 +421,8 @@ HashSet">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JAVA/" class="post-category">
-                                JAVA
+                            <a href="/categories/scala/" class="post-category">
+                                scala
                             </a>
                         
                     </div>
@@ -434,28 +434,28 @@ HashSet">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-15
+                    2022-04-06
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-19
+                    2022-04-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    934
+                    373
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    1 分
                 </div>
                 
 
@@ -475,137 +475,74 @@ HashSet">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220315223146221.png"></p>
-<h2 id="HashSet本质是HashMap"><a href="#HashSet本质是HashMap" class="headerlink" title="HashSet本质是HashMap"></a>HashSet本质是HashMap</h2><p>HashSet是一个不允许有重复元素的集合。</p>
-<p>它实现了set接口 可以存放null值，但是只能有一个null</p>
-<p>和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。</p>
-<p>HashSet是非同步的。如果多个线程同时访问一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%93%88%E5%B8%8C&spm=1001.2101.3001.7020">哈希</a> set，<br>而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。<br>如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，<br>以防止对该 set 进行意外的不同步访问：</p>
-<pre><code>
-HashSet set = new HashSet();
-//1.add方法返回的是一个boolean值 添加成功则为true 失败为false
-//2.remove的方法指定删除对象
+                <h1 id="伴生对象"><a href="#伴生对象" class="headerlink" title="伴生对象"></a>伴生对象</h1><p>​    一个class和object具有同样的名字。这个object称为<strong>伴生对象</strong>，这个class称为<strong>伴生类</strong></p>
+<ul>
+<li>伴生对象必须要和伴生类一样的名字；</li>
+<li>伴生对象和伴生类在同一个scala源文件中；</li>
+<li>伴生对象和伴生类可以互相访问<strong>private</strong>属性。</li>
+</ul>
+<p>单例对象(object)<br>scala中是没有static关键字的，要想定义类似于Java中的static变量、static方法，就要使用到scala中的单例对象了, 也就是object。</p>
+<p> 定义单例对象</p>
+<p>object 单例对象名{ } &#x2F;&#x2F; 定义一个单例对象 也可以解释为什么main方法是静态的了</p>
+<p>以下代码 包括了构造器 和辅助构造器的用法 有点难理解  特别是对java的小白非常不友好！</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> chap3
 
 
 
-</code></pre>
-<h2 id="HASHMAP"><a href="#HASHMAP" class="headerlink" title="HASHMAP"></a>HASHMAP</h2><p>HashMap底层是数组+链表+红黑树</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20160605101246837.png"></p>
-<h3 id="数组元素Node-lt-K-V-gt-实现了Entry接口"><a href="#数组元素Node-lt-K-V-gt-实现了Entry接口" class="headerlink" title="数组元素Node&lt;K,V&gt;实现了Entry接口"></a>数组元素Node&lt;K,V&gt;实现了Entry接口</h3><pre><code>//Node是单向链表，它实现了Map.Entry接口
-static class Node&lt;k,v&gt; implements Map.Entry&lt;k,v&gt; &#123;
-    final int hash;
-    final K key;
-    V value;
-    Node&lt;k,v&gt; next;
-    //构造函数Hash值 键 值 下一个节点
-    Node(int hash, K key, V value, Node&lt;k,v&gt; next) &#123;
-        this.hash = hash;
-        this.key = key;
-        this.value = value;
-        this.next = next;
-    &#125;
- 
-    public final K getKey()        &#123; return key; &#125;
-    public final V getValue()      &#123; return value; &#125;
-    public final String toString() &#123; return key + = + value; &#125;
- 
-    public final int hashCode() &#123;
-        return Objects.hashCode(key) ^ Objects.hashCode(value);
-    &#125;
- 
-    public final V setValue(V newValue) &#123;
-        V oldValue = value;
-        value = newValue;
-        return oldValue;
-    &#125;
-    //判断两个node是否相等,若key和value都相等，返回true。可以与自身比较为true
-    public final boolean equals(Object o) &#123;
-        if (o == this)
-            return true;
-        if (o instanceof Map.Entry) &#123;
-            Map.Entry&lt;!--?,?--&gt; e = (Map.Entry&lt;!--?,?--&gt;)o;
-            if (Objects.equals(key, e.getKey()) &amp;&amp;
-                Objects.equals(value, e.getValue()))
-                return true;
-        &#125;
-        return false;
-    &#125;
-</code></pre>
-<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><pre><code>//红黑树
-static final class TreeNode&lt;k,v&gt; extends LinkedHashMap.Entry&lt;k,v&gt; &#123;
-    TreeNode&lt;k,v&gt; parent;  // 父节点
-    TreeNode&lt;k,v&gt; left; //左子树
-    TreeNode&lt;k,v&gt; right;//右子树
-    TreeNode&lt;k,v&gt; prev;    // needed to unlink next upon deletion
-    boolean red;    //颜色属性
-    TreeNode(int hash, K key, V val, Node&lt;k,v&gt; next) &#123;
-        super(hash, key, val, next);
-    &#125;
- 
-    //返回当前节点的根节点
-    final TreeNode&lt;k,v&gt; root() &#123;
-        for (TreeNode&lt;k,v&gt; r = this, p;;) &#123;
-            if ((p = r.parent) == null)
-                return r;
-            r = p;
-        &#125;
-    &#125;
-</code></pre>
-<p>HashMap有四个构造函数可供我们使用</p>
-<pre><code>
-//默认无参构造，指定一个默认的加载因子
-public HashMap() &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR; 
-&#125;
+<span class="token comment" spellcheck="true">/**
+ * @author lyc
+ * @date 2022/4/5 16:16  
+ * @version V1.0.0
+ */</span>
+object Obje <span class="token punctuation">{</span>
+    def <span class="token function">main</span><span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
 
-//可指定容量的有参构造，但是需要注意当前我们指定的容量并不一定就是实际的容量，下面会说
-public HashMap(int initialCapacity) &#123;
-    //同样使用默认加载因子
-    this(initialCapacity, DEFAULT_LOAD_FACTOR);
-&#125;
+      <span class="token comment" spellcheck="true">//    // Array的伴生类和伴生对象</span>
+      <span class="token comment" spellcheck="true">//    // 伴生类方式创建</span>
+      <span class="token comment" spellcheck="true">//    val arrC = new Array[Int](5)</span>
+      <span class="token comment" spellcheck="true">//    // 伴生对象方式创建</span>
+      <span class="token comment" spellcheck="true">//    val arrO = Array[Int](5)</span>
 
-//可指定容量和加载因子，但是笔者不建议自己手动指定非0.75的加载因子
-public HashMap(int initialCapacity, float loadFactor) &#123;
-    if (initialCapacity &lt; 0)
-        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
-                                           initialCapacity);
-    if (initialCapacity &gt; MAXIMUM_CAPACITY)
-        initialCapacity = MAXIMUM_CAPACITY;
-    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
-        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
-                                           loadFactor);
-    this.loadFactor = loadFactor;
-    //这里就是把我们指定的容量改为一个大于它的的最小的2次幂值，如传过来的容量是14，则返回16
+      <span class="token comment" spellcheck="true">// new 创建Ass类</span>
+      val assC <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Ass</span><span class="token punctuation">(</span><span class="token string">"new create!"</span><span class="token punctuation">)</span>
+      <span class="token comment" spellcheck="true">// 使用伴生对象隐式使用apply方法创建 Ass类对象</span>
+      val assO <span class="token operator">=</span> <span class="token function">Ass</span><span class="token punctuation">(</span><span class="token string">"create!"</span><span class="token punctuation">)</span>
 
+      <span class="token function">println</span><span class="token punctuation">(</span>assC<span class="token punctuation">.</span>getName<span class="token punctuation">)</span>
+      <span class="token function">println</span><span class="token punctuation">(</span>assO<span class="token punctuation">.</span>getName<span class="token punctuation">)</span>
 
-    this.threshold = tableSizeFor(initialCapacity);
-&#125;
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
 
-//可传入一个已有的map
-public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR;
-    putMapEntries(m, false);
-&#125;
+  <span class="token comment" spellcheck="true">// Ass类的伴生对象</span>
+  object Ass <span class="token punctuation">{</span>
 
-//把传入的map里边的元素都加载到当前map
-final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &#123;
-    int s = m.size();
-    if (s &gt; 0) &#123;
-        if (table == null) &#123; // pre-size
-            float ft = ((float)s / loadFactor) + 1.0F;
-            int t = ((ft &lt; (float)MAXIMUM_CAPACITY) ?
-                     (int)ft : MAXIMUM_CAPACITY);
-            if (t &gt; threshold)
-                threshold = tableSizeFor(t);
-        &#125;
-        else if (s &gt; threshold)
-            resize();
-        for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet()) &#123;
-            K key = e.getKey();
-            V value = e.getValue();    putVal(hash(key), key, value, false, evict);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+    <span class="token comment" spellcheck="true">// 静态方法</span>
+    def <span class="token function">show</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
+      <span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Object Ass!"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// apply方法需要 (), 类似于Ass类的构造器</span>
+    def <span class="token function">apply</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Ass <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Ass</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    def <span class="token function">apply</span><span class="token punctuation">(</span>name<span class="token operator">:</span> String<span class="token punctuation">)</span><span class="token operator">:</span> Ass <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Ass</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span>
+
+  <span class="token punctuation">}</span>
+
+  <span class="token comment" spellcheck="true">// Ass object的伴生类</span>
+  <span class="token keyword">class</span> <span class="token class-name">Ass</span> <span class="token punctuation">{</span>
+
+    <span class="token keyword">private</span> var name<span class="token operator">:</span> String <span class="token operator">=</span> _
+
+    def <span class="token keyword">this</span><span class="token punctuation">(</span>name<span class="token operator">:</span> String<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+    <span class="token punctuation">}</span>
+
+    def getName<span class="token operator">:</span> String <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name
+
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -632,7 +569,7 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/">https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/</a>
+                    <a href="https://kkl-opp.github.io/2022/04/06/scala%E7%9A%84%E4%BC%B4%E7%94%9F%E5%AF%B9%E8%B1%A1/">https://kkl-opp.github.io/2022/04/06/scala%E7%9A%84%E4%BC%B4%E7%94%9F%E5%AF%B9%E8%B1%A1/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -670,8 +607,8 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                    <span class="chip bg-color">集合类</span>
+                                <a href="/tags/scala/">
+                                    <span class="chip bg-color">scala</span>
                                 </a>
                             
                         </div>
@@ -985,17 +922,18 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/17/%E5%85%B3%E4%BA%8Esuper%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthis%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                <a href="/2022/04/06/scala%E7%9A%84%E4%BC%B4%E7%94%9F%E5%AF%B9%E8%B1%A1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="关于super关键字和this的区别">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="scala的伴生对象">
                         
-                        <span class="card-title">关于super关键字和this的区别</span>
+                        <span class="card-title">scala的伴生对象</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1005,26 +943,27 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-06
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/JAVA/" class="post-category">
-                                    JAVA
+                            <a href="/categories/scala/" class="post-category">
+                                    scala
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/scala/">
+                        <span class="chip bg-color">scala</span>
                     </a>
                     
                 </div>
@@ -1038,13 +977,13 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/13/dp%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95/">
+                <a href="/2022/04/05/%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="dp动态规划">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="二分查找">
                         
-                        <span class="card-title">dp动态规划</span>
+                        <span class="card-title">二分查找</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1055,7 +994,7 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-05
                             </span>
                         <span class="publish-author">
                             
@@ -1070,6 +1009,10 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                     <a href="/tags/%E7%AE%97%E6%B3%95/">
                         <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%85%A5%E9%97%A8/">
+                        <span class="chip bg-color">入门</span>
                     </a>
                     
                 </div>
