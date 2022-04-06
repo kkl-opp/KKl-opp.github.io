@@ -697,30 +697,23 @@ private LinkNode Head = new LinkNode();
     
 
     
-        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
-<link rel="stylesheet" href="/css/gitment.css">
-
-<div class="gitment-card card" data-aos="fade-up">
-    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
-        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
-        <span>评论</span>
-    </div>
-    <div id="gitment-content" class="card-content"></div>
-</div>
-
-<script src="/libs/gitment/gitment.js"></script>
+        {% if site.comment_gitment_repo %}
+<div id="gitmentContainer"></div>
+<link rel="stylesheet" href="https://billts.site/extra_css/gitment.css">
+<script src="https://billts.site/js/gitment.js"></script>
 <script>
-var gitment = new Gitment({
-    id: 'Thu Mar 10 2022 16:27:16 GMT+0800',
-    owner: 'kkl-opp',
-    repo: 'comment',
-    oauth: {
-        client_id: 'dd167997dea52fa12ab8',
-        client_secret: '3c0aaf551ac175d5b392e14b86aeb0b3354f3f65'
-    }
-});
-gitment.render('gitment-content');
+    var gitment = new Gitment({
+        id: 'Thu Mar 10 2022 16:27:16 GMT+0800',
+        owner: '{{site.github_username}}',
+        repo: '{{site.comment_gitment_repo}}',
+        oauth: {
+            client_id: '{{site.comment_gitment_clientId}}',
+            client_secret: '{{site.comment_gitment_clientSecret}}',
+        },
+    });
+    gitment.render('gitmentContainer')
 </script>
+{% endif %}
     
 
     
