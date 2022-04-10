@@ -483,10 +483,9 @@
 </ul>
 <p>作用 ：让伴生类更好访问到伴生对象的私有属性和方法</p>
 <p>一旦私有 main方法直接不能调  严格的权限控制</p>
-<p>1.单例对象(object)<br>scala中是没有static关键字的，要想定义类似于Java中的static变量、static方法，就要使用到scala中的单例对象了, 也就是object。</p>
-<p> 2.定义单例对象</p>
-<p>object 单例对象名{ } &#x2F;&#x2F; 定义一个单例对象 也可以解释为什么main方法是静态的了</p>
-<p>网上说的什么伴生对像之间可以互相访问跟情侣一样痛生死 只有伴生类能够访问伴生对象中的私有属性和对象  我尝试了 一下 明明只有类可以访问到 对象访问不到类的东西。</p>
+<h2 id="1-单例对象-object"><a href="#1-单例对象-object" class="headerlink" title="1.单例对象(object)"></a>1.单例对象(object)</h2><p>scala中是没有static关键字的，要想定义类似于Java中的static变量、static方法，就要使用到scala中的单例对象了, 也就是object。</p>
+<h2 id="2-定义单例对象"><a href="#2-定义单例对象" class="headerlink" title="2.定义单例对象"></a>2.定义单例对象</h2><p>object 单例对象名{ } &#x2F;&#x2F; 定义一个单例对象 也可以解释为什么main方法是静态的了</p>
+<p>网上说的什么伴生对像之间可以互相访问跟情侣一样同生死 只有伴生类能够访问伴生对象中的私有属性和对象  我尝试了 一下 明明只有类可以访问到 对象访问不到类的东西。</p>
 <p>但后来慢慢发现我放了一个错误</p>
 <p>伴生对象不实例化类的对象，怎么访问伴生类中定义的私有属性？不实例化 伴生对象是类的一个傀儡</p>
 <p>就是必须要在伴生对象的中定义个方法去实例化它</p>
@@ -494,8 +493,7 @@
 <p>}</p>
 <p> var op ：person &#x3D;  new Person（）实例化后才能调用</p>
 <p>但我们一般都是在main方法中实例化的 （java的思维） 真的sorry</p>
-<p>案例1 2 3 </p>
-<p>ps：可以试着运行下</p>
+<h2 id="3-案例1-2-3"><a href="#3-案例1-2-3" class="headerlink" title="3.案例1 2 3"></a>3.案例1 2 3</h2><p>ps：可以试着运行下</p>
 <p>可以尝试着把伴生对象理解 成用static 修饰的类</p>
 <pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">package</span> com<span class="token punctuation">.</span>atiguigu<span class="token punctuation">.</span>prc
 
