@@ -4,13 +4,25 @@
   
     
     <entry>
-      <title>asdas</title>
-      <link href="/2022/04/15/asdas/"/>
-      <url>/2022/04/15/asdas/</url>
+      <title>redis概述</title>
+      <link href="/2022/04/15/redis%E6%A6%82%E8%BF%B0/"/>
+      <url>/2022/04/15/redis%E6%A6%82%E8%BF%B0/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>Redis是用C语言开发的一个开源的高性能基于内存运行的键值对NoSQL数据库</p><p>Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用ANSI C语言编写、支持网络、科技与<a href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&spm=1001.2101.3001.7020">内存</a>亦可持久化的日志型、key-value数据库，并提供多种语言的API。</p><p>(1) 支持数据的持久化，可以将数据保存在磁盘中，重启之后可以再次加载到内存中使用<br>(2) 支持多种数据类型，除了KV类型的数据，还支持list、set、<a href="https://so.csdn.net/so/search?q=hash&spm=1001.2101.3001.7020">hash</a>等数据结构<br>(3) 支持master-slave模式的数据备份</p><h2 id="二、Redis应用场景"><a href="#二、Redis应用场景" class="headerlink" title="二、Redis应用场景"></a>二、Redis应用场景</h2><ol><li>热点数据加速查询(主要场景)，如热点商品、热点信息等访问量较高的数据</li><li>即时信息查询，如公交到站信息、在线人数信息等</li><li>时效性信息控制，如验证码控制、投票控制等</li><li>分布式数据共享，如分布式集群架构中的session分离消息队列</li></ol><h3 id="1-NoSQL技术"><a href="#1-NoSQL技术" class="headerlink" title="1.NoSQL技术"></a>1.NoSQL技术</h3><p>为了克服上述问题，java web项目通常会引入NoSQL技术，这是一种基于内存的数据库，并且提供一定的持久化功能。</p><p>Redis和MongoDB是当前使用最广泛的NoSQL， 而就Redis技术而言，它的性能十分优越，可以支持每秒十几万的读写操作，其性能远超数据库，并且还支持集群、。分布式、主从同步等配置，原则上可以无限扩展，让更多的数据存储在内存中，更让人欣慰的是它还支持一定的事务能力，这保证了高并发的场景下数据的安全和一致性。</p><h3 id="2-高并发和快速原因"><a href="#2-高并发和快速原因" class="headerlink" title="2.高并发和快速原因"></a>2.高并发和快速原因</h3><p>Redis是基于内存的，内存的读写速度非常快；<br>Redis是单线程的，省去了很多上下文切换线程的时间；<br>Redis使用多路复用技术，可以处理并发的连接。非IO内部实现采用epoll，采用了epoll自己实现的简单的事件框架。epoll的读写、关闭、连接都转化为事件，然后利用epoll的多路复用特性，绝不在IO上浪费一点时间。</p><h3 id="3-单线程的优劣势"><a href="#3-单线程的优劣势" class="headerlink" title="3.单线程的优劣势"></a>3.单线程的优劣势</h3><h3 id="1、优势"><a href="#1、优势" class="headerlink" title="1、优势"></a>1、优势</h3><ol><li><p>代码更清晰，处理逻辑更简单</p></li><li><p>不用考虑各种锁的问题，不存在加锁和释放锁的操作，没有因为可能出现死锁而导致的性能消耗</p></li><li><p>不存在多线程切换而消耗CPU</p></li></ol><h3 id="2、劣势"><a href="#2、劣势" class="headerlink" title="2、劣势"></a>2、劣势</h3><p>无法发挥多核CPU性能优势，不过可以通过单击开多个Redis实例来完善。</p><h3 id="3-Redis高并发总结"><a href="#3-Redis高并发总结" class="headerlink" title="3.Redis高并发总结"></a>3.Redis高并发总结</h3><p>1、Redis是纯内存数据库，一般都是简单存取操作，线程占用的时间很多，时间的花费主要集中在IO上，所以读取速度快；</p><p>2、Redis使用的是非阻塞IO，IO多路复用，使用了单线程来轮询描述符，将数据库的开、关、读、写都转换成事件，减少了线程切换时上下文切换和竞争。</p><p>3、Redis采用了单线程的模型，保证了每个操作的原子性，也减少了线程的上下文切换和竞争。</p><p>4、Redis全程使用hash结构，读取速度快，还有一些特殊的数据结构，对数据存储进行了优化，如压缩表，对短数据进行压缩存储，再如跳表，使用有序的数据结构加快读写的速度。</p><p>5、Redis采用自己实现的事件分离器，效率比较高，内部采用非阻塞的执行方式，吞吐能力比较大。</p><h2 id="三、Redis基础知识"><a href="#三、Redis基础知识" class="headerlink" title="三、Redis基础知识"></a>三、Redis基础知识</h2><p>Redis采用单线程机制进行工作</p><p>Redis默认拥有16个数据库，数据库编号从0开始，默认使用0号数据库</p><p>使用select 数据库编号 可以切换使用的数据库</p><p>dbsize 命令查看当前数据库key的数量</p><p>keys * 命令查看当前数据库所有的key</p><p>flushdb 命令清空当前数据库</p><p>flushall 命令清空所有数据库</p><p>Redis中所有数据库使用同一个密码，默认没有密码，Redis认为安全层面应该由Linux来保证</p><p>Redis中所有索引都是从0开始</p><p>Redis默认端口是6379</p>]]></content>
       
       
+      <categories>
+          
+          <category> -NoSQL </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> -redis </tag>
+            
+        </tags>
       
     </entry>
     

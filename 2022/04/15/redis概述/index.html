@@ -4,12 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于HashList的深入探究, Aiplex">
-    <meta name="description" content="
-HashSet本质是HashMapHashSet是一个不允许有重复元素的集合。
-它实现了set接口 可以存放null值，但是只能有一个null
-和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。
-HashSet">
+    <meta name="keywords" content="redis概述, Aiplex">
+    <meta name="description" content="Redis一、概述Redis是用C语言开发的一个开源的高性能基于内存运行的键值对NoSQL数据库
+Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用ANSI C语言编写、支持网络、科技与内存亦可持久">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +18,7 @@ HashSet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于HashList的深入探究 | Aiplex</title>
+    <title>redis概述 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -288,12 +285,12 @@ HashSet">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于HashList的深入探究</h1>
+                    <h1 class="description center-align post-title">redis概述</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +406,8 @@ HashSet">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                <span class="chip bg-color">集合类</span>
+                            <a href="/tags/redis/">
+                                <span class="chip bg-color">-redis</span>
                             </a>
                         
                     </div>
@@ -421,8 +418,8 @@ HashSet">
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JAVA/" class="post-category">
-                                JAVA
+                            <a href="/categories/NoSQL/" class="post-category">
+                                -NoSQL
                             </a>
                         
                     </div>
@@ -434,28 +431,28 @@ HashSet">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-15
+                    2022-04-15
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-19
+                    2022-04-15
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    934
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    3 分
                 </div>
                 
 
@@ -475,137 +472,42 @@ HashSet">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220315223146221.png"></p>
-<h2 id="HashSet本质是HashMap"><a href="#HashSet本质是HashMap" class="headerlink" title="HashSet本质是HashMap"></a>HashSet本质是HashMap</h2><p>HashSet是一个不允许有重复元素的集合。</p>
-<p>它实现了set接口 可以存放null值，但是只能有一个null</p>
-<p>和ArrayList不同的是：HashSet 是无序的，即不会记录插入的顺序。</p>
-<p>HashSet是非同步的。如果多个线程同时访问一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%93%88%E5%B8%8C&spm=1001.2101.3001.7020">哈希</a> set，<br>而其中至少一个线程修改了该 set，那么它必须 保持外部同步。这通常是通过对自然封装该 set 的对象执行同步操作来完成的。<br>如果不存在这样的对象，则应该使用 Collections.synchronizedSet 方法来“包装” set。最好在创建时完成这一操作，<br>以防止对该 set 进行意外的不同步访问：</p>
-<pre><code>
-HashSet set = new HashSet();
-//1.add方法返回的是一个boolean值 添加成功则为true 失败为false
-//2.remove的方法指定删除对象
-
-
-
-</code></pre>
-<h2 id="HASHMAP"><a href="#HASHMAP" class="headerlink" title="HASHMAP"></a>HASHMAP</h2><p>HashMap底层是数组+链表+红黑树</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20160605101246837.png"></p>
-<h3 id="数组元素Node-lt-K-V-gt-实现了Entry接口"><a href="#数组元素Node-lt-K-V-gt-实现了Entry接口" class="headerlink" title="数组元素Node&lt;K,V&gt;实现了Entry接口"></a>数组元素Node&lt;K,V&gt;实现了Entry接口</h3><pre><code>//Node是单向链表，它实现了Map.Entry接口
-static class Node&lt;k,v&gt; implements Map.Entry&lt;k,v&gt; &#123;
-    final int hash;
-    final K key;
-    V value;
-    Node&lt;k,v&gt; next;
-    //构造函数Hash值 键 值 下一个节点
-    Node(int hash, K key, V value, Node&lt;k,v&gt; next) &#123;
-        this.hash = hash;
-        this.key = key;
-        this.value = value;
-        this.next = next;
-    &#125;
- 
-    public final K getKey()        &#123; return key; &#125;
-    public final V getValue()      &#123; return value; &#125;
-    public final String toString() &#123; return key + = + value; &#125;
- 
-    public final int hashCode() &#123;
-        return Objects.hashCode(key) ^ Objects.hashCode(value);
-    &#125;
- 
-    public final V setValue(V newValue) &#123;
-        V oldValue = value;
-        value = newValue;
-        return oldValue;
-    &#125;
-    //判断两个node是否相等,若key和value都相等，返回true。可以与自身比较为true
-    public final boolean equals(Object o) &#123;
-        if (o == this)
-            return true;
-        if (o instanceof Map.Entry) &#123;
-            Map.Entry&lt;!--?,?--&gt; e = (Map.Entry&lt;!--?,?--&gt;)o;
-            if (Objects.equals(key, e.getKey()) &amp;&amp;
-                Objects.equals(value, e.getValue()))
-                return true;
-        &#125;
-        return false;
-    &#125;
-</code></pre>
-<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><pre><code>//红黑树
-static final class TreeNode&lt;k,v&gt; extends LinkedHashMap.Entry&lt;k,v&gt; &#123;
-    TreeNode&lt;k,v&gt; parent;  // 父节点
-    TreeNode&lt;k,v&gt; left; //左子树
-    TreeNode&lt;k,v&gt; right;//右子树
-    TreeNode&lt;k,v&gt; prev;    // needed to unlink next upon deletion
-    boolean red;    //颜色属性
-    TreeNode(int hash, K key, V val, Node&lt;k,v&gt; next) &#123;
-        super(hash, key, val, next);
-    &#125;
- 
-    //返回当前节点的根节点
-    final TreeNode&lt;k,v&gt; root() &#123;
-        for (TreeNode&lt;k,v&gt; r = this, p;;) &#123;
-            if ((p = r.parent) == null)
-                return r;
-            r = p;
-        &#125;
-    &#125;
-</code></pre>
-<p>HashMap有四个构造函数可供我们使用</p>
-<pre><code>
-//默认无参构造，指定一个默认的加载因子
-public HashMap() &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR; 
-&#125;
-
-//可指定容量的有参构造，但是需要注意当前我们指定的容量并不一定就是实际的容量，下面会说
-public HashMap(int initialCapacity) &#123;
-    //同样使用默认加载因子
-    this(initialCapacity, DEFAULT_LOAD_FACTOR);
-&#125;
-
-//可指定容量和加载因子，但是笔者不建议自己手动指定非0.75的加载因子
-public HashMap(int initialCapacity, float loadFactor) &#123;
-    if (initialCapacity &lt; 0)
-        throw new IllegalArgumentException(&quot;Illegal initial capacity: &quot; +
-                                           initialCapacity);
-    if (initialCapacity &gt; MAXIMUM_CAPACITY)
-        initialCapacity = MAXIMUM_CAPACITY;
-    if (loadFactor &lt;= 0 || Float.isNaN(loadFactor))
-        throw new IllegalArgumentException(&quot;Illegal load factor: &quot; +
-                                           loadFactor);
-    this.loadFactor = loadFactor;
-    //这里就是把我们指定的容量改为一个大于它的的最小的2次幂值，如传过来的容量是14，则返回16
-
-
-    this.threshold = tableSizeFor(initialCapacity);
-&#125;
-
-//可传入一个已有的map
-public HashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;
-    this.loadFactor = DEFAULT_LOAD_FACTOR;
-    putMapEntries(m, false);
-&#125;
-
-//把传入的map里边的元素都加载到当前map
-final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &#123;
-    int s = m.size();
-    if (s &gt; 0) &#123;
-        if (table == null) &#123; // pre-size
-            float ft = ((float)s / loadFactor) + 1.0F;
-            int t = ((ft &lt; (float)MAXIMUM_CAPACITY) ?
-                     (int)ft : MAXIMUM_CAPACITY);
-            if (t &gt; threshold)
-                threshold = tableSizeFor(t);
-        &#125;
-        else if (s &gt; threshold)
-            resize();
-        for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet()) &#123;
-            K key = e.getKey();
-            V value = e.getValue();    putVal(hash(key), key, value, false, evict);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+                <h1 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h1><h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>Redis是用C语言开发的一个开源的高性能基于内存运行的键值对NoSQL数据库</p>
+<p>Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用ANSI C语言编写、支持网络、科技与<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&spm=1001.2101.3001.7020">内存</a>亦可持久化的日志型、key-value数据库，并提供多种语言的API。</p>
+<p>(1) 支持数据的持久化，可以将数据保存在磁盘中，重启之后可以再次加载到内存中使用<br>(2) 支持多种数据类型，除了KV类型的数据，还支持list、set、<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=hash&spm=1001.2101.3001.7020">hash</a>等数据结构<br>(3) 支持master-slave模式的数据备份</p>
+<h2 id="二、Redis应用场景"><a href="#二、Redis应用场景" class="headerlink" title="二、Redis应用场景"></a>二、Redis应用场景</h2><ol>
+<li>热点数据加速查询(主要场景)，如热点商品、热点信息等访问量较高的数据</li>
+<li>即时信息查询，如公交到站信息、在线人数信息等</li>
+<li>时效性信息控制，如验证码控制、投票控制等</li>
+<li>分布式数据共享，如分布式集群架构中的session分离消息队列</li>
+</ol>
+<h3 id="1-NoSQL技术"><a href="#1-NoSQL技术" class="headerlink" title="1.NoSQL技术"></a>1.NoSQL技术</h3><p>为了克服上述问题，java web项目通常会引入NoSQL技术，这是一种基于内存的数据库，并且提供一定的持久化功能。</p>
+<p>Redis和MongoDB是当前使用最广泛的NoSQL， 而就Redis技术而言，它的性能十分优越，可以支持每秒十几万的读写操作，其性能远超数据库，并且还支持集群、。分布式、主从同步等配置，原则上可以无限扩展，让更多的数据存储在内存中，更让人欣慰的是它还支持一定的事务能力，这保证了高并发的场景下数据的安全和一致性。</p>
+<h3 id="2-高并发和快速原因"><a href="#2-高并发和快速原因" class="headerlink" title="2.高并发和快速原因"></a>2.高并发和快速原因</h3><p>Redis是基于内存的，内存的读写速度非常快；<br>Redis是单线程的，省去了很多上下文切换线程的时间；<br>Redis使用多路复用技术，可以处理并发的连接。非IO内部实现采用epoll，采用了epoll自己实现的简单的事件框架。epoll的读写、关闭、连接都转化为事件，然后利用epoll的多路复用特性，绝不在IO上浪费一点时间。</p>
+<h3 id="3-单线程的优劣势"><a href="#3-单线程的优劣势" class="headerlink" title="3.单线程的优劣势"></a>3.单线程的优劣势</h3><h3 id="1、优势"><a href="#1、优势" class="headerlink" title="1、优势"></a>1、优势</h3><ol>
+<li><p>代码更清晰，处理逻辑更简单</p>
+</li>
+<li><p>不用考虑各种锁的问题，不存在加锁和释放锁的操作，没有因为可能出现死锁而导致的性能消耗</p>
+</li>
+<li><p>不存在多线程切换而消耗CPU</p>
+</li>
+</ol>
+<h3 id="2、劣势"><a href="#2、劣势" class="headerlink" title="2、劣势"></a>2、劣势</h3><p>无法发挥多核CPU性能优势，不过可以通过单击开多个Redis实例来完善。</p>
+<h3 id="3-Redis高并发总结"><a href="#3-Redis高并发总结" class="headerlink" title="3.Redis高并发总结"></a>3.Redis高并发总结</h3><p>1、Redis是纯内存数据库，一般都是简单存取操作，线程占用的时间很多，时间的花费主要集中在IO上，所以读取速度快；</p>
+<p>2、Redis使用的是非阻塞IO，IO多路复用，使用了单线程来轮询描述符，将数据库的开、关、读、写都转换成事件，减少了线程切换时上下文切换和竞争。</p>
+<p>3、Redis采用了单线程的模型，保证了每个操作的原子性，也减少了线程的上下文切换和竞争。</p>
+<p>4、Redis全程使用hash结构，读取速度快，还有一些特殊的数据结构，对数据存储进行了优化，如压缩表，对短数据进行压缩存储，再如跳表，使用有序的数据结构加快读写的速度。</p>
+<p>5、Redis采用自己实现的事件分离器，效率比较高，内部采用非阻塞的执行方式，吞吐能力比较大。</p>
+<h2 id="三、Redis基础知识"><a href="#三、Redis基础知识" class="headerlink" title="三、Redis基础知识"></a>三、Redis基础知识</h2><p>Redis采用单线程机制进行工作</p>
+<p>Redis默认拥有16个数据库，数据库编号从0开始，默认使用0号数据库</p>
+<p>使用select 数据库编号 可以切换使用的数据库</p>
+<p>dbsize 命令查看当前数据库key的数量</p>
+<p>keys * 命令查看当前数据库所有的key</p>
+<p>flushdb 命令清空当前数据库</p>
+<p>flushall 命令清空所有数据库</p>
+<p>Redis中所有数据库使用同一个密码，默认没有密码，Redis认为安全层面应该由Linux来保证</p>
+<p>Redis中所有索引都是从0开始</p>
+<p>Redis默认端口是6379</p>
 
                 
             </div>
@@ -632,7 +534,7 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/">https://kkl-opp.github.io/2022/03/15/%E5%85%B3%E4%BA%8EHashList%E7%9A%84%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6/</a>
+                    <a href="https://kkl-opp.github.io/2022/04/15/redis%E6%A6%82%E8%BF%B0/">https://kkl-opp.github.io/2022/04/15/redis%E6%A6%82%E8%BF%B0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -670,8 +572,8 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E9%9B%86%E5%90%88%E7%B1%BB/">
-                                    <span class="chip bg-color">集合类</span>
+                                <a href="/tags/redis/">
+                                    <span class="chip bg-color">-redis</span>
                                 </a>
                             
                         </div>
@@ -985,17 +887,18 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/17/%E5%85%B3%E4%BA%8Esuper%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthis%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                <a href="/2022/04/15/redis%E6%A6%82%E8%BF%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="关于super关键字和this的区别">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="redis概述">
                         
-                        <span class="card-title">关于super关键字和this的区别</span>
+                        <span class="card-title">redis概述</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1005,26 +908,27 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/JAVA/" class="post-category">
-                                    JAVA
+                            <a href="/categories/NoSQL/" class="post-category">
+                                    -NoSQL
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/redis/">
+                        <span class="chip bg-color">-redis</span>
                     </a>
                     
                 </div>
@@ -1038,13 +942,13 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/13/dp%E8%A7%84%E5%88%92%E7%AE%97%E6%B3%95/">
+                <a href="/2022/04/10/%E5%9B%9E%E6%96%87%E6%95%B0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="dp动态规划">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="回文数">
                         
-                        <span class="card-title">dp动态规划</span>
+                        <span class="card-title">回文数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1055,7 +959,7 @@ final void putMapEntries(Map&lt;? extends K, ? extends V&gt; m, boolean evict) &
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-10
                             </span>
                         <span class="publish-author">
                             
