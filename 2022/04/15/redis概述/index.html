@@ -407,7 +407,7 @@ Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用AN
                     <div class="article-tag">
                         
                             <a href="/tags/redis/">
-                                <span class="chip bg-color">-redis</span>
+                                <span class="chip bg-color">redis</span>
                             </a>
                         
                     </div>
@@ -419,7 +419,7 @@ Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用AN
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
                             <a href="/categories/NoSQL/" class="post-category">
-                                -NoSQL
+                                NoSQL
                             </a>
                         
                     </div>
@@ -485,14 +485,9 @@ Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用AN
 <p>Redis和MongoDB是当前使用最广泛的NoSQL， 而就Redis技术而言，它的性能十分优越，可以支持每秒十几万的读写操作，其性能远超数据库，并且还支持集群、。分布式、主从同步等配置，原则上可以无限扩展，让更多的数据存储在内存中，更让人欣慰的是它还支持一定的事务能力，这保证了高并发的场景下数据的安全和一致性。</p>
 <h3 id="2-高并发和快速原因"><a href="#2-高并发和快速原因" class="headerlink" title="2.高并发和快速原因"></a>2.高并发和快速原因</h3><p>Redis是基于内存的，内存的读写速度非常快；<br>Redis是单线程的，省去了很多上下文切换线程的时间；<br>Redis使用多路复用技术，可以处理并发的连接。非IO内部实现采用epoll，采用了epoll自己实现的简单的事件框架。epoll的读写、关闭、连接都转化为事件，然后利用epoll的多路复用特性，绝不在IO上浪费一点时间。</p>
 <h3 id="3-单线程的优劣势"><a href="#3-单线程的优劣势" class="headerlink" title="3.单线程的优劣势"></a>3.单线程的优劣势</h3><p>1、优势</p>
-<ol>
-<li><p>代码更清晰，处理逻辑更简单</p>
-</li>
-<li><p>不用考虑各种锁的问题，不存在加锁和释放锁的操作，没有因为可能出现死锁而导致的性能消耗</p>
-</li>
-<li><p>不存在多线程切换而消耗CPU</p>
-</li>
-</ol>
+<p>代码更清晰，处理逻辑更简单</p>
+<p>不用考虑各种锁的问题，不存在加锁和释放锁的操作，没有因为可能出现死锁而导致的性能消耗</p>
+<p>不存在多线程切换而消耗CPU</p>
 <p>2、劣势</p>
 <p>无法发挥多核CPU性能优势，不过可以通过单击开多个Redis实例来完善。</p>
 <h3 id="4-Redis高并发总结"><a href="#4-Redis高并发总结" class="headerlink" title="4.Redis高并发总结"></a>4.Redis高并发总结</h3><p>1、Redis是纯内存数据库，一般都是简单存取操作，线程占用的时间很多，时间的花费主要集中在IO上，所以读取速度快；</p>
@@ -575,7 +570,7 @@ Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用AN
                         <div class="article-tag">
                             
                                 <a href="/tags/redis/">
-                                    <span class="chip bg-color">-redis</span>
+                                    <span class="chip bg-color">redis</span>
                                 </a>
                             
                         </div>
@@ -918,7 +913,7 @@ Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用AN
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/NoSQL/" class="post-category">
-                                    -NoSQL
+                                    NoSQL
                                 </a>
                             
                             
@@ -930,7 +925,7 @@ Redis（Remote Dictionary Server 远程字段服务）是一个开源的使用AN
                 <div class="card-action article-tags">
                     
                     <a href="/tags/redis/">
-                        <span class="chip bg-color">-redis</span>
+                        <span class="chip bg-color">redis</span>
                     </a>
                     
                 </div>
