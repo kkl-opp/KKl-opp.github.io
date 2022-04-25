@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>集(set)和映射(Map)</title>
+      <link href="/2022/04/25/%E9%9B%86set%E5%92%8C%E6%98%A0%E5%B0%84Map/"/>
+      <url>/2022/04/25/%E9%9B%86set%E5%92%8C%E6%98%A0%E5%B0%84Map/</url>
+      
+        <content type="html"><![CDATA[<p>默认情况下 你使用的set or map 都是不可变的对象   如果可变需要提前声明</p><p>以下是创建可变的集合</p><pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">package</span> com<span class="token punctuation">.</span>heima<span class="token punctuation">.</span>arrp<span class="token keyword">import</span> scala<span class="token punctuation">.</span>collection<span class="token punctuation">.</span>mutable<span class="token comment" spellcheck="true">/** * @author lyc * @date 2022/4/25 11:30   * @version V1.0.0 */</span><span class="token keyword">object</span> Map_prc <span class="token punctuation">{</span>  <span class="token keyword">def</span> map<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span><span class="token punctuation">{</span>    <span class="token keyword">var</span> map01 <span class="token operator">=</span> mutable<span class="token punctuation">.</span>Map<span class="token punctuation">(</span><span class="token string">"aa"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">1</span><span class="token punctuation">)</span>    <span class="token keyword">var</span> set01 <span class="token operator">=</span> mutable<span class="token punctuation">.</span>Set<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>  <span class="token punctuation">}</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="set集合的基本使用"><a href="#set集合的基本使用" class="headerlink" title="set集合的基本使用"></a>set集合的基本使用</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220425113431055.png"></p><h3 id="1-创建"><a href="#1-创建" class="headerlink" title="1.创建"></a>1.创建</h3><ol><li><code>var 变量=Set()</code> （创建空的Set集合）</li><li><code>var 变量=Set[类型]()</code>  &#x2F;&#x2F;写死后里面的元素只能是set规定的数据类型</li></ol><p>scala内部能简化的全部帮你简化了</p><h3 id="2-差集和补集"><a href="#2-差集和补集" class="headerlink" title="2.差集和补集"></a>2.差集和补集</h3><ol><li>&amp;返回两个集合的交集</li><li>&amp;~返回两个集合的差集</li><li>++合并两个集合</li><li>diff比较两个集合的差集</li></ol><h3 id="3-遍历"><a href="#3-遍历" class="headerlink" title="3.遍历"></a>3.遍历</h3><ul><li>通过for（i &lt;- x )</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> -scala -映射 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>redis概述</title>
       <link href="/2022/04/15/redis%E6%A6%82%E8%BF%B0/"/>
       <url>/2022/04/15/redis%E6%A6%82%E8%BF%B0/</url>
