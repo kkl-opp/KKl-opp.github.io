@@ -435,7 +435,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    865
+                    862
                 </div>
                 
 
@@ -487,17 +487,17 @@
 <h3 id="Unit-类型、Null-类型和-Nothing-类型"><a href="#Unit-类型、Null-类型和-Nothing-类型" class="headerlink" title="Unit 类型、Null 类型和 Nothing 类型"></a>Unit 类型、Null 类型和 Nothing 类型</h3><p>1）Null 类只有一个实例对象，null，类似于 Java 中的 null 引用。null 可以赋值给任意引用类型(AnyRef)，但是不能赋值给值类型(AnyVal: 比如 Int, Float, Char, Boolean, Long, Double, Byte, Short)</p>
 <p>2）Unit 类型用来标识过程，也就是没有明确返回值的函数。由此可见，Unit 类似于 Java 里的 void，Unit 只有一个实例。</p>
 <p>3）Nothing，可以作为没有正常返回值的方法的返回类型，非常直观的告诉你这个方法不会正常返回，而且由于 Nothing 是其他任意类型的子类，他还能跟要求返回值的方法兼容。</p>
-<h2 id="2-val-and-var-variables"><a href="#2-val-and-var-variables" class="headerlink" title="2. val and var variables:"></a>2. <code>val</code> and <code>var</code> variables:</h2><p>&#x2F;&#x2F;immutable</p>
+<h2 id="val-and-var-variables"><a href="#val-and-var-variables" class="headerlink" title="val and var variables:"></a>val and var variables:</h2><p>&#x2F;&#x2F;immutable</p>
 <p>val a &#x3D; 10</p>
 <p>&#x2F;&#x2F;mutable </p>
 <p>var b &#x3D; 2</p>
-<h2 id="3-Declaring-variable-types"><a href="#3-Declaring-variable-types" class="headerlink" title="3.Declaring variable types"></a>3.Declaring variable types</h2><p>val x :Int &#x3D; 10;</p>
+<h2 id="Declaring-variable-types"><a href="#Declaring-variable-types" class="headerlink" title="Declaring variable types"></a>Declaring variable types</h2><p>val x :Int &#x3D; 10;</p>
 <p>val p &#x3D; 10; </p>
 <p>You can always explicitly declare a variable’s type if you prefer, but in simple assignments like these it isn’t necessary:</p>
 <p><strong>val</strong> x: <strong>Int</strong> &#x3D; 1 </p>
 <p><strong>val</strong> s: <strong>String</strong> &#x3D; “a string”</p>
 <p><strong>val</strong> p: <strong>Person</strong> &#x3D; <strong>Person</strong>(“Richard”)</p>
-<h2 id="2-CONTROL-STRUCTURES"><a href="#2-CONTROL-STRUCTURES" class="headerlink" title="2.CONTROL STRUCTURES"></a>2.CONTROL STRUCTURES</h2><p>Scala has the control structures you find in other programming languages, and also has powerful <code>for</code> expressions and <code>match</code> expressions:,it seems like java, but there have some differents  in  syntax  so that’s we begin!</p>
+<h2 id="CONTROL-STRUCTURES"><a href="#CONTROL-STRUCTURES" class="headerlink" title="CONTROL STRUCTURES"></a>CONTROL STRUCTURES</h2><p>Scala has the control structures you find in other programming languages, and also has powerful <code>for</code> expressions and <code>match</code> expressions:,it seems like java, but there have some differents  in  syntax  so that’s we begin!</p>
 <ul>
 <li><code>if</code>&#x2F;<code>else</code></li>
 <li><code>for</code> loops and expressifoons</li>
@@ -514,7 +514,7 @@ print<span class="token punctuation">(</span><span class="token punctuation">)</
 
 <span class="token punctuation">}</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="for-loops-and-expressions"><a href="#for-loops-and-expressions" class="headerlink" title="for loops and expressions"></a><code>for</code> loops and expressions</h2><p><strong>val</strong> ints &#x3D; <strong>List</strong>(1, 2, 3, 4, 5)</p>
+<h2 id="for-loops-and-expressions"><a href="#for-loops-and-expressions" class="headerlink" title="for loops and expressions"></a>for loops and expressions</h2><p><strong>val</strong> ints &#x3D; <strong>List</strong>(1, 2, 3, 4, 5)</p>
 <p> <strong>for</strong>( i &lt;- ints)  println(i)</p>
 <p>for(i&lt;- 1 to&#x2F;until 10) {</p>
 <p>}</p>
