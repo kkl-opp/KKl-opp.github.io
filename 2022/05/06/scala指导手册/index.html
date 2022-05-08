@@ -428,21 +428,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-06
+                    2022-05-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    862
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
 
@@ -521,6 +521,17 @@ print<span class="token punctuation">(</span><span class="token punctuation">)</
 <p> for (i &lt;- 1 to 10 if i % 2 &#x3D;&#x3D; 1) { </p>
 <p>​     println(i)    </p>
 <p>}</p>
+<p>For each iteration of your for loop, yield generates a value which will be remembered. It’s like the for loop has a buffer you can’t see, and for each iteration of your for loop, another item is added to that buffer. When your for loop finishes running, it will return this collection of all the yielded values. The type of the collection that is returned is the same type that you were iterating over, so a Map yields a Map, a List yields a List, and so on.</p>
+<pre><code>val values:IndexedSeq[Int] = for(i&lt;- 1 to 10 )  yield i*2
+val list = List(1,2,3,4,5)
+val arr:Array[Int] = Array(1,2,3,5)
+val list_01:List[Int] = for(i&lt;-list) yield i*2
+
+val arr_01:Array[Int] = for (i&lt;-arr) yield i*2
+println(values)
+println(list_01)
+arr_01.foreach(println)
+</code></pre>
 <h1 id="3-object-oriented"><a href="#3-object-oriented" class="headerlink" title="3.object-oriented"></a>3.object-oriented</h1><h1 id="4-Functions-and-methods"><a href="#4-Functions-and-methods" class="headerlink" title="4.Functions and methods"></a>4.Functions and methods</h1><h1 id="5-Interface-API"><a href="#5-Interface-API" class="headerlink" title="5.Interface API"></a>5.Interface API</h1><h1 id="6-option"><a href="#6-option" class="headerlink" title="6.option"></a>6.option</h1><h1 id="7-source"><a href="#7-source" class="headerlink" title="7.source"></a>7.source</h1><h1 id="8-Use-of-higher-order-functions"><a href="#8-Use-of-higher-order-functions" class="headerlink" title="8. Use of higher-order functions"></a>8. Use of higher-order functions</h1><h1 id="9-Implicit-conversion"><a href="#9-Implicit-conversion" class="headerlink" title="9. Implicit conversion"></a>9. Implicit conversion</h1><h1 id="10-Generics"><a href="#10-Generics" class="headerlink" title="10. Generics"></a>10. Generics</h1><h1 id="11-Collection"><a href="#11-Collection" class="headerlink" title="11.Collection"></a>11.Collection</h1><p>refresh ……..</p>
 
                 
@@ -1145,7 +1156,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">18k</span>
+                        class="white-color">18.1k</span>
             
             
             
