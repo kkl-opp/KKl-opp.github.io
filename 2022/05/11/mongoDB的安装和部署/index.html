@@ -442,14 +442,14 @@ MongoDB 有两个">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    4 分
                 </div>
                 
 
@@ -489,18 +489,20 @@ MongoDB 有两个">
 <p>连接说明中点第一个 然后就可以通过mongoDB compass连接上</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511205900562.png"></p>
 <p>然后你会发现有三个集群节点可用 这也体现了分布式的特点</p>
+<p>打开cmd</p>
 <p>查看版本:mongod –version </p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511205950224.png"></p>
 <p>进入shell :mongo, 默认端口为27017</p>
 <p>mongod –dbpath 任意路径 默认就在根目录data下</p>
-<p>我们可以在linux上操作mongodb 或者在windows上</p>
+<p>DataGrip 是JetBrains公司开发的数据库管理客户端工具 支持多种数据库连接 </p>
+<p>特别棒的功能就是代码的智能提示 简直不要太好  可自行前往官网下载 </p>
 <p>点击 new -&gt; data source mongodb 然后复制原本在compass上的url 点击test </p>
 <p>如果没问题的话就可以连接上了</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511211000869.png"></p>
 <p>show dbs</p>
 <p>这两个数据库都是系统自带的，不建议更改，可以自己创个数据库 然后添加数据，这里就不做过多说明。</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511211206249.png"></p>
-<p>到此为止，mongodb的安装已经顺利成功</p>
+<p>到此为止，win端的mongodb的安装已经顺利成功</p>
 <h2 id="Linux端的安装和数据迁移"><a href="#Linux端的安装和数据迁移" class="headerlink" title="Linux端的安装和数据迁移"></a>Linux端的安装和数据迁移</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/100.png"></p>
 <p>选择centos7版本的进行解压安装</p>
 <p>1.新建文件夹 mkdir &#x2F;data  mkdir -p &#x2F;data&#x2F;db </p>
