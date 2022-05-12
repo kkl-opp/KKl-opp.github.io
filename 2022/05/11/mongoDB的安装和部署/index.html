@@ -5,10 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="mongoDB的安装和部署, Aiplex">
-    <meta name="description" content="MongoDB数据库安装及配置环境一. MongoDB的下载与安装windows端
-1.1 下载地址https://www.mongodb.com/download-center/community?jmp=docs
+    <meta name="description" content="MongoDB数据库安装及配置环境一. MongoDB的下载与安装windows端1.1 下载地址https://www.mongodb.com/download-center/community?jmp=docs
 
-MongoDB 有两">
+MongoDB 有两个">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -443,14 +442,14 @@ MongoDB 有两">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    617
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    3 分
                 </div>
                 
 
@@ -470,8 +469,7 @@ MongoDB 有两">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="MongoDB数据库安装及配置环境"><a href="#MongoDB数据库安装及配置环境" class="headerlink" title="MongoDB数据库安装及配置环境"></a><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=MongoDB&spm=1001.2101.3001.7020">MongoDB</a>数据库安装及配置环境</h1><h2 id="一-MongoDB的下载与安装"><a href="#一-MongoDB的下载与安装" class="headerlink" title="一. MongoDB的下载与安装"></a>一. MongoDB的下载与安装</h2><p>windows端</p>
-<h4 id="1-1-下载地址"><a href="#1-1-下载地址" class="headerlink" title="1.1 下载地址"></a>1.1 下载地址</h4><p><a target="_blank" rel="noopener" href="https://www.mongodb.com/download-center/community?jmp=docs">https://www.mongodb.com/download-center/community?jmp=docs</a></p>
+                <h1 id="MongoDB数据库安装及配置环境"><a href="#MongoDB数据库安装及配置环境" class="headerlink" title="MongoDB数据库安装及配置环境"></a><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=MongoDB&spm=1001.2101.3001.7020">MongoDB</a>数据库安装及配置环境</h1><h2 id="一-MongoDB的下载与安装"><a href="#一-MongoDB的下载与安装" class="headerlink" title="一. MongoDB的下载与安装"></a>一. MongoDB的下载与安装</h2><h2 id="windows端"><a href="#windows端" class="headerlink" title="windows端"></a>windows端</h2><h3 id="1-1-下载地址"><a href="#1-1-下载地址" class="headerlink" title="1.1 下载地址"></a>1.1 下载地址</h3><p><a target="_blank" rel="noopener" href="https://www.mongodb.com/download-center/community?jmp=docs">https://www.mongodb.com/download-center/community?jmp=docs</a></p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220512172251154.png"></p>
 <p>MongoDB 有两个服务器版本：<em>社区</em>版和 <em>企业版</em>。</p>
 <h4 id="若想选择其他版本-可点击-Current-releases-amp-packages"><a href="#若想选择其他版本-可点击-Current-releases-amp-packages" class="headerlink" title="若想选择其他版本 可点击  Current releases &amp; packages"></a>若想选择其他版本 可点击  Current releases &amp; packages</h4><h4 id="打开-MongoDB-Shell-下载页面。"><a href="#打开-MongoDB-Shell-下载页面。" class="headerlink" title="打开 MongoDB Shell 下载页面。"></a>打开 MongoDB Shell 下载页面。</h4><h4 id="下载mongosh适用于您的操作系统的安装存档。"><a href="#下载mongosh适用于您的操作系统的安装存档。" class="headerlink" title="下载mongosh适用于您的操作系统的安装存档。"></a>下载<code>mongosh</code>适用于您的操作系统的安装存档。</h4><p>安装 “install mongoDB compass” 勾选（当然你也可以选择安装它，可能需要更久的安装时间），MongoDB Compass 是一个图形界面管理工具</p>
@@ -498,11 +496,52 @@ MongoDB 有两">
 <p>我们可以在linux上操作mongodb 或者在windows上</p>
 <p>点击 new -&gt; data source mongodb 然后复制原本在compass上的url 点击test </p>
 <p>如果没问题的话就可以连接上了</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511211000869.png" alt="image-20220511211000869"></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511211000869.png"></p>
 <p>show dbs</p>
 <p>这两个数据库都是系统自带的，不建议更改，可以自己创个数据库 然后添加数据，这里就不做过多说明。</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511211206249.png" alt="image-20220511211206249"></p>
-<p>到此为止，mongodb的安装已经顺利成功，接下来就是mongodb的基本语法的学习了</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220511211206249.png"></p>
+<p>到此为止，mongodb的安装已经顺利成功</p>
+<h2 id="Linux端的安装和数据迁移"><a href="#Linux端的安装和数据迁移" class="headerlink" title="Linux端的安装和数据迁移"></a>Linux端的安装和数据迁移</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/100.png"></p>
+<p>选择centos7版本的进行解压安装</p>
+<p>1.新建文件夹 mkdir &#x2F;data  mkdir -p &#x2F;data&#x2F;db </p>
+<p>2.解压:tar -zxvf xx -C   &#x2F;data</p>
+<p>配置环境变量</p>
+<pre class="line-numbers language-js"><code class="language-js">vim <span class="token operator">/</span>etc<span class="token operator">/</span>profile
+<span class="token comment" spellcheck="true">//拉到最下方</span>
+<span class="token keyword">export</span> MONGODB_HOME <span class="token operator">=</span><span class="token operator">/</span>data<span class="token operator">/</span>mongodb<span class="token operator">/</span>bin
+<span class="token keyword">export</span> $PATH<span class="token punctuation">:</span>$MONGODB_HOME<span class="token operator">/</span>bin
+<span class="token comment" spellcheck="true">//更新环境变量</span>
+source <span class="token operator">/</span>etc<span class="token operator">/</span>profile
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>输入mongo 直接报错 可以看见版本号但是 进不去mongo shell</p>
+<p>报错信息如下：</p>
+<p>Error: couldn’t connect to server 127.0.0.1:27017, connection attempt failed: SocketException: Error connecting to 127.0.0.1:27017 :: caused by :: Connection refused :</p>
+<p>这时候我们将一台主机当做服务端  另一台当做客户端     通过客户端连接上服务端这样就可以正常访问   这里的本地模式并不是连接到windows上的本地  是linux的本地</p>
+<p>bin&#x2F;mongod</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/101.png"></p>
+<p>在另外一台输入</p>
+<p>mongo </p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/102.png"></p>
+<p>连接成功！ </p>
+<p>当然在linux也可以连接之前在云端部署的MONGDB集群  具体操作如下</p>
+<p>我们在官网登入自己的账户 点击command Line Tools</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/104.png"></p>
+<p>点进去 然后选择 i have the MongoDB shell installed</p>
+<p>然后复制一段代码 将mongosh 改为 mongo即可</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/105.png"></p>
+<p>出现以下代码则说明连接成功</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/106.png"></p>
+<p><strong>Q:第二次连接远程的时候连接不上 我们登入官网</strong> </p>
+<p>点击NetWork Access 选择edit 将里面的连接方式改成运行任何地方的连接</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/107.png"></p>
+<h3 id="如何导入数据"><a href="#如何导入数据" class="headerlink" title="如何导入数据"></a>如何导入数据</h3><p>首先要确保有mongorestore命令 如果没有的话则需要去官网下载工具包</p>
+<p>mongodb-database-tools-rhel70-x86_64-100.5.2</p>
+<p>解压到当前的bin目录下</p>
+<p>mongorestore 如果可以Tab出来就代表没什么问题</p>
+<p>mongorestore dump </p>
+<p>即可导入成功</p>
+<p>我们再重新登入客户端 </p>
+<p>show dbs 就可以看见导入的数据库了 </p>
 
                 
             </div>
@@ -1114,7 +1153,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">16.8k</span>
+                        class="white-color">17.2k</span>
             
             
             
