@@ -4,13 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="集(set)和映射(Map), Aiplex">
-    <meta name="description" content="默认情况下 你使用的set or map 都是不可变的对象   如果可变需要提前声明
-以下是创建可变的集合
-package com.heima.arrp
-import scala.collection.mutable
-/**
- * @aut">
+    <meta name="keywords" content="解析RDD算子（分组）, Aiplex">
+    <meta name="description" content="RDD常见转换算子解析1.groupBy和groupBykey根据指定的条件进行分组 
+属性 或 逻辑运算
+groupBy
+返回分组后的RDD。每个组由一个键和一系列映射到该键的元素组成。不能保证每组中元素的顺序，甚至可能在每次评估结果RD">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -22,7 +20,7 @@ import scala.collection.mutable
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>集(set)和映射(Map) | Aiplex</title>
+    <title>解析RDD算子（分组） | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -289,12 +287,12 @@ import scala.collection.mutable
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">集(set)和映射(Map)</h1>
+                    <h1 class="description center-align post-title">解析RDD算子（分组）</h1>
                 </div>
             </div>
         </div>
@@ -410,8 +408,8 @@ import scala.collection.mutable
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/scala/">
-                                <span class="chip bg-color">scala</span>
+                            <a href="/tags/spark/">
+                                <span class="chip bg-color">spark</span>
                             </a>
                         
                     </div>
@@ -426,21 +424,21 @@ import scala.collection.mutable
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-04-25
+                    2022-05-16
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-05-11
+                    2022-05-16
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    192
+                    146
                 </div>
                 
 
@@ -467,37 +465,24 @@ import scala.collection.mutable
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>默认情况下 你使用的set or map 都是不可变的对象   如果可变需要提前声明</p>
-<p>以下是创建可变的集合</p>
-<pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">package</span> com<span class="token punctuation">.</span>heima<span class="token punctuation">.</span>arrp
-<span class="token keyword">import</span> scala<span class="token punctuation">.</span>collection<span class="token punctuation">.</span>mutable
-<span class="token comment" spellcheck="true">/**
- * @author lyc
- * @date 2022/4/25 11:30  
- * @version V1.0.0
- */</span>
-<span class="token keyword">object</span> Map_prc <span class="token punctuation">{</span>
-  <span class="token keyword">def</span> map<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">Unit</span> <span class="token operator">=</span><span class="token punctuation">{</span>
-    <span class="token keyword">var</span> map01 <span class="token operator">=</span> mutable<span class="token punctuation">.</span>Map<span class="token punctuation">(</span><span class="token string">"aa"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">1</span><span class="token punctuation">)</span>
-    <span class="token keyword">var</span> set01 <span class="token operator">=</span> mutable<span class="token punctuation">.</span>Set<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>
-  <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="set集合的基本使用"><a href="#set集合的基本使用" class="headerlink" title="set集合的基本使用"></a>set集合的基本使用</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220425113431055.png"></p>
-<h3 id="1-创建"><a href="#1-创建" class="headerlink" title="1.创建"></a>1.创建</h3><ol>
-<li><code>var 变量=Set()</code> （创建空的Set集合）</li>
-<li><code>var 变量=Set[类型]()</code>  &#x2F;&#x2F;写死后里面的元素只能是set规定的数据类型</li>
-</ol>
-<p>scala内部能简化的全部帮你简化了</p>
-<h3 id="2-差集和补集"><a href="#2-差集和补集" class="headerlink" title="2.差集和补集"></a>2.差集和补集</h3><ol>
-<li>&amp;返回两个集合的交集</li>
-<li>&amp;~返回两个集合的差集</li>
-<li>++合并两个集合</li>
-<li>diff比较两个集合的差集</li>
-</ol>
-<h3 id="3-遍历"><a href="#3-遍历" class="headerlink" title="3.遍历"></a>3.遍历</h3><ul>
-<li>通过for（i &lt;- x )</li>
-</ul>
+                <h1 id="RDD常见转换算子解析"><a href="#RDD常见转换算子解析" class="headerlink" title="RDD常见转换算子解析"></a>RDD常见转换算子解析</h1><h3 id="1-groupBy和groupBykey"><a href="#1-groupBy和groupBykey" class="headerlink" title="1.groupBy和groupBykey"></a>1.groupBy和groupBykey</h3><p>根据指定的条件进行分组 </p>
+<p>属性 或 逻辑运算</p>
+<p>groupBy</p>
+<p>返回分组后的RDD。每个组由一个键和一系列映射到该键的元素组成。不能保证每组中元素的顺序，甚至可能在每次评估结果RDD时有所不同。</p>
+<pre class="line-numbers language-scala"><code class="language-scala">    <span class="token keyword">val</span> conf<span class="token operator">:</span> SparkConf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setMaster<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setAppName<span class="token punctuation">(</span><span class="token string">"Control3"</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> sc <span class="token operator">=</span> <span class="token keyword">new</span> SparkContext<span class="token punctuation">(</span>conf<span class="token punctuation">)</span>
+    <span class="token keyword">val</span> rdd<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span> <span class="token operator">=</span> sc<span class="token punctuation">.</span>makeRDD<span class="token punctuation">(</span>List<span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"scala"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    rdd<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span>x<span class="token keyword">=></span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>collect<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>println<span class="token punctuation">)</span>
+    
+<span class="token comment" spellcheck="true">// 结果为</span>
+<span class="token comment" spellcheck="true">//(spark,CompactBuffer(spark, spark))</span>
+<span class="token comment" spellcheck="true">//(scala,CompactBuffer(scala))</span>
+<span class="token comment" spellcheck="true">//(hello,CompactBuffer(hello, hello))</span>
+    
+    
+    
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>groupBykey 适合处理k-v类型的数据</p>
 
                 
             </div>
@@ -524,7 +509,7 @@ import scala.collection.mutable
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/04/25/%E9%9B%86set%E5%92%8C%E6%98%A0%E5%B0%84Map/">https://kkl-opp.github.io/2022/04/25/%E9%9B%86set%E5%92%8C%E6%98%A0%E5%B0%84Map/</a>
+                    <a href="https://kkl-opp.github.io/2022/05/16/%E8%A7%A3%E6%9E%90RDD%E7%AE%97%E5%AD%90%EF%BC%88%E5%88%86%E7%BB%84%E7%AF%87%EF%BC%89/">https://kkl-opp.github.io/2022/05/16/%E8%A7%A3%E6%9E%90RDD%E7%AE%97%E5%AD%90%EF%BC%88%E5%88%86%E7%BB%84%E7%AF%87%EF%BC%89/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -562,8 +547,8 @@ import scala.collection.mutable
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/scala/">
-                                    <span class="chip bg-color">scala</span>
+                                <a href="/tags/spark/">
+                                    <span class="chip bg-color">spark</span>
                                 </a>
                             
                         </div>
@@ -877,17 +862,18 @@ import scala.collection.mutable
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/05/06/scala%E6%8C%87%E5%AF%BC%E6%89%8B%E5%86%8C/">
+                <a href="/2022/05/16/%E8%A7%A3%E6%9E%90RDD%E7%AE%97%E5%AD%90%EF%BC%88%E5%88%86%E7%BB%84%E7%AF%87%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="scala指导手册">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="解析RDD算子（分组）">
                         
-                        <span class="card-title">scala指导手册</span>
+                        <span class="card-title">解析RDD算子（分组）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -897,9 +883,9 @@ import scala.collection.mutable
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-06
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -908,11 +894,12 @@ import scala.collection.mutable
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/scala/">
-                        <span class="chip bg-color">scala</span>
+                    <a href="/tags/spark/">
+                        <span class="chip bg-color">spark</span>
                     </a>
                     
                 </div>
@@ -926,13 +913,13 @@ import scala.collection.mutable
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/04/15/redis%E6%A6%82%E8%BF%B0/">
+                <a href="/2022/05/11/mongoDB%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%83%A8%E7%BD%B2/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="redis概述">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="mongoDB的安装和部署">
                         
-                        <span class="card-title">redis概述</span>
+                        <span class="card-title">mongoDB的安装和部署</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -943,7 +930,7 @@ import scala.collection.mutable
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-11
                             </span>
                         <span class="publish-author">
                             
@@ -956,14 +943,6 @@ import scala.collection.mutable
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/redis/">
-                        <span class="chip bg-color">redis</span>
-                    </a>
-                    
                 </div>
                 
             </div>

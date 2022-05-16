@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>解析RDD算子（分组）</title>
+      <link href="/2022/05/16/%E8%A7%A3%E6%9E%90RDD%E7%AE%97%E5%AD%90%EF%BC%88%E5%88%86%E7%BB%84%E7%AF%87%EF%BC%89/"/>
+      <url>/2022/05/16/%E8%A7%A3%E6%9E%90RDD%E7%AE%97%E5%AD%90%EF%BC%88%E5%88%86%E7%BB%84%E7%AF%87%EF%BC%89/</url>
+      
+        <content type="html"><![CDATA[<h1 id="RDD常见转换算子解析"><a href="#RDD常见转换算子解析" class="headerlink" title="RDD常见转换算子解析"></a>RDD常见转换算子解析</h1><h3 id="1-groupBy和groupBykey"><a href="#1-groupBy和groupBykey" class="headerlink" title="1.groupBy和groupBykey"></a>1.groupBy和groupBykey</h3><p>根据指定的条件进行分组 </p><p>属性 或 逻辑运算</p><p>groupBy</p><p>返回分组后的RDD。每个组由一个键和一系列映射到该键的元素组成。不能保证每组中元素的顺序，甚至可能在每次评估结果RDD时有所不同。</p><pre class="line-numbers language-scala"><code class="language-scala">    <span class="token keyword">val</span> conf<span class="token operator">:</span> SparkConf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setMaster<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setAppName<span class="token punctuation">(</span><span class="token string">"Control3"</span><span class="token punctuation">)</span>    <span class="token keyword">val</span> sc <span class="token operator">=</span> <span class="token keyword">new</span> SparkContext<span class="token punctuation">(</span>conf<span class="token punctuation">)</span>    <span class="token keyword">val</span> rdd<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span> <span class="token operator">=</span> sc<span class="token punctuation">.</span>makeRDD<span class="token punctuation">(</span>List<span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"scala"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    rdd<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span>x<span class="token keyword">=></span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>collect<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>println<span class="token punctuation">)</span>    <span class="token comment" spellcheck="true">// 结果为</span><span class="token comment" spellcheck="true">//(spark,CompactBuffer(spark, spark))</span><span class="token comment" spellcheck="true">//(scala,CompactBuffer(scala))</span><span class="token comment" spellcheck="true">//(hello,CompactBuffer(hello, hello))</span>            <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p>groupBykey 适合处理k-v类型的数据</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> spark </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mongoDB的安装和部署</title>
       <link href="/2022/05/11/mongoDB%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%83%A8%E7%BD%B2/"/>
       <url>/2022/05/11/mongoDB%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%83%A8%E7%BD%B2/</url>
