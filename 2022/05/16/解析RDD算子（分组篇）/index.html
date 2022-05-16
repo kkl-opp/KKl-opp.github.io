@@ -5,9 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="解析RDD算子（分组）, Aiplex">
-    <meta name="description" content="RDD常见转换算子解析1.groupBy和groupBykey根据指定的条件进行分组 
+    <meta name="description" content="RDD常见转换算子解析1.groupBy和groupBykeygroupBy
+根据指定的条件进行分组 
 属性 或 逻辑运算
-groupBy
 返回分组后的RDD。每个组由一个键和一系列映射到该键的元素组成。不能保证每组中元素的顺序，甚至可能在每次评估结果RD">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -438,7 +438,7 @@ groupBy
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    146
+                    350
                 </div>
                 
 
@@ -465,14 +465,14 @@ groupBy
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="RDD常见转换算子解析"><a href="#RDD常见转换算子解析" class="headerlink" title="RDD常见转换算子解析"></a>RDD常见转换算子解析</h1><h3 id="1-groupBy和groupBykey"><a href="#1-groupBy和groupBykey" class="headerlink" title="1.groupBy和groupBykey"></a>1.groupBy和groupBykey</h3><p>根据指定的条件进行分组 </p>
+                <h1 id="RDD常见转换算子解析"><a href="#RDD常见转换算子解析" class="headerlink" title="RDD常见转换算子解析"></a>RDD常见转换算子解析</h1><h3 id="1-groupBy和groupBykey"><a href="#1-groupBy和groupBykey" class="headerlink" title="1.groupBy和groupBykey"></a>1.groupBy和groupBykey</h3><p><strong>groupBy</strong></p>
+<p>根据指定的条件进行分组 </p>
 <p>属性 或 逻辑运算</p>
-<p>groupBy</p>
 <p>返回分组后的RDD。每个组由一个键和一系列映射到该键的元素组成。不能保证每组中元素的顺序，甚至可能在每次评估结果RDD时有所不同。</p>
 <pre class="line-numbers language-scala"><code class="language-scala">    <span class="token keyword">val</span> conf<span class="token operator">:</span> SparkConf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setMaster<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setAppName<span class="token punctuation">(</span><span class="token string">"Control3"</span><span class="token punctuation">)</span>
     <span class="token keyword">val</span> sc <span class="token operator">=</span> <span class="token keyword">new</span> SparkContext<span class="token punctuation">(</span>conf<span class="token punctuation">)</span>
-    <span class="token keyword">val</span> rdd<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span> <span class="token operator">=</span> sc<span class="token punctuation">.</span>makeRDD<span class="token punctuation">(</span>List<span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"scala"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    rdd<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span>x<span class="token keyword">=></span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>collect<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>println<span class="token punctuation">)</span>
+        <span class="token keyword">val</span> rdd<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span> <span class="token operator">=</span> sc<span class="token punctuation">.</span>makeRDD<span class="token punctuation">(</span>List<span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"hello"</span><span class="token punctuation">,</span><span class="token string">"spark"</span><span class="token punctuation">,</span><span class="token string">"scala"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        rdd<span class="token punctuation">.</span>groupBy<span class="token punctuation">(</span>x<span class="token keyword">=></span>x<span class="token punctuation">)</span><span class="token punctuation">.</span>collect<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>println<span class="token punctuation">)</span>
     
 <span class="token comment" spellcheck="true">// 结果为</span>
 <span class="token comment" spellcheck="true">//(spark,CompactBuffer(spark, spark))</span>
@@ -482,7 +482,42 @@ groupBy
     
     
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>groupBykey 适合处理k-v类型的数据</p>
+<p>分组聚合</p>
+<p><strong>groupBykey</strong> </p>
+<p>def groupByKey(): RDD[(K, Iterable[V])]</p>
+<p>def groupByKey(numPartitions: Int): RDD[(K, Iterable[V])]</p>
+<p>def groupByKey(partitioner: Partitioner): RDD[(K, Iterable[V])]</p>
+<p>适合处理k-v类型的数据</p>
+<p>功能：将数据源中的数据，相同的key分在一个组中，形成一个对偶元组</p>
+<p>key， u</p>
+<p>搭配map 和 sum可以求出数据</p>
+<pre class="line-numbers language-scala"><code class="language-scala"> <span class="token keyword">val</span> conf<span class="token operator">:</span> SparkConf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setMaster<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setAppName<span class="token punctuation">(</span><span class="token string">"Control3"</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> sc <span class="token operator">=</span> <span class="token keyword">new</span> SparkContext<span class="token punctuation">(</span>conf<span class="token punctuation">)</span>
+    <span class="token keyword">val</span> rdd<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> sc<span class="token punctuation">.</span>makeRDD<span class="token punctuation">(</span>List<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> value<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">,</span> Iterable<span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> rdd<span class="token punctuation">.</span>groupByKey<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">//(a,CompactBuffer(1, 5))(b,CompactBuffer(3))(c,CompactBuffer(4))</span>
+
+    <span class="token keyword">val</span> data<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token punctuation">.</span>map<span class="token punctuation">(</span>
+      op <span class="token keyword">=></span> <span class="token punctuation">(</span>op<span class="token punctuation">.</span>_1<span class="token punctuation">,</span> op<span class="token punctuation">.</span>_2<span class="token punctuation">.</span>sum<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    data<span class="token punctuation">.</span>collect<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>println<span class="token punctuation">)</span>
+    
+<span class="token comment" spellcheck="true">/*
+
+(a,6)
+(b,3)
+(c,4)*/</span>
+  
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="2-reduceByKey、foldByKey、aggregateByKey、combineByKey"><a href="#2-reduceByKey、foldByKey、aggregateByKey、combineByKey" class="headerlink" title="2.reduceByKey、foldByKey、aggregateByKey、combineByKey"></a>2.reduceByKey、foldByKey、aggregateByKey、combineByKey</h3><p>reducebykey:def reduceByKey(partitioner: Partitioner, func: (V, V) &#x3D;&gt; V): RDD[(K, V)]</p>
+<p>def reduceByKey(func: (V, V) &#x3D;&gt; V, numPartitions: Int): RDD[(K, V)]</p>
+<pre class="line-numbers language-scala"><code class="language-scala">     <span class="token keyword">val</span> conf<span class="token operator">:</span> SparkConf <span class="token operator">=</span> <span class="token keyword">new</span> SparkConf<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setMaster<span class="token punctuation">(</span><span class="token string">"local[*]"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>setAppName<span class="token punctuation">(</span><span class="token string">"Control3"</span><span class="token punctuation">)</span>
+    <span class="token keyword">val</span> sc <span class="token operator">=</span> <span class="token keyword">new</span> SparkContext<span class="token punctuation">(</span>conf<span class="token punctuation">)</span>
+    <span class="token keyword">val</span> rdd<span class="token operator">:</span> RDD<span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> sc<span class="token punctuation">.</span>makeRDD<span class="token punctuation">(</span>List<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"b"</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"c"</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token string">"a"</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    rdd<span class="token punctuation">.</span>reduceByKey<span class="token punctuation">(</span>_<span class="token operator">+</span>_<span class="token punctuation">)</span><span class="token punctuation">.</span>foreach<span class="token punctuation">(</span>println<span class="token punctuation">)</span>
+
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>​    </p>
 
                 
             </div>
@@ -1098,7 +1133,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">17.4k</span>
+                        class="white-color">17.6k</span>
             
             
             
