@@ -4,8 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Scala中的Map集合, Aiplex">
-    <meta name="description" content="不可变MAPMap(映射)是一种可迭代的键值对（key&amp;#x2F;value）结构。所有的值都可以通过键来获取。Map 中的键都是唯一的。Map 也叫哈希表（Hash tables）。Map 有两种类型，可变与不可变，区别在于可变对象可以修">
+    <meta name="keywords" content="kafka快速入门, Aiplex">
+    <meta name="description" content="1.1事件流事件流是人体中枢神经系统的数字等效物。它是“永远在线”世界的技术基础，在这个世界中，企业越来越多地由软件定义和自动化，并且软件的用户更多地是软件。
+从技术上讲，事件流是从事件源（如数据库、传感器、移动设备、云服务和软件应用程序）">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Scala中的Map集合 | Aiplex</title>
+    <title>kafka快速入门 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -284,12 +285,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Scala中的Map集合</h1>
+                    <h1 class="description center-align post-title">kafka快速入门</h1>
                 </div>
             </div>
         </div>
@@ -405,8 +406,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/scala/">
-                                <span class="chip bg-color">scala</span>
+                            <a href="/tags/kafka/">
+                                <span class="chip bg-color">kafka</span>
                             </a>
                         
                     </div>
@@ -421,28 +422,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-31
+                    2022-05-21
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-31
+                    2022-05-21
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    616
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    8 分
                 </div>
                 
 
@@ -462,89 +463,69 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="不可变MAP"><a href="#不可变MAP" class="headerlink" title="不可变MAP"></a>不可变MAP</h1><p>Map(映射)是一种可迭代的键值对（key&#x2F;value）结构。<br>所有的值都可以通过键来获取。<br>Map 中的键都是唯一的。<br>Map 也叫哈希表（Hash tables）。<br>Map 有两种类型，可变与不可变，区别在于可变对象可以修改它，而不可变对象不可以。<br>默认情况下 Scala 使用不可变 Map。如果你需要使用可变集合，你需要显式的引入 import scala.collection.mutable.Map 类<br>在Scala中你可以同时使用可变与不可变 Map,不可变的直接使用 Map,可变的使用 mutable.Map.以下实例演示了不可变 Map 的应用：</p>
-<pre class="line-numbers language-java"><code class="language-java">def <span class="token function">main</span><span class="token punctuation">(</span>args<span class="token operator">:</span> Array<span class="token punctuation">[</span>String<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span> <span class="token punctuation">{</span>
-
- val p<span class="token operator">:</span> Map<span class="token punctuation">[</span>String<span class="token punctuation">,</span> Int<span class="token punctuation">]</span> <span class="token operator">=</span> Map<span class="token punctuation">[</span>String<span class="token punctuation">,</span> Int<span class="token punctuation">]</span><span class="token punctuation">(</span>
-
-   <span class="token string">"CK"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token number">15</span><span class="token punctuation">,</span>
-
-   <span class="token string">"PH"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token number">25</span><span class="token punctuation">,</span>
-
-   <span class="token string">"PW"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token number">35</span>
-
- <span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>两种获取值的方式</p>
-<pre class="line-numbers language-java"><code class="language-java">   val values<span class="token operator">:</span> Option<span class="token punctuation">[</span>Int<span class="token punctuation">]</span> <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"PH"</span><span class="token punctuation">)</span>
-   <span class="token function">println</span><span class="token punctuation">(</span>values<span class="token punctuation">.</span>get<span class="token punctuation">)</span>
-       
-   val age <span class="token operator">:</span>Int  <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">getOrElse</span><span class="token punctuation">(</span><span class="token string">"PW"</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-   <span class="token function">println</span><span class="token punctuation">(</span>age<span class="token punctuation">)</span>
-       
-  <span class="token function">println</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>keys<span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">//返回所有的key;</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>values<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//返回所有的value;</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>isEmpty<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//当map为空时,返回true;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h1 id="可变MAP"><a href="#可变MAP" class="headerlink" title="可变MAP"></a>可变MAP</h1><p>​    </p>
-<pre><code>  def main(args: Array[String]): Unit = &#123;
-    val personalMap  = scala.collection.mutable.Map[String,Int](
-      &quot;kw&quot; -&gt;7,
-      &quot;dk&quot;-&gt;20
-
-    )
-
-
-    for(kb&lt;-personalMap)&#123;
-      val key =kb._1;
-      val value = kb._2
-      println(key+value)
-
-    &#125;
-    personalMap.foreach(x=&gt;println(x))
-
-  &#125;
-</code></pre>
-<pre class="line-numbers language-java"><code class="language-java">def <span class="token function">map3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> Unit <span class="token operator">=</span><span class="token punctuation">{</span>
-  <span class="token comment" spellcheck="true">//不可变Map+var关键词修饰例子</span>
-  var a<span class="token operator">:</span>scala<span class="token punctuation">.</span>collection<span class="token punctuation">.</span>mutable<span class="token punctuation">.</span>Map<span class="token punctuation">[</span>String<span class="token punctuation">,</span>Int<span class="token punctuation">]</span><span class="token operator">=</span>scala<span class="token punctuation">.</span>collection<span class="token punctuation">.</span>mutable<span class="token punctuation">.</span><span class="token function">Map</span><span class="token punctuation">(</span><span class="token string">"k1"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"k2"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">2</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//初始化构造函数</span>
-  a <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token string">"k3"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">3</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//添加元素</span>
-  a <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token string">"k4"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">4</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//添加元素</span>
-  a <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token string">"k1"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">100</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//已经存在添加元素会覆盖</span>
-  a <span class="token operator">+=</span> <span class="token punctuation">(</span><span class="token string">"k1"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">100</span><span class="token punctuation">,</span><span class="token string">"k9"</span><span class="token operator">-</span><span class="token operator">></span><span class="token number">9</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//添加多个元素</span>
-  a <span class="token operator">-=</span> <span class="token punctuation">(</span><span class="token string">"k2"</span><span class="token punctuation">,</span><span class="token string">"k1"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//删除元素</span>
-  a <span class="token operator">++</span><span class="token operator">=</span> <span class="token function">List</span><span class="token punctuation">(</span><span class="token string">"CA"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token number">23</span><span class="token punctuation">,</span> <span class="token string">"CO"</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token number">25</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//追加集合</span>
-  a <span class="token operator">--</span><span class="token operator">=</span> <span class="token function">List</span><span class="token punctuation">(</span><span class="token string">"AL"</span><span class="token punctuation">,</span> <span class="token string">"AZ"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//删除集合</span>
- 
-  a<span class="token punctuation">.</span><span class="token function">retain</span><span class="token punctuation">(</span><span class="token punctuation">(</span>k<span class="token punctuation">,</span>v<span class="token punctuation">)</span><span class="token operator">=</span><span class="token operator">></span> k<span class="token operator">==</span><span class="token string">"k1"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//只保留等于k1元素，其他的删除</span>
-  a<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"put1"</span><span class="token punctuation">,</span><span class="token number">200</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//put</span>
-  a<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token string">"k2"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//remove</span>
-  a<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//清空</span>
-  <span class="token function">a</span><span class="token punctuation">(</span><span class="token string">"k3"</span><span class="token punctuation">)</span><span class="token operator">=</span><span class="token number">100</span><span class="token comment" spellcheck="true">//支持</span>
- 
-  <span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span><span class="token string">"k6"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//是否包含某元素</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//打印大小</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"k1"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getOrElse</span><span class="token punctuation">(</span><span class="token string">"default"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//根据key读取元素，不存在就替换成默认值</span>
-  a<span class="token punctuation">.</span>foreach<span class="token punctuation">{</span><span class="token keyword">case</span> <span class="token punctuation">(</span>e<span class="token punctuation">,</span>i<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">println</span><span class="token punctuation">(</span>e<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">}</span> <span class="token comment" spellcheck="true">//遍历打印1</span>
-  <span class="token keyword">for</span><span class="token punctuation">(</span> <span class="token punctuation">(</span>k<span class="token punctuation">,</span>v<span class="token punctuation">)</span><span class="token operator">&lt;</span><span class="token operator">-</span>a <span class="token punctuation">)</span> <span class="token function">println</span><span class="token punctuation">(</span>k<span class="token punctuation">,</span>v<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//遍历打印2</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>isEmpty<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//判断是否为空</span>
-  a<span class="token punctuation">.</span>keys<span class="token punctuation">.</span><span class="token function">foreach</span><span class="token punctuation">(</span>println<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//只打印key</span>
-  a<span class="token punctuation">.</span>values<span class="token punctuation">.</span><span class="token function">foreach</span><span class="token punctuation">(</span>println<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//只打印value</span>
-  a<span class="token operator">=</span>scala<span class="token punctuation">.</span>collection<span class="token punctuation">.</span>mutable<span class="token punctuation">.</span><span class="token function">Map</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//引用能变</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>size<span class="token punctuation">)</span>
-  a<span class="token punctuation">.</span>toSeq<span class="token punctuation">.</span><span class="token function">sortBy</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span>_1<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//排序 key</span>
-  a<span class="token punctuation">.</span>toSeq<span class="token punctuation">.</span><span class="token function">sortBy</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span>_2<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//排序 value</span>
-  a<span class="token punctuation">.</span>toSeq<span class="token punctuation">.</span><span class="token function">sortWith</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span>_1<span class="token operator">></span>_<span class="token punctuation">.</span>_1<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//降序排序 key</span>
-  a<span class="token punctuation">.</span>toSeq<span class="token punctuation">.</span><span class="token function">sortWith</span><span class="token punctuation">(</span>_<span class="token punctuation">.</span>_2<span class="token operator">></span>_<span class="token punctuation">.</span>_2<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//降序排序 value</span>
-  
-      <span class="token comment" spellcheck="true">//下面自定义按英文字母或数字排序</span>
-  implicit  val KeyOrdering<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Ordering</span><span class="token punctuation">[</span>String<span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    override def <span class="token function">compare</span><span class="token punctuation">(</span>x<span class="token operator">:</span> String<span class="token punctuation">,</span> y<span class="token operator">:</span> String<span class="token punctuation">)</span><span class="token operator">:</span> Int <span class="token operator">=</span> <span class="token punctuation">{</span>
-      x<span class="token punctuation">.</span><span class="token function">compareTo</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-  <span class="token function">println</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>toSeq<span class="token punctuation">.</span>sorted<span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+                <h2 id="1-1事件流"><a href="#1-1事件流" class="headerlink" title="1.1事件流"></a>1.1事件流</h2><p>事件流是人体中枢神经系统的数字等效物。它是“永远在线”世界的技术基础，在这个世界中，企业越来越多地由软件定义和自动化，并且软件的用户更多地是软件。</p>
+<p>从技术上讲，事件流是从事件源（如数据库、传感器、移动设备、云服务和软件应用程序）以事件流的形式实时捕获数据的实践；持久存储这些事件流以供以后检索；实时和回顾性地操作、处理和响应事件流；并根据需要将事件流路由到不同的目标技术。因此，事件流确保了数据的连续流动和解释，以便正确的信息在正确的时间出现在正确的位置。</p>
+<h4 id="我可以将事件流用于什么？"><a href="#我可以将事件流用于什么？" class="headerlink" title="我可以将事件流用于什么？"></a><a target="_blank" rel="noopener" href="https://kafka.apache.org/30/documentation.html#intro_usage">我可以将事件流用于什么？</a></h4><p>事件流应用于 众多行业和组织的<a target="_blank" rel="noopener" href="https://kafka.apache.org/powered-by">各种用例。</a>它的许多例子包括：</p>
+<ul>
+<li>实时处理支付和金融交易，例如在证券交易所、银行和保险中。</li>
+<li>实时跟踪和监控汽车、卡车、车队和货运，例如在物流和汽车行业。</li>
+<li>持续捕获和分析来自物联网设备或其他设备的传感器数据，例如工厂和风电场。</li>
+<li>收集并立即响应客户互动和订单，例如零售、酒店和旅游行业以及移动应用程序。</li>
+<li>监测住院病人，预测病情变化，确保在紧急情况下及时治疗。</li>
+<li>连接、存储和提供公司不同部门产生的数据。</li>
+<li>作为数据平台、事件驱动架构和微服务的基础。</li>
+</ul>
+<h4 id="Apache-Kafka®-是一个事件流平台。这意味着什么？"><a href="#Apache-Kafka®-是一个事件流平台。这意味着什么？" class="headerlink" title="Apache Kafka® 是一个事件流平台。这意味着什么？"></a><a target="_blank" rel="noopener" href="https://kafka.apache.org/30/documentation.html#intro_platform">Apache Kafka® 是一个事件流平台。这意味着什么？</a></h4><p>Kafka 结合了三个关键功能，因此您可以 通过一个经过实战考验的解决方案实现端到端的事件流 <a target="_blank" rel="noopener" href="https://kafka.apache.org/powered-by">用例：</a></p>
+<ol>
+<li><strong>发布</strong>（写入）和<strong>订阅</strong>（读取）事件流，包括从其他系统持续导入&#x2F;导出数据 。</li>
+<li>根据需要持久可靠地 <strong>存储事件流。</strong></li>
+<li>在事件发生时或回顾性 地<strong>处理事件流。</strong></li>
+</ol>
+<h2 id="1-2基础架构"><a href="#1-2基础架构" class="headerlink" title="1.2基础架构"></a>1.2基础架构</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/8d2ee577801a71b81bb42e2af6a8e0f9.png" alt="1"></p>
+<p>Kafka像其他Mq一样，也有自己的基础架构，主要存在生产者Producer、Kafka集群Broker、消费者Consumer、注册消息Zookeeper.</p>
+<p><strong>Produce</strong>r：消息生产者<br><strong>Consumer：消息消费者</strong><br><strong>Consumer Group</strong>：</p>
+<p>consumer group是kafka提供的可扩展且具有容错性的消费者机制。既然是一个组，那么组内必然可以有多个消费者或消费者实例(consumer instance)，它们共享一个公共的ID，即group ID。组内的所有消费者协调在一起来消费订阅主题(subscribed topics)的所有分区(partition)。当然，每个分区只能由同一个消费组内的一个consumer来消费。<br><strong>Broker</strong>：一台服务器就是一个Broker，一个集群由多个Broker组成，一个Broker可以容纳多个Topic。<br><strong>Topic</strong>：主题，生产者和消费者都是面向一个Topic<br><strong>Partition</strong>：分区，为了实现扩展性，一个非常大的Topic可以分布到多个Broker上，一个Topic可以分为多个Partition，每个Partition是一个有序的队列(分区有序，不能保证全局有序)  切成3片 每片都存着零散的信息</p>
+<p><strong>Replica</strong>：</p>
+<p>副本Replication，为保证集群中某个节点发生故障，节点上的Partition数据不丢失，Kafka提供了副本机制，一个Topic的每个分区有若干个副本，一个Leader和多个Follower<br><strong>Leader</strong>：每个分区多个副本的主角色，生产者发送数据的对象，以及消费者消费数据的对象都是Leader。<br><strong>Follower</strong>：</p>
+<p>每个分区多个副本的从角色，实时的从Leader中同步数据，保持和Leader数据的同步，Leader发生故障的时候，某个Follower会成为新的Leader。</p>
+<p><strong>ISR and AR</strong>:</p>
+<p>所有副本统称为 AR (Assigned Replicas)</p>
+<p> ISR 集合是 AR 集合的一个子集。消息会先发送到leader副本，然后follower副本才能从leader中拉取消息进行同步。同步期间，follow副本相对于leader副本而言会有一定程度的滞后。</p>
+<p>滞后性：所有与leader副本保持一定程度同步的副本（包括leader副本在内）组成 ISR (In Sync Replicas)</p>
+<h2 id="1-3发送原理"><a href="#1-3发送原理" class="headerlink" title="1.3发送原理"></a>1.3发送原理</h2><p>1.创建producer对象调用方法send</p>
+<p>2.拦截器</p>
+<p>3.序列化器（自带的 跨节点处理）</p>
+<p>4.分区器</p>
+<p>5.发送到缓冲队列里 一个分区创建一个队列（在内存中完成的）32M 16k</p>
+<p>6.sender线程（读取数据）</p>
+<p>batch.size只有数据累积到batch.size的时候，sender才会发送数据 16k</p>
+<p>linger.ms 数据如果未达到batch.size 设置等待时间（默认0ms）</p>
+<p>应答机制acks </p>
+<p>0的话就你就不用管 继续传</p>
+<p>1的话leader要收到后 然后才继续传</p>
+<p>-1（all）所有节点都收集 </p>
+<p>Q:如果失败怎么办</p>
+<p>会有一个重试的机制 retries</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20dqGk_grrkJWS4dtjRQAO1P8Qaz8jjxC-yDev8dc2U.png"></p>
+<h2 id="1-4kafka的分区"><a href="#1-4kafka的分区" class="headerlink" title="1.4kafka的分区"></a>1.4kafka的分区</h2><p>Kafka可以将主题划分为多个分区（Partition），会根据分区规则选择把消息存储到哪个分区中，只要 如果分区规则设置的合理，那么所有的消息将会被均匀的分布到不同的分区中，这样就实现了负载均衡 和水平扩展。另外，多个订阅者可以从一个或者多个分区中同时消费数据，以支撑海量数据处理能力。</p>
+<p>由于消息是以追加到分区中的，多个分区顺序写磁盘的总效率要比随机写内存还要高（引 用Apache Kafka – A High Throughput Distributed Messaging System的观点），是Kafka高吞吐率的 重要保证之一。</p>
+<p>副本机制<br>由于Producer和Consumer都只会与Leader角色的分区副本相连，所以kafka需要以集群的组织形式提 供主题下的消息高可用。kafka支持主备复制，所以消息具备高可用和持久性。</p>
+<p>一个分区可以有多个副本，这些副本保存在不同的broker上。每个分区的副本中都会有一个作为 Leader。当一个broker失败时，Leader在这台broker上的分区都会变得不可用，kafka会自动移除 Leader，再其他副本中选一个作为新的Leader。</p>
+<p>在通常情况下，增加分区可以提供kafka集群的吞吐量。然而，也应该意识到集群的总分区数或是单台 服务器上的分区数过多，会增加不可用及延迟的风险。</p>
+<p>分区Leader选举<br>可以预见的是,如果某个分区的Leader挂了,那么其它跟随者将会进行选举产生一个新的leader,之后所有 的读写就会转移到这个新的Leader上</p>
+<p>在kafka中,其不是采用常见的多数选举的方式进行副本的Leader 选举,而是会在Zookeeper上针对每个Topic维护一个称为ISR（in-sync replica，已同步的副本）的集合, 显然还有一些副本没有来得及同步。只有这个ISR列表里面的才有资格成为leader(先使用ISR里面的第一 个，如果不行依次类推，因为ISR里面的是同步副本，消息是最完整且各个节点都是一样的)。<br>通过 ISR,kafka需要的冗余度较低，可以容忍的失败数比较高。假设某个topic有f+1个副本，kafka可以容忍f 个不可用,当然,如果全部ISR里面的副本都不可用,也可以选择其他可用的副本,只是存在数据的不一致。</p>
+<p>☆分区重新分配☆<br>我们往已经部署好的Kafka集群里面添加机器是最正常不过的需求，而且添加起来非常地方便，我们需 要做的事是从已经部署好的Kafka节点中复制相应的配置文件，然后把里面的broker id修改成全局唯一 的，最后启动这个节点即可将它加入到现有Kafka集群中。</p>
+<p>创建集群和主题<br>首先创建一个有三个节点的集群</p>
+<p>创建主题 (topic-cluster) 3个分区 , 副本数为 3</p>
+<p>主题的副本数。每个主题可以有多个副本，副本位于集群中不同的broker上，也就是说副本的数量不能超过broker的数量，否则创建主题时会失败。</p>
+<h2 id="1-5发送模式"><a href="#1-5发送模式" class="headerlink" title="1.5发送模式"></a>1.5发送模式</h2><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=kafka&spm=1001.2101.3001.7020">kafka</a>有同步（sync）、异步（async）以及oneway这三种发送方式，某些概念上区分也可以分为同步和异步两种，同步和异步的发送方式通过“producer.type”参数指定，而oneway由“request.require.acks”参数指定。</p>
+<ul>
+<li><p>同步方式，一定是逐条发送的，第一条响应到达后，才会请求第二条</p>
+</li>
+<li><p>异步方式，可以发送一条，也可以批量发送多条，特性是不需等第一次(注意这里单位是次，因为单次可以是单条，也可以是批量数据)响应，就立即发送第二次</p>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/4TAs4ZYMh37r5mqRkBJ_nCtWggukC10OFR1zyYtrfoc.png"></p>
 
                 
             </div>
@@ -571,7 +552,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/31/Scala%E4%B8%AD%E7%9A%84Map%E9%9B%86%E5%90%88/">https://kkl-opp.github.io/2022/03/31/Scala%E4%B8%AD%E7%9A%84Map%E9%9B%86%E5%90%88/</a>
+                    <a href="https://kkl-opp.github.io/2022/05/21/kafka%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">https://kkl-opp.github.io/2022/05/21/kafka%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -609,8 +590,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/scala/">
-                                    <span class="chip bg-color">scala</span>
+                                <a href="/tags/kafka/">
+                                    <span class="chip bg-color">kafka</span>
                                 </a>
                             
                         </div>
@@ -924,17 +905,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/04/02/%E5%88%A0%E9%99%A4LinkedList%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9/">
+                <a href="/2022/05/21/kafka%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="删除LinkedList中的重复项">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="kafka快速入门">
                         
-                        <span class="card-title">删除LinkedList中的重复项</span>
+                        <span class="card-title">kafka快速入门</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -944,9 +926,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -955,15 +937,12 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                    <a href="/tags/%E5%85%A5%E9%97%A8/">
-                        <span class="chip bg-color">入门</span>
+                    <a href="/tags/kafka/">
+                        <span class="chip bg-color">kafka</span>
                     </a>
                     
                 </div>
@@ -977,13 +956,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/">
+                <a href="/2022/05/16/%E8%A7%A3%E6%9E%90RDD%E7%AE%97%E5%AD%90%EF%BC%88%E5%88%86%E7%BB%84%E7%AF%87%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="关于StringBuider的使用">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="常见的RDD算子（分组）">
                         
-                        <span class="card-title">关于StringBuider的使用</span>
+                        <span class="card-title">常见的RDD算子（分组）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -994,16 +973,12 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-16
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/JAVA/" class="post-category">
-                                    JAVA
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            liming
                             
                         </span>
                     </div>
@@ -1011,8 +986,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/JAVA/">
-                        <span class="chip bg-color">JAVA</span>
+                    <a href="/tags/spark/">
+                        <span class="chip bg-color">spark</span>
                     </a>
                     
                 </div>
