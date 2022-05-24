@@ -534,7 +534,7 @@
 <p>AR &#x3D; ISR + OSR</p>
 <p><strong>ISR</strong>，表示和 Leader 保持同步的 Follower 集合。如果 Follower 长时间未向 Leader 发送 </p>
 <p>4.通信请求或同步数据，则该 Follower 将被踢出 ISR。该时间阈值由 <strong>replica.lag.time.max.ms</strong></p>
-<p>参数设定，默认 30s。Leader 发生故障之后，就会从 ISR 中选举新的 Leader。</p>
+<p>参数设定，默认 30s。Leader 发生故障之后，就会从 ISR 选举新的 Leader。</p>
 <p><strong>OSR****，</strong>表示 Follower 与 Leader 副本同步时，延迟过多的副本。</p>
 
                 
