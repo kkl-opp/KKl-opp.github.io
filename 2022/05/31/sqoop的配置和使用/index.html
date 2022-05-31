@@ -4,9 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="关于StringBuider的使用, Aiplex">
-    <meta name="description" content="String与StringBuilder的区别1.StringString类位于Java的lang包下 无需导包即可调用
-String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且浪费大量优">
+    <meta name="keywords" content="sqoop的配置和使用, Aiplex">
+    <meta name="description" content="sqoopApache Sqoop(TM) 是一种工具，设计用于在 Apache Hadoop和结构化数据存储（如关系数据库）之间高效传输批量数据。
+Sqoop是一款开源的工具，主要用于在Hadoop(Hive)与传统的数据库(mysql、">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -18,7 +18,7 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>关于StringBuider的使用 | Aiplex</title>
+    <title>sqoop的配置和使用 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -285,12 +285,12 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">关于StringBuider的使用</h1>
+                    <h1 class="description center-align post-title">sqoop的配置和使用</h1>
                 </div>
             </div>
         </div>
@@ -406,8 +406,8 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/JAVA/">
-                                <span class="chip bg-color">JAVA</span>
+                            <a href="/tags/sqoop/">
+                                <span class="chip bg-color">sqoop</span>
                             </a>
                         
                     </div>
@@ -418,8 +418,8 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/JAVA/" class="post-category">
-                                JAVA
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
+                                大数据生态圈
                             </a>
                         
                     </div>
@@ -431,28 +431,28 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-03-30
+                    2022-05-31
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-03-31
+                    2022-05-31
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.8k
+                    603
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    2 分
                 </div>
                 
 
@@ -472,168 +472,79 @@ String的值是不可变的，这就导致每次对String的操作都会生成�
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="String与StringBuilder的区别"><a href="#String与StringBuilder的区别" class="headerlink" title="String与StringBuilder的区别"></a>String与StringBuilder的区别</h1><h2 id="1-String"><a href="#1-String" class="headerlink" title="1.String"></a>1.String</h2><p>String类位于Java的lang包下 无需导包即可调用</p>
-<p>String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且浪费大量优先的内存空间</p>
-<p>每创建一个String对象就要在栈中 开辟空间 当修改String的值的时候 会在堆中新开辟一块空间 造成空间的浪费</p>
-<h4 id="用String类创建对象通常有两种形式："><a href="#用String类创建对象通常有两种形式：" class="headerlink" title="用String类创建对象通常有两种形式："></a>用String类创建对象通常有两种形式：</h4><p>1、String str &#x3D; “abc”</p>
-<p>2、String str1 &#x3D; new String(“abc”);</p>
-<p>方法1：通过字面量直接给字符串进行赋值，在栈中创建字符串str时，会先在字符串常量池中检查是否已有该字符串，如果没有则创建并存入字符串常量池中，如果已存在则直接从常量池中获取。</p>
-<p>方法2：创建的字符串，不管内存有没有为“abc”字符串分配内存，都会在内存中重新分配一个内存区域存放“abc”，然后用str1指向它，相当于内存中有两个“abc”，只是存放的地址不一样。</p>
-<h3 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h3><p>1、public String();</p>
-<p>String类的无参构造方法，用来创建空字符串的String类；</p>
-<p>案例：String str &#x3D; new String();</p>
-<p>2、public String(String value);</p>
-<p>用已知的字符串value值来创建一个字符串对象；</p>
-<p>案例：String str1 &#x3D; new String(“aaa”);</p>
-<p>3、public String(char[] value)</p>
-<p>用字符数组value创建一个String对象。</p>
-<p>案例：char[] value &#x3D; {“ab”,”cd”,”efg”};</p>
-<h2 id="2-StringBuffer"><a href="#2-StringBuffer" class="headerlink" title="2. StringBuffer"></a>2. StringBuffer</h2><p> StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象。每个StringBuffer对象都有一定的缓冲区容量，当字符串大小没有超过容量时，不会分配新的容量，当字符串大小超过容量时，会自动增加容量 </p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20180411092328691"></p>
-<p><img src="C:\Users\lyc\AppData\Roaming\Typora\typora-user-images\image-20220330183450896.png"></p>
-<p>我们调用equals方法  显而易见结果是false</p>
-<p>一些常用的方法 看参数 你应该就知道如何使用  无非就是增删改查 类型转换 多练即可掌握</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220330183812261.png"></p>
-<p> (1) String中的是常量(final)数组，只能被赋值一次。<br>   比如：new String(“abc”)使得value[]&#x3D;{‘a’,’b’,’c’}(查看jdk String 就是这么实现的)，之后这个String对象中的value[]再也不能改变了。这也正是大家常说的，String是不可变的原因 。<br>   注意：这个对初学者来说有个误区，有人说String str1&#x3D;new String(“abc”); str1&#x3D;new String(“cba”);不是改变了字符串str1吗？那么你有必要先搞懂对象引用和对象本身的区别。这里我简单的说明一下，对象本身指的是存放在堆空间中的该对象的实例数据(非静态非常量字段)。而对象引用指的是堆中对象本身所存放的地址，一般方法区和Java栈中存储的都是对象引用，而非对象本身的数据。</p>
-<p>   (2) StringBuffer中的value[]就是一个很普通的数组，而且可以通过append()方法将新字符串加入value[]末尾。这样也就改变了value[]的内容和大小了。</p>
-<p>   比如：new StringBuffer(“abc”)使得value[]&#x3D;{‘a’,’b’,’c’,’’,’’…}(注意构造的长度是str.length()+16)。如果再将这个对象append(“abc”)，那么这个对象中的value[]&#x3D;{‘a’,’b’,’c’,’a’,’b’,’c’,’’….}。这也就是为什么大家说 StringBuffer是可变字符串 的涵义了。从这一点也可以看出，StringBuffer中的value[]完全可以作为字符串的缓冲区功能。其累加性能是很不错的</p>
-<p>   总结，讨论String和StringBuffer可不可变。本质上是指对象中的value[]字符数组可不可变，而不是对象引用可不可变。 </p>
-<h2 id="3-StringBuilder"><a href="#3-StringBuilder" class="headerlink" title="3.StringBuilder"></a>3.StringBuilder</h2><p>程序开发过程中，我们常常碰到字符串连接的情况，方便和直接的方式是通过”+”符号来实现，但是这种方式达到目的的效率比较低，且每执行一次都会创建一个String对象，即耗时，又浪费空间。使用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=StringBuilder%E7%B1%BB&spm=1001.2101.3001.7020">StringBuilder类</a>就可以避免这种问题的发生，下面就Stringbuilder的使用做个简要的总结：</p>
-<p>StringBuilder 类在 Java 5 中被提出，它和 StringBuffer 之间的最大不同在于 StringBuilder 的方法不是<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8&spm=1001.2101.3001.7020">线程安全</a>的（不能同步访问）。</p>
-<p>由于 StringBuilder 相较于 StringBuffer 有速度优势，<strong>所以多数情况下建议使用 StringBuilder 类</strong>。然而在应用程序要求线程安全的情况下，则必须使用 StringBuffer 类。</p>
-<h3 id="String和StringBuilder的区别："><a href="#String和StringBuilder的区别：" class="headerlink" title="String和StringBuilder的区别："></a>String和StringBuilder的区别：</h3><p>   ●String：内容不可变   </p>
-<p>   ●StringBuilder：内容是可变的</p>
-<p>好处：效率高   但线程不安全</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1.无参数  stringBuilder  s&#x3D;new stringBuilder();</p>
-<p>实例化时会有一个默认的16字符的空间，当追加字符超过16个字符时，会新开一个翻倍的空间，而原油空间会浪费掉</p>
-<p>2.有参数：stringBulider s&#x3D;new stringBuilder(20);</p>
-<p>可以在实例化的时候创建一个固定大小的空间，避免资源的浪费。</p>
-<p>常见的方法：</p>
-<p>StringBuilder的常见用法。</p>
-<p>1、初始化一个StringBuilder。</p>
-<pre><code>StringBuilder sb = new StringBuilder()；
-</code></pre>
-<p>2、填充：使用append() 来追加字符串填充到sb中：</p>
-<pre><code>  sb.append(&quot;xxxx&quot;).append(&quot; xxx&quot;)....可继续延伸
-</code></pre>
-<p>3、删除sb里面的已有的内容：</p>
-<pre><code>  sb.delete(0,sb.length());将删除sb里面从0开始到结尾的所有内容，也可以自己定义区间
-</code></pre>
-<p>4、sb里面的内容要显示时需要转换成String类型</p>
-<pre><code>  System.out.println(sb.toString());r reverse() 返回相反的字符序列
-</code></pre>
-<p>5.reverse 可以反转</p>
-<h2 id="4-从源码出发（进阶）吊打面试官"><a href="#4-从源码出发（进阶）吊打面试官" class="headerlink" title="4.从源码出发（进阶）吊打面试官"></a>4.从源码出发（进阶）吊打面试官</h2><p>stringbuffer和stringbuild区别<br>1、StringBuffer 与 StringBuilder 是长度可变得。<br>2、只是StringBuffer 中的方法大都采用了 synchronized 关键字进行修饰，因此是线程安全的，而 StringBuilder 没有这个修饰，可以被认为是线程不安全的。<br>3、在单线程程序下，StringBuilder效率更快，因为它不需要加锁，不具备多线程安全。而StringBuffer则每次都需要判断锁，效率相对更低。</p>
-<p>public final class String implements java.io.Serializable, Comparable<String>, CharSequence {<br>    &#x2F;** The value is used for character storage. *&#x2F;<br>    private final char value[];</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** Cache the hash code for the string */</span>
-<span class="token keyword">private</span> <span class="token keyword">int</span> hash<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// Default to 0</span>
-
-<span class="token comment" spellcheck="true">/** use serialVersionUID from JDK 1.0.2 for interoperability */</span>
-<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token operator">-</span>6849794470754667710L<span class="token punctuation">;</span>
-
- <span class="token keyword">public</span> <span class="token function">String</span><span class="token punctuation">(</span><span class="token keyword">char</span> value<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> offset<span class="token punctuation">,</span> <span class="token keyword">int</span> count<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>offset<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>count <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">&lt;=</span> value<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">.</span>value<span class="token punctuation">;</span>
-            <span class="token keyword">return</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">// Note: offset or count might be near -1>>>1.</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span>offset <span class="token operator">></span> value<span class="token punctuation">.</span>length <span class="token operator">-</span> count<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>offset <span class="token operator">+</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">copyOfRange</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> offset<span class="token punctuation">,</span> offset<span class="token operator">+</span>count<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>一个被final关键字修饰的char[]数组，所以实现细节上也是不允许改变，这就是String类的Immutable（不可变）属性(你知道String类为什么不能被继承吗？)，导致每次对String的操作都会生成新的String对象导致每次对String的操作都会生成新的String对象，这样不仅效率低下，而且大量浪费有限的内存空间。<br>2、StringBuffer和StringBuild</p>
-<p>public final class StringBuilder    extends AbstractStringBuilder    implements java.io.Serializable, CharSequence {}</p>
-<p>public final class StringBuffer    extends AbstractStringBuilder    implements java.io.Serializable, CharSequence {}</p>
-<pre class="line-numbers language-java"><code class="language-java">
-
-<span class="token keyword">public</span> <span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">String</span>
-    <span class="token keyword">implements</span> <span class="token class-name">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span>Serializable</span><span class="token punctuation">,</span> Comparable<span class="token operator">&lt;</span>String<span class="token operator">></span><span class="token punctuation">,</span> CharSequence <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/** The value is used for character storage. */</span>
-
-<span class="token comment" spellcheck="true">//final修饰的char数组</span>
-<span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">char</span> value<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+                <h1 id="sqoop"><a href="#sqoop" class="headerlink" title="sqoop"></a>sqoop</h1><p>Apache Sqoop(TM) 是一种工具，设计用于在 <a target="_blank" rel="noopener" href="http://hadoop.apache.org/">Apache Hadoop</a>和结构化数据存储（如关系数据库）之间高效传输批量数据。</p>
+<p>Sqoop是一款开源的工具，主要用于在Hadoop(Hive)与传统的数据库(mysql、postgresql…)间进行数据的传递，可以将一个关系型数据库（例如 ： MySQL ,Oracle ,Postgres等）中的数据导进到Hadoop的HDFS中，也可以将HDFS的数据导进到关系型数据库中。</p>
+<h1 id="一、sqoop的安装"><a href="#一、sqoop的安装" class="headerlink" title="一、sqoop的安装"></a>一、sqoop的安装</h1><p>下载地址:<a target="_blank" rel="noopener" href="http://archive.apache.org/dist/sqoop/1.4.7/">http://archive.apache.org/dist/sqoop/1.4.7/</a></p>
+<p>官方文档:<a target="_blank" rel="noopener" href="https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_introduction">https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_introduction</a></p>
+<p>1.4.7版本支持hadoop2.6及以上的版本 </p>
+<p><strong>部署环境</strong>：hadoop3.0x mysql5.7.29</p>
+<p><strong>需要的驱动</strong>：mysql-connector-java-8.0.23.jar （5.0x版本会报错）</p>
+<h4 id="1-解压对应的包到指定目录"><a href="#1-解压对应的包到指定目录" class="headerlink" title="1.解压对应的包到指定目录"></a>1.解压对应的包到指定目录</h4><p>$ tar -zxvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz -C &#x2F;opt&#x2F;module&#x2F;</p>
+<h4 id="2-重命名配置文件"><a href="#2-重命名配置文件" class="headerlink" title="2.重命名配置文件"></a>2.重命名配置文件</h4><p>mv sqoop-env-template.sh sqoop-env.sh</p>
+<h4 id="3-修改配置文件"><a href="#3-修改配置文件" class="headerlink" title="3.修改配置文件"></a>3.修改配置文件</h4><p>export HADOOP_COMMON_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hadoop-3.1.3</p>
+<p>export HADOOP_MAPRED_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hadoop-3.1.3</p>
+<p>export HIVE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hive</p>
+<p>export ZOOKEEPER_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;zookeeper-3.5.7</p>
+<p>export ZOOCFGDIR&#x3D;&#x2F;opt&#x2F;module&#x2F;zookeeper-3.5.7</p>
+<p>export HBASE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hbase-2.1.0</p>
+<h4 id="4-拷贝jdbc驱动"><a href="#4-拷贝jdbc驱动" class="headerlink" title="4.拷贝jdbc驱动"></a>4.拷贝jdbc驱动</h4><p>cp mysql-connector-java-8.0.23.jar &#x2F;opt&#x2F;module&#x2F;sqoop&#x2F;lib&#x2F;</p>
+<h4 id="5-验证Sqoop"><a href="#5-验证Sqoop" class="headerlink" title="5.验证Sqoop"></a>5.验证Sqoop</h4><p>bin&#x2F;sqoop help</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531163501934.png"></p>
+<h4 id="6-验证是否可以连接数据库"><a href="#6-验证是否可以连接数据库" class="headerlink" title="6.验证是否可以连接数据库"></a>6.验证是否可以连接数据库</h4><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531163614604.png"></p>
+<h4 id="7-配置HIVE相关参数（可选）"><a href="#7-配置HIVE相关参数（可选）" class="headerlink" title="7.配置HIVE相关参数（可选）"></a>7.配置HIVE相关参数（可选）</h4><p>修改环境变量  配置hive相关参数</p>
+<p>#HIVE<br>export HIVE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hive<br>export PATH&#x3D;$PATH:$HIVE_HOME&#x2F;bin<br>export HIVE_CONF_DIR&#x3D;$HIVE_HOME&#x2F;conf</p>
+<h1 id="二、Sqoop的快速上手"><a href="#二、Sqoop的快速上手" class="headerlink" title="二、Sqoop的快速上手"></a>二、Sqoop的快速上手</h1><p>参数介绍</p>
+<p><strong>公用参数：数据库连接</strong></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164514437.png" alt="1"><strong>公用参数：import</strong></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164541462.png" alt="2"><strong>公用参数：export</strong></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164607565.png" alt="3"><strong>公用参数：hive</strong></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164642597.png"></p>
+<p><strong>其余参数：</strong></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164713135.png"></p>
+<h4 id="2-1全表导入"><a href="#2-1全表导入" class="headerlink" title="2.1全表导入"></a>2.1全表导入</h4><p>mysql密码要保证正确  集群已启动</p>
+<pre class="line-numbers language-sql"><code class="language-sql"> bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \
+<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span>
+<span class="token comment" spellcheck="true">--username root \</span>
+<span class="token comment" spellcheck="true">--password hadoop \</span>
+<span class="token comment" spellcheck="true">--table staff \</span>
+<span class="token comment" spellcheck="true">--target-dir /opt/spw \</span>
+<span class="token comment" spellcheck="true">--num-mappers 1 \</span>
+<span class="token comment" spellcheck="true">--fields-terminated-by "\t"</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">AbstractStringBuilder</span> <span class="token keyword">implements</span> <span class="token class-name">Appendable</span><span class="token punctuation">,</span> CharSequence <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/**
-     * The value is used for character storage.
-     */</span>
-    <span class="token comment" spellcheck="true">//stringbuilder和stringbuffer都继承了AbstractStringBuilder 但AbstractStringBuilder 中的     </span>
-<span class="token comment" spellcheck="true">//char数组没有使用final修饰，这就是为什么string是不可变，但stringbuffer和stringbuilder是可变的</span>
-    <span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> value<span class="token punctuation">;</span>
- 
-    <span class="token comment" spellcheck="true">/**
-     * The count is the number of characters used.
-     */</span>
-    <span class="token keyword">int</span> count<span class="token punctuation">;</span>
- 
-    <span class="token comment" spellcheck="true">/**
-     * This no-arg constructor is necessary for serialization of subclasses.
-     */</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>通过Stringbuffer和Stringbuilder的源码和类结构图，可以发现Stringbuilder和Stringbuffer都是继承了abstractStringbuilder这个抽象类，然后实现了Serializable, CharSequence接口。其次Stringbuilder和Stringbuffer的内部实现其实跟String是一样的，都是通过一个char类型的数组进行存储字符串的，但是是String类中的char数组是final修饰的，是不可变的，而StringBuilder和StringBuffer中的char数组没有被final修饰，是可变的。这就是StringBuilder和StringBuffer和String的区别。</p>
-<p>在多线程编程中有个概念叫原子操作，原子操作是指不会被线程调度机制打断的操作；这种操作一旦开始，就一直运行到结束，中间不会有切换到任何的一个其他的线程）。上述代码中的count+&#x3D;len就不是一个原子操作，它等同于count&#x3D;count+len，比如在上诉代码中，执行到count的值为99998的时候，新建一个len长度为1，但是当有两个线程同时执行到了count+&#x3D;len的时候，他们的count的值都是99998，然后分别各自都执行了count+&#x3D;len，则执行完之后的值都是99999，然后将值赋给count，则count最后的结果是99999，不是正确的100000，所以在多线程中执行stringbuilder的值始终会小于正确的结果。但是StringBuilder和stringbuffer都是继承了abstractstringbuilder为什么结果不一样呢。既然abstractstringbuilder中的append方法肯定都是一样的,再来看看stringbuffer中的</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
-    <span class="token comment" spellcheck="true">//append操作被synchronized 关键字修饰了</span>
-    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> StringBuffer <span class="token function">append</span><span class="token punctuation">(</span>Object obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        toStringCache <span class="token operator">=</span> null<span class="token punctuation">;</span>
-        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>String<span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token annotation punctuation">@Override</span>
-   <span class="token comment" spellcheck="true">//append操作被synchronized 关键字修饰了</span>
-    <span class="token keyword">public</span> <span class="token keyword">synchronized</span> StringBuffer <span class="token function">append</span><span class="token punctuation">(</span>String str<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        toStringCache <span class="token operator">=</span> null<span class="token punctuation">;</span>
-        <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>可以发现stringbuffer中的append操作被synchronized关键字修饰了。这个关键字肯定不会陌生，主要用来保证多线程中的线程同步和保证数据的准确性。所以再多线程中使用stringbuffer是线程安全的。在AbstractStringBuilder的append方法中有这样的两个个操作:</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token function">ensureCapacityInternal</span><span class="token punctuation">(</span>count <span class="token operator">+</span> len<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment" spellcheck="true">//1</span>
-str<span class="token punctuation">.</span><span class="token function">getChars</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> len<span class="token punctuation">,</span> value<span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment" spellcheck="true">//2</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>转到第一个操作方法的源码，可以发现这是一个是检查StringBuilder对象的原数组的大小是否能装下新的字符串的方法，如果装不下了就new一个新的数组，新的数组的容量是原来char数组的两倍，再通过CopyOf()方法将原数组的内容复制到新数组。</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
-     * For positive values of {@code minimumCapacity}, this method
-     * behaves like {@code ensureCapacity}, however it is never
-     * synchronized.
-     * If {@code minimumCapacity} is non positive due to numeric
-     * overflow, this method throws {@code OutOfMemoryError}.
-     */</span>
-    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">ensureCapacityInternal</span><span class="token punctuation">(</span><span class="token keyword">int</span> minimumCapacity<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">// overflow-conscious code</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>minimumCapacity <span class="token operator">-</span> value<span class="token punctuation">.</span>length <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            value <span class="token operator">=</span> Arrays<span class="token punctuation">.</span><span class="token function">copyOf</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span>
-                    <span class="token function">newCapacity</span><span class="token punctuation">(</span>minimumCapacity<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>然后第二步操作是将String对象里面char数组里面的内容拷贝到StringBuilder对象的char数组里面。getchars源码如下：</p>
-<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">getChars</span><span class="token punctuation">(</span><span class="token keyword">int</span> srcBegin<span class="token punctuation">,</span> <span class="token keyword">int</span> srcEnd<span class="token punctuation">,</span> <span class="token keyword">char</span> dst<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">int</span> dstBegin<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-<span class="token comment" spellcheck="true">//1       </span>
- <span class="token keyword">if</span> <span class="token punctuation">(</span>srcBegin <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>srcBegin<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//2   </span>
-     <span class="token keyword">if</span> <span class="token punctuation">(</span>srcEnd <span class="token operator">></span> value<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>srcEnd<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">//3   </span>
-     <span class="token keyword">if</span> <span class="token punctuation">(</span>srcBegin <span class="token operator">></span> srcEnd<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">StringIndexOutOfBoundsException</span><span class="token punctuation">(</span>srcEnd <span class="token operator">-</span> srcBegin<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        System<span class="token punctuation">.</span><span class="token function">arraycopy</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> srcBegin<span class="token punctuation">,</span> dst<span class="token punctuation">,</span> dstBegin<span class="token punctuation">,</span> srcEnd <span class="token operator">-</span> srcBegin<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>可以看到原来在这里会抛出StringIndexOutOfBoundsException的异常。假设前面的代码中有两个线程a和线程b同时执行了append方法，并且都执行完了ensureCapacityInternal()方法，这个时候count的值为99997，如果当线程a执行完了，则轮到线程2继续执行，线程b执行完了append方法之后，count变成了99998，这个时候如果线程a执行到了上面的getchars方法的时候线程a得到的count的值就是99998了，而它本来的值应该是99997，所以在这个时候就会抛出ArrayIndexOutOfBoundsException的异常了。</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164129423.png"></p>
+<h4 id="2-2查询导入"><a href="#2-2查询导入" class="headerlink" title="2.2查询导入"></a>2.2查询导入</h4><pre class="line-numbers language-sql"><code class="language-sql">bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \
+<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span>
+<span class="token comment" spellcheck="true">--username root \</span>
+<span class="token comment" spellcheck="true">--password hadoop \</span>
+<span class="token comment" spellcheck="true">--target-dir /user/company1 \</span>
+<span class="token comment" spellcheck="true">--num-mappers 1 \</span>
+<span class="token comment" spellcheck="true">--fields-terminated-by "\t" \</span>
+<span class="token comment" spellcheck="true">--query "select name,sex from staff where id = 1 and \$CONDITIONS;" </span>
+<span class="token punctuation">(</span>反斜杠 不用加表<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2-3导入指定的列"><a href="#2-3导入指定的列" class="headerlink" title="2.3导入指定的列"></a>2.3导入指定的列</h4><pre class="line-numbers language-sql"><code class="language-sql">bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \
+<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span>
+<span class="token comment" spellcheck="true">--username root \</span>
+<span class="token comment" spellcheck="true">--password hadoop \</span>
+<span class="token comment" spellcheck="true">--target-dir /user/company \</span>
+<span class="token comment" spellcheck="true">--delete-target-dir \</span>
+<span class="token comment" spellcheck="true">--num-mappers 1 \</span>
+<span class="token comment" spellcheck="true">--fields-terminated-by "\t" \</span>
+<span class="token comment" spellcheck="true">--columns id,sex \</span>
+<span class="token comment" spellcheck="true">--table staff</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="2-4导入至hive"><a href="#2-4导入至hive" class="headerlink" title="2.4导入至hive"></a>2.4导入至hive</h4><pre class="line-numbers language-sql"><code class="language-sql">bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \
+<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span>
+<span class="token comment" spellcheck="true">--username root \</span>
+<span class="token comment" spellcheck="true">--password hadoop \</span>
+<span class="token comment" spellcheck="true">--table staff \</span>
+<span class="token comment" spellcheck="true">--num-mappers 1 \</span>
+<span class="token comment" spellcheck="true">--hive-import \</span>
+<span class="token comment" spellcheck="true">--fields-terminated-by "\t" \</span>
+<span class="token comment" spellcheck="true">--hive-overwrite \</span>
+<span class="token comment" spellcheck="true">--hive-database itheima \</span>
+<span class="token comment" spellcheck="true">--hive-table staff_hive</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
                 
             </div>
@@ -660,7 +571,7 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/">https://kkl-opp.github.io/2022/03/30/%E5%85%B3%E4%BA%8EStringBuider%E7%9A%84%E4%BD%BF%E7%94%A8/</a>
+                    <a href="https://kkl-opp.github.io/2022/05/31/sqoop%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/">https://kkl-opp.github.io/2022/05/31/sqoop%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -698,8 +609,8 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/JAVA/">
-                                    <span class="chip bg-color">JAVA</span>
+                                <a href="/tags/sqoop/">
+                                    <span class="chip bg-color">sqoop</span>
                                 </a>
                             
                         </div>
@@ -1013,17 +924,18 @@ str<span class="token punctuation">.</span><span class="token function">getChars
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/03/31/Scala%E4%B8%AD%E7%9A%84Map%E9%9B%86%E5%90%88/">
+                <a href="/2022/05/31/sqoop%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Scala中的Map集合">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="sqoop的配置和使用">
                         
-                        <span class="card-title">Scala中的Map集合</span>
+                        <span class="card-title">sqoop的配置和使用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1033,22 +945,27 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-03-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-31
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            liming
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
+                                    大数据生态圈
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/scala/">
-                        <span class="chip bg-color">scala</span>
+                    <a href="/tags/sqoop/">
+                        <span class="chip bg-color">sqoop</span>
                     </a>
                     
                 </div>
@@ -1062,13 +979,13 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/03/27/%E6%90%AD%E5%BB%BAmybatis%E6%8C%87%E5%8D%97/">
+                <a href="/2022/05/26/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98-%E5%9B%9E%E6%BA%AF%E6%B3%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="搭建mybatis指南">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="背包问题-回溯法">
                         
-                        <span class="card-title">搭建mybatis指南</span>
+                        <span class="card-title">背包问题-回溯法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1079,16 +996,12 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-26
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/ORM/" class="post-category">
-                                    ORM
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            liming
                             
                         </span>
                     </div>
@@ -1096,8 +1009,8 @@ str<span class="token punctuation">.</span><span class="token function">getChars
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/mybatis/">
-                        <span class="chip bg-color">mybatis</span>
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
                 </div>
