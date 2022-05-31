@@ -474,7 +474,7 @@ Sqoop是一款开源的工具，主要用于在Hadoop(Hive)与传统的数据库
             <div id="articleContent">
                 <h1 id="sqoop"><a href="#sqoop" class="headerlink" title="sqoop"></a>sqoop</h1><p>Apache Sqoop(TM) 是一种工具，设计用于在 <a target="_blank" rel="noopener" href="http://hadoop.apache.org/">Apache Hadoop</a>和结构化数据存储（如关系数据库）之间高效传输批量数据。</p>
 <p>Sqoop是一款开源的工具，主要用于在Hadoop(Hive)与传统的数据库(mysql、postgresql…)间进行数据的传递，可以将一个关系型数据库（例如 ： MySQL ,Oracle ,Postgres等）中的数据导进到Hadoop的HDFS中，也可以将HDFS的数据导进到关系型数据库中。</p>
-<h1 id="一、sqoop的安装"><a href="#一、sqoop的安装" class="headerlink" title="一、sqoop的安装"></a>一、sqoop的安装</h1><p>下载地址:<a target="_blank" rel="noopener" href="http://archive.apache.org/dist/sqoop/1.4.7/">http://archive.apache.org/dist/sqoop/1.4.7/</a></p>
+<h2 id="一、sqoop的安装"><a href="#一、sqoop的安装" class="headerlink" title="一、sqoop的安装"></a>一、sqoop的安装</h2><p>下载地址:<a target="_blank" rel="noopener" href="http://archive.apache.org/dist/sqoop/1.4.7/">http://archive.apache.org/dist/sqoop/1.4.7/</a></p>
 <p>官方文档:<a target="_blank" rel="noopener" href="https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_introduction">https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_introduction</a></p>
 <p>1.4.7版本支持hadoop2.6及以上的版本 </p>
 <p><strong>部署环境</strong>：hadoop3.0x mysql5.7.29</p>
@@ -493,7 +493,7 @@ Sqoop是一款开源的工具，主要用于在Hadoop(Hive)与传统的数据库
 <h4 id="6-验证是否可以连接数据库"><a href="#6-验证是否可以连接数据库" class="headerlink" title="6.验证是否可以连接数据库"></a>6.验证是否可以连接数据库</h4><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531163614604.png"></p>
 <h4 id="7-配置HIVE相关参数（可选）"><a href="#7-配置HIVE相关参数（可选）" class="headerlink" title="7.配置HIVE相关参数（可选）"></a>7.配置HIVE相关参数（可选）</h4><p>修改环境变量  配置hive相关参数</p>
 <p>#HIVE<br>export HIVE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hive<br>export PATH&#x3D;$PATH:$HIVE_HOME&#x2F;bin<br>export HIVE_CONF_DIR&#x3D;$HIVE_HOME&#x2F;conf</p>
-<h1 id="二、Sqoop的快速上手"><a href="#二、Sqoop的快速上手" class="headerlink" title="二、Sqoop的快速上手"></a>二、Sqoop的快速上手</h1><p>参数介绍</p>
+<h2 id="二、Sqoop的快速上手"><a href="#二、Sqoop的快速上手" class="headerlink" title="二、Sqoop的快速上手"></a>二、Sqoop的快速上手</h2><p>参数介绍</p>
 <p><strong>公用参数：数据库连接</strong></p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164514437.png"><strong>公用参数：import</strong></p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164541462.png"><strong>公用参数：export</strong></p>
