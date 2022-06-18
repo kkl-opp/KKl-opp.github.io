@@ -504,33 +504,11 @@ SHOW VARIABLES LIKE ‘datadir’;
 <p>MySQL8.0 中 b.xxx.sdi ：描述表结构文件，字段长度等</p>
 <p>b.MYD (MYData)：数据信息文件，存储数据信息(如果采用独立表存储模式)</p>
 <p>b.MYI (MYIndex)：存放索引信息文件</p>
-<h2 id="4-共享表空间和独立表空间的优缺点"><a href="#4-共享表空间和独立表空间的优缺点" class="headerlink" title="4.共享表空间和独立表空间的优缺点"></a>4.共享表空间和独立表空间的优缺点</h2><pre class="line-numbers language-Plain"><code class="language-Plain">共享表空间
-Innodb的所有数据保存在一个单独的表空间里面，共享表空间可以由多个文件组成，当表使用共享表空间时，表数据可以分布在多个文件中，从而不受Innodb单表不超过64TB的限制。
-默认的共享表空间的文件路径在data目录下，默认文件名为ibdata1，初始化为10M。
-
-优点：
-可以放表空间分成多个文件存放到各个磁盘上，没有单表不超过64TB的限制。
-
-缺点：
-由于多表共用一个共享表空间，当某些表进行大量删除后，共享表空间存在大量碎片，但MySQL暂未提供对共享表空间收缩的方法。
-表空间中的空间只能被这个表使用
-fsync操作必须在每个表上都运行一遍
-mysqld必须保持一个打开的文件句柄，表太多会影响性能。(消耗很多 fd)
-
-通过innodb_file_per_table参数将innodb表的数据和索引存放到其自己的表空间中，不再使用共享表空间，独立表空间的默认目录为innodb_data_file
-独立表空间
-优点：
-1、 每个表有自己独立的表空间，数据和索引存放到其独立的表空间中。
-2、可以轻松实现表在不同数据库之间移动
-3、DROP TABLE后，表使用的空间立即被释放
-4、当表中数据被大量删除后，可以使用alter table TableName engine=innodb;来进行收缩
-5、表空间存在碎片时不会影响其他表的使用。
-
-缺点：
-1、使用独立表空间后，无法再将表数据分散到不同的多个文件中，如果单个存储无法提供该表所需的全部空间时，无法通过增加新存储来解决
-2、innodb_file_per_table开启后，不会影响已经使用共享表空间的表。
-3、单表数据较大时，导致其对于的数据文件过大而不利于维护
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="4-共享表空间和独立表空间的优缺点"><a href="#4-共享表空间和独立表空间的优缺点" class="headerlink" title="4.共享表空间和独立表空间的优缺点"></a>4.共享表空间和独立表空间的优缺点</h2><p>共享表空间<br>Innodb的所有数据保存在一个单独的表空间里面，共享表空间可以由多个文件组成，当表使用共享表空间时，表数据可以分布在多个文件中，从而不受Innodb单表不超过64TB的限制。<br>默认的共享表空间的文件路径在data目录下，默认文件名为ibdata1，初始化为10M。</p>
+<p>优点：<br>可以放表空间分成多个文件存放到各个磁盘上，没有单表不超过64TB的限制。</p>
+<p>缺点：<br>由于多表共用一个共享表空间，当某些表进行大量删除后，共享表空间存在大量碎片，但MySQL暂未提供对共享表空间收缩的方法。<br>表空间中的空间只能被这个表使用<br>fsync操作必须在每个表上都运行一遍<br>mysqld必须保持一个打开的文件句柄，表太多会影响性能。(消耗很多 fd)</p>
+<p>通过innodb_file_per_table参数将innodb表的数据和索引存放到其自己的表空间中，不再使用共享表空间，独立表空间的默认目录为innodb_data_file<br>独立表空间<br>优点：<br>1、 每个表有自己独立的表空间，数据和索引存放到其独立的表空间中。<br>2、可以轻松实现表在不同数据库之间移动<br>3、DROP TABLE后，表使用的空间立即被释放<br>4、当表中数据被大量删除后，可以使用alter table TableName engine&#x3D;innodb;来进行收缩<br>5、表空间存在碎片时不会影响其他表的使用。</p>
+<p>缺点：<br>1、使用独立表空间后，无法再将表数据分散到不同的多个文件中，如果单个存储无法提供该表所需的全部空间时，无法通过增加新存储来解决<br>2、innodb_file_per_table开启后，不会影响已经使用共享表空间的表。<br>3、单表数据较大时，导致其对于的数据文件过大而不利于维护</p>
 <h5 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h5><p>系统表空间<br>使用系统表空间的话，会在该表所在数据库对应的子目录下创建一个名为”表名.frm”的文件，表中的数据会存储在对应的文件中。</p>
 <p>独立表空间<br>会在该表所在数据库对应的子目录下创建一个名为”表名.frm”和一个名为”表名.ibd”的文件，表中的数据会存储在这个ibd的文件中。8.0只有ibd 默认独立</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/SUDMhXOXWIhr6oebk0RvPtICdaepVV4TXzA7J77UACs.png"></p>
