@@ -455,7 +455,7 @@ SHOW VARIABLES LIKE ‘datadir’;
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    8 分
+                    7 分
                 </div>
                 
 
@@ -482,7 +482,7 @@ SHOW VARIABLES LIKE ‘datadir’;
 <h3 id="1-独立表空间"><a href="#1-独立表空间" class="headerlink" title="1. 独立表空间"></a>1. 独立表空间</h3><p>底层的存储是怎么存储的？那么多表mysql是如何管理和维护数据和索引的？那么要搞清楚这个概念，你需要知道的是表空间的相关知识。</p>
 <p>对于 InnoDB 存储引擎，它可以将每张表存放于独立的表空间（1-&gt;1），即 <code>tablename.ibd</code> 文件；也可以将数据存放于 <code>ibdata</code> 的共享表空间，一般命名是 <code>ibdataX</code>，后面的 X 是一个具体的数字。</p>
 <ul>
-<li><strong>需要注意的是，**<strong>innodb_file_per_table</strong></strong> 要在创建表之前修改，创建表之后再去修改，是不会影响已有的表结构的。**</li>
+<li><strong>需要注意的是，**<strong>innodb_file_per_table</strong></strong> 要在创建表之前修改，创建表之后再去修改，是不会影响已有的表结构。**</li>
 <li>每张表的数据和索引都会存储在自己的表空间中。</li>
 </ul>
 <ol>
@@ -490,11 +490,7 @@ SHOW VARIABLES LIKE ‘datadir’;
 <li>空间可以回收（通过 optimize table 等命令实现）。</li>
 </ol>
 <h2 id="2-系统表空间"><a href="#2-系统表空间" class="headerlink" title="2.系统表空间"></a>2.系统表空间</h2><p>默认情况下，InnoDB会在数据目录下创建一个名为 ibdata1 、大小为 12M 的文件，这个文件就是对应</p>
-<p>的 系统表空间 在文件系统上的表示。怎么才12M？注意这个文件是 自扩展文件 ，当不够用的时候它会自</p>
-<p>己增加文件大小。</p>
-<p>当然，如果你想让系统表空间对应文件系统上多个实际文件，或者仅仅觉得原来的 ibdata1 这个文件名</p>
-<p>难听，那可以在MySQL启动时配置对应的文件路径以及它们的大小，比如我们这样修改一下my.cnf 配置</p>
-<p>文件：</p>
+<p>的 系统表空间 在文件系统上的表示。怎么才12M？注意这个文件是 自扩展文件 ，当不够用的时候它会自己增加文件大小。</p>
 <h2 id="3-版本变动"><a href="#3-版本变动" class="headerlink" title="3.版本变动"></a>3.版本变动</h2><p>在MySQL5.6.6以及之后的版本中，innodb为每一个表建立一个独立表空间 ，也就是说我们创建了多少个表，就有多少个独立表空间。使用 独立表空间 来存储表数据的话，会在该表所属数据库对应的子目录下创建一个表示该独立表空间的文件，文件名和表名相同，只不过添加了一个 .ibd 的扩展名而已。</p>
 <p>MySQL5.7 中会在data&#x2F;a的目录下生成 db.opt 文件用于保存数据库的相关配置</p>
 <p>在8.0中 frm 和 ibd -&gt; ibd  db.opt也不再提供</p>
@@ -1160,7 +1156,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">25.5k</span>
+                        class="white-color">25.4k</span>
             
             
             
