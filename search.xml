@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>mysql的锁机制</title>
+      <link href="/2022/07/06/mysql%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/"/>
+      <url>/2022/07/06/mysql%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/</url>
+      
+        <content type="html"><![CDATA[<h1 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h1><p>并发事务访问，分为以下几种期刊</p><p>1.读-读 允许</p><p>2.写-写 对相同的数据进行写入 可能出现脏写</p><p>一条事务加一个锁？ 三个事务开三把锁 等待执行</p><p>is_waitting 如果为true 就让下一个事务等它执行完再继续执行操作。</p><p>3.读-写</p><p>脏读，不可重复读，幻读</p><p>脏读</p><p>指事务A读取到了事务B更新了但是未提交的数据，然后事务B由于某种错误发生回滚，那么事务A读取到的就是脏数据。</p><p><strong>举个例子</strong> </p><p>我查要这个人的salary原本应该是10000，记为线程A(read)，另一个线程B（write)在这个线程A之前 把salary修改了5000，此时事务还未提交，还没来得及进行回滚，然后我就查到了线程B的数据 5000。 结果线程B内部错误，导致整个事务回滚，回溯到10000。线程A继续执行命令 将这个人的脏读的salary加上10000</p><p>脏读的数据：5000+10000</p><p>实际的应该的数据：10000+10000</p><p>不可重复读</p><p>两次读发现结果不一样。线程A最开始查一次 中间插进来一个线程B 直接把你查的东西改掉，可能是木马病毒，导致你这个任务最后再读的时候发现这个查的和第一次不一样。</p><p>幻读：</p><p>两次读发现结果多了几条。直接将你查的东西数据乱插入几条。导致你这个任务最后再读的时候发现这个查的和第一次不一样。</p><p>并发问题解决方案1：MVCC </p><p>MVCC生成一个ReadView 读操作只能查到ReadView生成之前已提交事务所做的更改 未提交的事务都是看不到的，写操作枷锁</p><p>ReadView的存在保证了事务不可以读取到未提交的事务所做的更改。</p><p>并发问题解决方案2：读写都加锁</p><p>性能：w，r 彼此不冲突。MVCC方案效率高</p><p>MYSQL:</p><p>1.对数据的操作类型进行划分</p><p>读锁&#x2F;写锁 通常被称为共享锁&#x2F;排他锁 S锁 X锁</p><p>旧版本加S锁 SELECT….. LOCK IN SHARE MODE</p><p>8.0       FOR SHARE</p><p>X锁 FOR UPDATE</p><h2 id="1-表锁"><a href="#1-表锁" class="headerlink" title="1.表锁"></a>1.表锁</h2><p>S锁  X锁</p><p>对某个表进行增删改查的时候 innodb存储引擎是不会为这个表上锁的</p><p>当如果在其他线程中又想来执行DDL语句也会发生阻塞 SELECT、INSERT、DELETE、UPDATE</p><p>也会统统阻塞</p><p>LOCK TABLES t READ ：InnoDB存储引擎会对表 t 加表级别的 S锁 。 </p><p>LOCK TABLES t WRITE ：InnoDB存储引擎会对表 t 加表级别的 X锁 。</p><p>InnoDB的厉害之处还是实现了更细粒度的 行锁 表锁不推荐使用</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/025sn2_SetwD85riH8hH7FYo2_u46cCMjweYHqtfi48.png" alt="img"></p><p>Innodb支持多粒度锁，允许行锁和表锁共存，意向锁就是其中的一种</p><h4 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h4><p>意义： </p><p>当我们向一张表加入表级锁的时候，这时候我们必须去表中每一行去遍历，看看对应的行是否已经用到对应的锁，这时候如果数据库中的数据海量的话，想要完成这个认为的难度就非常的大，难道没有一个好的方法？</p><p>如果另一个任务试图在该表级别上应用共享或排它锁，则受到由第一个任务控制的表级别意向锁的阻塞。第二个任务在锁定该表前不必检查各个页或行锁，而只需检查表上的意向锁。</p><p>意向共享锁（intention shared lock, IS）：事务有意向对表中的某些行加共享锁（S锁）</p><p>SELECT column FROM table … FOR UPDATE;</p><p>意向排他锁（intention exclusive lock, IX）：事务有意向对表中的某些行加排他锁（X锁）</p><p>SELECT column FROM table … FOR UPDATE;</p><p>DBA对某行上X锁 那么InooDB就会为这个表上IX锁 </p><p>由于意向锁是由InooDB维护的，我们并不能去更改它</p><p>并发性：</p><p>意向锁不会与行级的共享 &#x2F; 排他锁互斥！正因为如此，意向锁并不会影响到多个事务对不同数据行加排 他锁时的并发性。</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/lcM5HW2AMERlh9pf97RN1dPFryG11KHGsCexUXhk0Yw.png" alt="img"></p><p>从上图我们可以看见</p><p>提示：如果我们对表加锁，机器是不知道你哪行是上了锁的 ！！它只能从头到尾遍历 效率极低</p><p>才引出意向锁</p><p>第一种情况 事务A 查询id &#x3D;5 并上S锁。事务B 也查询id&#x3D;6 并上X锁 是被允许的</p><p>(X1) IX  (X2) IX 都不冲突</p><p>那么事务A、B同时修改你这条记录呢？ 那么就跟你这个意向锁没什么关系 直接被行X锁 X锁之间阻塞了</p><p>第二种情况流程：<br>事务A在执行 对某行进行查询并上了X锁 默认表就会有一个意向排他锁IX  </p><p>事务B插进来 想要将表上X锁 首先它要拿到这个表的IX锁 才可以上锁</p><p>但是IX锁还在事务A中 事务B就抢不过来 就没有权限，直接阻塞。</p><p>等你A执行完 然后执行B </p><p>commit提交后事务结束 就释放这个锁</p><h4 id="自增锁"><a href="#自增锁" class="headerlink" title="自增锁"></a>自增锁</h4><p>插入数据的三种模式</p><p>简单操作</p><p>AUTO-INC:就是可以不用对其进行赋值操作 自增</p><ol><li><p>“Simple inserts” （简单插入） 可以 预先确定要插入的行数 （当语句被初始处理时）的语句。包括没有嵌套子查询的单行和多行 INSERT…VALUES() 和 REPLACE 语句。比如我们上面举的例子就属于该类插入，已经确定要插入的行 数。</p></li><li><p>“Bulk inserts” （批量插入） 事先不知道要插入的行数 （和所需自动递增值的数量）的语句。比如 INSERT … SELECT ， REPLACE … SELECT 和 LOAD DATA 语句，但不包括纯INSERT。 InnoDB在每处理一行，为AUTO_INCREMENT列 分配一个新值。</p></li><li><p>“Mixed-mode inserts” （混合模式插入） 这些是“Simple inserts”语句但是指定部分新行的自动递增值。例如 INSERT INTO teacher (id,name) VALUES (1,’a’), (NULL,’b’), (5,’c’), (NULL,’d’); 只是指定了部分id的值。</p></li></ol><p>所有类型的insert语句都会获得一个特殊的表级AUTO-INC锁，用于插入具有 AUTO_INCREMENT列的表。这种模式其实就如我们上面的例子，即每当执行insert的时候，都会得到一个 表级锁(AUTO-INC锁)，使得语句中生成的auto_increment为顺序，且在binlog中重放的时候，可以保证 master与slave中数据的auto_increment是相同的。因为是表级锁，当在同一时间多个事务中执行insert的 时候，对于AUTO-INC锁的争夺会 限制并发 能力。 </p><p>（2）innodb_autoinc_lock_mode &#x3D; 1(“连续”锁定模式) 在 MySQL 8.0 之前，连续锁定模式是 默认 的。 在这个模式下，“bulk inserts”仍然使用AUTO-INC表级锁，并保持到语句结束。这适用于所有INSERT … SELECT，REPLACE … SELECT和LOAD DATA语句。同一时刻只有一个语句可以持有AUTO-INC锁。 对于“Simple inserts”（要插入的行数事先已知），则通过在 mutex（轻量锁） 的控制下获得所需数量的 自动递增值来避免表级AUTO-INC锁， 它只在分配过程的持续时间内保持，而不是直到语句完成。不使用 表级AUTO-INC锁，除非AUTO-INC锁由另一个事务保持。如果另一个事务保持AUTO-INC锁，则“Simple inserts”等待AUTO-INC锁，如同它是一个“bulk inserts”。</p><p> （3）innodb_autoinc_lock_mode &#x3D; 2(“交错”锁定模式) 从 MySQL 8.0 开始，交错锁模式是 默认 设置。 在此锁定模式下，自动递增值 保证 在所有并发执行的所有类型的insert语句中是 唯一 且 单调递增 的。但 是，由于多个语句可以同时生成数字（即，跨语句交叉编号），为任何给定语句插入的行生成的值可能 不是连续的。</p><p>④ 元数据锁（MDL锁）（表级别 自动的）</p><p>mysql5.5版本后</p><p>当对一个表做增删改查操作的时候，加 MDL读锁；当要对表做结构变更操作的时候，加 MDL 写 锁。</p><p>x s x x s x 互斥 排队等待</p><p>自动的加锁</p><h2 id="2-行锁"><a href="#2-行锁" class="headerlink" title="2.行锁"></a>2.行锁</h2><p>三、行级锁</p><p>行级锁，每次操作锁住对应的行数据。锁定粒度最小，发生锁冲突的概率最低，并发度最高。应用在InnoDB存储引擎中。</p><p>InnoDB的数据是基于索引组织的，行锁是通过对索引上的索引项加锁来实现的，而不是对记录加的锁。</p><p>对于行级锁，主要分为以下三类：</p><ol><li><p>行锁（Record Lock）：锁定单个行记录的锁，防止其他事务对此行进行update和delete。在RC、RR隔离级别下都支持。</p></li><li><p>间隙锁（Gap Lock）：锁定索引记录间隙（不含该记录），确保索引记录间隙不变，防止其他事务在这个间隙进行insert，产生幻读。在RR隔离级别下都支持。</p></li><li><p>临键锁（Next-Key Lock）：行锁和间隙锁组合，同时锁住数据，并锁住数据前面的间隙Gap。在RR隔离级别下支持。</p></li></ol><p>优点：锁定力度小，发生的冲突概率低，可以实现的并发度高</p><p>缺点：对于锁的开销比较大，加锁会比较慢，容易出现死锁的情况</p><p>临键锁：</p><p>临键锁可以理解为锁住的是索引本身以及索引之前的间隙，是一个左开右闭的区间。当 SQL 执行按照<strong>非唯一索引</strong>进行数据的检索时，会给匹配到行上加上临键锁。</p><p>就是说 MySQL 默认隔离级别是RR，在这种级别下，如果你使用 select in share mode 或者 select for update 语句，那么InnoDB会使用临键锁(记录锁 + 间隙锁)，因而可以防止幻读；</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> mysql </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mysql中的表空间</title>
       <link href="/2022/06/18/mysql%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/"/>
       <url>/2022/06/18/mysql%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/</url>
@@ -562,9 +587,9 @@
       
         <tags>
             
-            <tag> JAVA </tag>
-            
             <tag> 算法 </tag>
+            
+            <tag> JAVA </tag>
             
         </tags>
       
