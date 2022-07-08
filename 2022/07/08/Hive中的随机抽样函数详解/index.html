@@ -4,12 +4,11 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="mysql8.0的新特性-窗口函数, Aiplex">
-    <meta name="description" content="窗口函数1.1简介窗口函数可以分为
-静态、动态
-静态窗口函数的窗口大小是固定的, 不会因为记录的不同而不同;
-动态窗口函数的窗口大小会随着记录的不同而变化;优点：减少了重复繁琐的子查
-1.2语法结构OVER 关键字指定窗口的范围,通常配合嵌">
+    <meta name="keywords" content="Hive中的随机抽样函数详解, Aiplex">
+    <meta name="description" content="抽样函数前言
+当数据量特别大时，对全体数据进行处理存在困难时，抽样就显得尤其重要了。抽样可以从被抽取的数据中估计和推断出整体的特性，是科学实验、质量检验、社会调查普遍采用的一种经济有效的工作和研究方法。
+
+Hive提供了数据取样（SAMPL">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>mysql8.0的新特性-窗口函数 | Aiplex</title>
+    <title>Hive中的随机抽样函数详解 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -288,12 +287,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">mysql8.0的新特性-窗口函数</h1>
+                    <h1 class="description center-align post-title">Hive中的随机抽样函数详解</h1>
                 </div>
             </div>
         </div>
@@ -409,23 +408,14 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/mysql/">
-                                <span class="chip bg-color">mysql</span>
+                            <a href="/tags/HIVE/">
+                                <span class="chip bg-color">HIVE</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/mysql/" class="post-category">
-                                mysql
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -434,21 +424,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-13
+                    2022-07-08
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-06-13
+                    2022-07-08
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    680
+                    628
                 </div>
                 
 
@@ -475,32 +465,62 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="窗口函数"><a href="#窗口函数" class="headerlink" title="窗口函数"></a>窗口函数</h1><h4 id="1-1简介"><a href="#1-1简介" class="headerlink" title="1.1简介"></a>1.1简介</h4><p>窗口函数可以分为</p>
-<p><strong>静态、动态</strong></p>
-<p>静态窗口函数的窗口大小是固定的, 不会因为记录的不同而不同;</p>
-<p>动态窗口函数的窗口大小会随着记录的不同而变化;优点：减少了重复繁琐的子查</p>
-<h4 id="1-2语法结构"><a href="#1-2语法结构" class="headerlink" title="1.2语法结构"></a>1.2语法结构</h4><p>OVER 关键字指定窗口的范围,通常配合嵌套查询使用;</p>
-<pre><code>函数 OVER ([PARTITION BY 字段名 ORDER BY 字段名 ASC|DESC]
-</code></pre>
-<p><strong>窗口函数</strong> MySQL 8开始支持窗口函数。在之前的版本中已存在的大部分 聚合函数 在MySQL 8中也可以</p>
-<p>作为窗口函数来使用。学过大数据的应该都知道这玩意跟hive中的窗口函数类似，简单来说窗口函数就是不进行</p>
-<p>内部的聚合，而是将所聚合的字段的结果全部保留。刚开始理解可能有点困难，我们就根据案例来进行理解。</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220613181134589.png"></p>
-<h4 id="2-案例需求：查询每种商品分类下，价格前3大的信息"><a href="#2-案例需求：查询每种商品分类下，价格前3大的信息" class="headerlink" title="2.案例需求：查询每种商品分类下，价格前3大的信息"></a><strong>2.案例需求：查询每种商品分类下，价格前3大的信息</strong></h4><p>数据准备</p>
-<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> goods<span class="token punctuation">(</span> id <span class="token keyword">INT</span> <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token keyword">AUTO_INCREMENT</span><span class="token punctuation">,</span> category_id <span class="token keyword">INT</span><span class="token punctuation">,</span> category <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">,</span> NAME <span class="token keyword">VARCHAR</span><span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">,</span> price <span class="token keyword">DECIMAL</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">,</span> stock <span class="token keyword">INT</span><span class="token punctuation">,</span> upper_time <span class="token keyword">DATETIME</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <h1 id="抽样函数"><a href="#抽样函数" class="headerlink" title="抽样函数"></a>抽样函数</h1><p>前言</p>
+<p>当数据量特别大时，对全体数据进行处理存在困难时，抽样就显得尤其重要了。抽样可以从被抽取的数据中估计和推断出整体的特性，是科学实验、质量检验、社会调查普遍采用的一种经济有效的工作和研究方法。</p>
+<p><strong><br/></strong></p>
+<p>Hive提供了数据取样（SAMPLING）的功能，能够根据一定的规则进行数据抽样，目前支持数据块抽样，分桶抽样和随机抽样，下面结合具体例子分别学习</p>
+<h3 id="1-rand（）函数"><a href="#1-rand（）函数" class="headerlink" title="1.rand（）函数"></a>1.rand（）函数</h3><p>rand函数前的distribute和sort关键字可以保证数据在mapper和reducer阶段是随机分布的，</p>
+<p>因为order by 是全局的，所以可以做到<strong>随机抽样</strong></p>
+<p>目的:可以提供真正的随机抽样用limit限制返回的条数，但是需要在单个 reducer 中进行总排序</p>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><ul>
+<li><p>DISTRIBUTE BY rand() SORT BY rand()</p>
+</li>
+<li><p>ORDER BY rand() </p>
+</li>
+<li><p>cluster by rand()</p>
+</li>
+</ul>
+<p>但是缺点是执行效率太低了</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> student
+DISTRIBUTE <span class="token keyword">BY</span> rand<span class="token punctuation">(</span><span class="token punctuation">)</span> SORT <span class="token keyword">BY</span> rand<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">LIMIT</span> <span class="token number">2</span><span class="token punctuation">;</span>
 
-<span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> goods<span class="token punctuation">(</span>category_id<span class="token punctuation">,</span>category<span class="token punctuation">,</span>NAME<span class="token punctuation">,</span>price<span class="token punctuation">,</span>stock<span class="token punctuation">,</span>upper_time<span class="token punctuation">)</span> <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'女装/女士精品'</span><span class="token punctuation">,</span> <span class="token string">'T恤'</span><span class="token punctuation">,</span> <span class="token number">39.90</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'女装/女士精品'</span><span class="token punctuation">,</span> <span class="token string">'连衣裙'</span><span class="token punctuation">,</span> <span class="token number">79.90</span><span class="token punctuation">,</span> <span class="token number">2500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'女装/女士精品'</span><span class="token punctuation">,</span> <span class="token string">'卫衣'</span><span class="token punctuation">,</span> <span class="token number">89.90</span><span class="token punctuation">,</span> <span class="token number">1500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'女装/女士精品'</span><span class="token punctuation">,</span> <span class="token string">'牛仔裤'</span><span class="token punctuation">,</span> <span class="token number">89.90</span><span class="token punctuation">,</span> <span class="token number">3500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'女装/女士精品'</span><span class="token punctuation">,</span> <span class="token string">'百褶裙'</span><span class="token punctuation">,</span> <span class="token number">29.90</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token string">'女装/女士精品'</span><span class="token punctuation">,</span> <span class="token string">'呢绒外套'</span><span class="token punctuation">,</span> <span class="token number">399.90</span><span class="token punctuation">,</span> <span class="token number">1200</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'户外运动'</span><span class="token punctuation">,</span> <span class="token string">'自行车'</span><span class="token punctuation">,</span> <span class="token number">399.90</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'户外运动'</span><span class="token punctuation">,</span> <span class="token string">'山地自行车'</span><span class="token punctuation">,</span> <span class="token number">1399.90</span><span class="token punctuation">,</span> <span class="token number">2500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'户外运动'</span><span class="token punctuation">,</span> <span class="token string">'登山杖'</span><span class="token punctuation">,</span> <span class="token number">59.90</span><span class="token punctuation">,</span> <span class="token number">1500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'户外运动'</span><span class="token punctuation">,</span> <span class="token string">'骑行装备'</span><span class="token punctuation">,</span> <span class="token number">399.90</span><span class="token punctuation">,</span> <span class="token number">3500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'户外运动'</span><span class="token punctuation">,</span> <span class="token string">'运动外套'</span><span class="token punctuation">,</span> <span class="token number">799.90</span><span class="token punctuation">,</span> <span class="token number">500</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'户外运动'</span><span class="token punctuation">,</span> <span class="token string">'滑板'</span><span class="token punctuation">,</span> <span class="token number">499.90</span><span class="token punctuation">,</span> <span class="token number">1200</span><span class="token punctuation">,</span> <span class="token string">'2020-11-10 00:00:00'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> student
+<span class="token keyword">ORDER</span> <span class="token keyword">BY</span> rand<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">LIMIT</span> <span class="token number">2</span><span class="token punctuation">;</span>
+
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> student
+cluster <span class="token keyword">by</span>  rand<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">LIMIT</span> <span class="token number">2</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<br/>
+
+<h3 id="2-数据块取样（Block-Sampling）"><a href="#2-数据块取样（Block-Sampling）" class="headerlink" title="2.数据块取样（Block Sampling）"></a>2.<strong>数据块取样（Block Sampling）</strong></h3><p><strong>根据行，百分比，数据大小来抽</strong></p>
+<p>优点：速度快。<br>缺点：<strong>不随机</strong>，该方法实际上是按照文件中的顺序返回数据，对分区表从头开始抽取，可能造成只有前面几个分区的数据。如下：</p>
+<pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">---block抽样</span>
+
+<span class="token comment" spellcheck="true">--根据行数抽样</span>
+
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> student TABLESAMPLE<span class="token punctuation">(</span><span class="token number">1</span> <span class="token keyword">ROWS</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--根据数据大小百分比抽样</span>
+
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> student TABLESAMPLE<span class="token punctuation">(</span><span class="token number">50</span> <span class="token keyword">PERCENT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">--根据数据大小抽样</span>
+
+<span class="token comment" spellcheck="true">--支持数据单位 b/B, k/K, m/M, g/G</span>
+
+<span class="token keyword">SELECT</span> <span class="token operator">*</span> <span class="token keyword">FROM</span> student TABLESAMPLE<span class="token punctuation">(</span>1k<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<br/>
+
+<h3 id="3-分桶表取样（Sampling-Bucketized-Table）"><a href="#3-分桶表取样（Sampling-Bucketized-Table）" class="headerlink" title="3.分桶表取样（Sampling Bucketized Table）"></a>3.分桶表取样（Sampling Bucketized Table）</h3><p> 实现原理：Hive中的分桶表（Bucket Table），根据某一个字段Hash取模，放入指定数据的桶中，比如将表table1按照ID分成100个桶，其算法是hash(id) % 100，这样，hash(id) % 100 &#x3D; 0的数据被放到第一个桶中，hash(id) % 100 &#x3D; 1的记录被放到第二个桶中。</p>
+<p>优点：<strong>随机</strong>，测试发现，速度比的rand()快。</p>
+<p>不一定非要分桶表才可以实现哦</p>
+<p>该sql语句表示将表table1随机分成10个桶，抽样第一个桶的数据，出来的结果基本上是原表的十分之一，</p>
+<p>注意：这个结果每次运行是不一样的，是按照随机数进行分桶取样的</p>
+<pre class="line-numbers language-sql"><code class="language-sql">table_sample: TABLESAMPLE <span class="token punctuation">(</span>BUCKET x <span class="token keyword">OUT</span> <span class="token keyword">OF</span> y <span class="token punctuation">[</span><span class="token keyword">ON</span> colname<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token keyword">SELECT</span> <span class="token function">count</span><span class="token punctuation">(</span>county<span class="token punctuation">)</span> <span class="token keyword">FROM</span> t_usa_covid19_bucket TABLESAMPLE<span class="token punctuation">(</span>BUCKET <span class="token number">1</span> <span class="token keyword">OUT</span> <span class="token keyword">OF</span> <span class="token number">10</span> <span class="token keyword">ON</span> state<span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p>需求分析：需要根据表中category分类或者根据id分类,取每个分类中的价格前3的价格信息。考虑使用子查询或者窗口函数</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220613182339418.png"></p>
-<p>普通的嵌套查询：</p>
-<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> <span class="token punctuation">(</span><span class="token keyword">select</span> id<span class="token punctuation">,</span>category<span class="token punctuation">,</span>name<span class="token punctuation">,</span>price<span class="token punctuation">,</span>stock <span class="token keyword">from</span> goods <span class="token keyword">where</span> category_id <span class="token operator">=</span><span class="token number">1</span> <span class="token keyword">order</span> <span class="token keyword">by</span> price <span class="token keyword">desc</span> <span class="token keyword">limit</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token keyword">as</span> t
-<span class="token keyword">union</span> <span class="token keyword">all</span> <span class="token keyword">select</span> <span class="token operator">*</span><span class="token keyword">from</span> <span class="token punctuation">(</span><span class="token keyword">select</span> id<span class="token punctuation">,</span>category<span class="token punctuation">,</span>name<span class="token punctuation">,</span>price<span class="token punctuation">,</span>stock <span class="token keyword">from</span> goods <span class="token keyword">where</span> category_id <span class="token operator">=</span><span class="token number">2</span> <span class="token keyword">order</span> <span class="token keyword">by</span> price <span class="token keyword">desc</span> <span class="token keyword">limit</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token keyword">as</span> t1<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>窗口函数查询：</p>
-<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> <span class="token punctuation">(</span><span class="token keyword">select</span> row_number<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">over</span> <span class="token punctuation">(</span><span class="token keyword">PARTITION</span> <span class="token keyword">BY</span> category_id <span class="token keyword">order</span> <span class="token keyword">by</span> price <span class="token keyword">desc</span> <span class="token punctuation">)</span> <span class="token keyword">as</span> row_id<span class="token punctuation">,</span> id<span class="token punctuation">,</span>category_id<span class="token punctuation">,</span>NAME<span class="token punctuation">,</span>price<span class="token punctuation">,</span>stock <span class="token keyword">from</span> goods <span class="token punctuation">)</span> k <span class="token keyword">where</span> row_id<span class="token operator">&lt;=</span><span class="token number">3</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>相比之下，窗口函数的执行效率更高，且简洁易懂</p>
 
                 
             </div>
@@ -527,7 +547,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/06/13/mysql8-0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0/">https://kkl-opp.github.io/2022/06/13/mysql8-0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0/</a>
+                    <a href="https://kkl-opp.github.io/2022/07/08/Hive%E4%B8%AD%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%8A%BD%E6%A0%B7%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/">https://kkl-opp.github.io/2022/07/08/Hive%E4%B8%AD%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%8A%BD%E6%A0%B7%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -565,8 +585,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/mysql/">
-                                    <span class="chip bg-color">mysql</span>
+                                <a href="/tags/HIVE/">
+                                    <span class="chip bg-color">HIVE</span>
                                 </a>
                             
                         </div>
@@ -880,17 +900,18 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/06/18/mysql%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/">
+                <a href="/2022/07/08/Hive%E4%B8%AD%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%8A%BD%E6%A0%B7%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="mysql中的表空间">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Hive中的随机抽样函数详解">
                         
-                        <span class="card-title">mysql中的表空间</span>
+                        <span class="card-title">Hive中的随机抽样函数详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -900,9 +921,55 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-06-18
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            liming
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/HIVE/">
+                        <span class="chip bg-color">HIVE</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/07/06/mysql%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="mysql的锁机制">
+                        
+                        <span class="card-title">mysql的锁机制</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-07-06
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -920,55 +987,6 @@
                     
                     <a href="/tags/mysql/">
                         <span class="chip bg-color">mysql</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/05/31/sqoop%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="sqoop的配置和使用">
-                        
-                        <span class="card-title">sqoop的配置和使用</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-05-31
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
-                                    大数据生态圈
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/sqoop/">
-                        <span class="chip bg-color">sqoop</span>
                     </a>
                     
                 </div>
