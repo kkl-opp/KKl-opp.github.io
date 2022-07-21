@@ -494,7 +494,7 @@
 <p>HDFS文件系统是适合存储大文件的，很小的文件如果很多的话对于 Namenode 的压力会非常大，因为每个文件都会有一条元数据信息存储在 Namenode上， 当小文件非常多也就意味着在 Namenode上存储的元数据信息就非常多。</p>
 <p>Hadoop是适合存储大数据的，所以我们可以通过 SequenceFile 将小文件合并起来，可以获得更高效率的存储和计算。</p>
 <p>SequenceFile 中的 key 和 value 可以是任意类型的 Writable 或者自定义 Writable 类型。</p>
-<p><img src="C:/Users/lyc/Desktop/1.png"></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/pp.png"></p>
 <p><strong>适合于小量数据，但是查询列比较多的场景</strong></p>
  <br/>
 
@@ -609,8 +609,8 @@
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ul>
-<h3 id="1-1-4Parquet"><a href="#1-1-4Parquet" class="headerlink" title="1.1.4Parquet"></a>1.1.4Parquet</h3><p>Parquet是Hadoop生态圈中主流的列式存储格式，并且行业内流行这样一句话流传：如果说<br>HDFS是大数据时代文件系统的事实标准，Parquet 就是大数据时代存储格式的事实标准。Hive中<br>也同样支持使用Parquet格式来实现数据的存储，并且是工作中主要使用的存储格式之一。<br><img src="C:/Users/lyc/AppData/Roaming/Typora/typora-user-images/image-20220721162935839.png"></p>
-<p><img src="D:/pirc/aa.png"></p>
+<h3 id="1-1-4Parquet"><a href="#1-1-4Parquet" class="headerlink" title="1.1.4Parquet"></a>1.1.4Parquet</h3><p>Parquet是Hadoop生态圈中主流的列式存储格式，并且行业内流行这样一句话流传：如果说<br>HDFS是大数据时代文件系统的事实标准，Parquet 就是大数据时代存储格式的事实标准。Hive中<br>也同样支持使用Parquet格式来实现数据的存储，并且是工作中主要使用的存储格式之一。<br><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721162935839.png"></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/aa.png"></p>
 <h2 id="1-2-orc格式"><a href="#1-2-orc格式" class="headerlink" title="1.2 orc格式"></a>1.2 orc格式</h2><p><strong>ORC（OptimizedRC File）</strong>文件格式也是一种Hadoop生态圈中的<strong>列式存储</strong>格式，源自于RC（RecordColumnar File），它的产生早在2013年初，最初产生自Apache Hive，用于降低Hadoop数据存储空间和加速Hive查询速度。它并不是一个单纯的列式存储格式，仍然是首先根据行组分割整个表，在每一个行组内进行<strong>按列存储</strong>。ORC文件是自描述的，它的元数据使用Protocol Buffers序列化，并且文件中的数据尽可能的压缩以降低存储空间的消耗，目前也被Hive、Spark SQL、Presto等查询引擎支持。2015年ORC项目被Apache项目基金会提升为Apache顶级项目。</p>
 <p>ORC文件也是以二进制方式存储的，所以是不可以直接读取，ORC文件也是自解析的，它包含许多的元数据，这些元数据都是同构ProtoBuffer进行序列化的。其中涉及到如下的概念：</p>
 <p>ORC文件：保存在文件系统上的普通二进制文件，一个ORC文件中可以包含多个stripe，每一个stripe包含多条记录，这些记录按照列进行独立存储，对应到Parquet中的row group的概念。</p>
@@ -625,7 +625,7 @@
 <p>ORC格式，默认压缩（ZLIB）: 11.5 G</p>
 <p> Parquet格式，默认压缩（Snappy）：14.8 G</p>
 <p> 测试对比：复杂数据Join关联测试</p>
-<p><img src="C:/Users/lyc/AppData/Roaming/Typora/typora-user-images/image-20220721163302320.png"></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721163302320.png"></p>
 <h4 id="ORC的优点"><a href="#ORC的优点" class="headerlink" title="ORC的优点"></a><strong>ORC的优点</strong></h4><p> 列式存储，存储效率非常高</p>
 <p> 可压缩，高效的列存取</p>
 <p> 查询效率较高，支持索引</p>
@@ -637,13 +637,12 @@
 <p> 读取全量数据时性能较差</p>
  <br/>
 
-<h2 id="1-3-数据压缩"><a href="#1-3-数据压缩" class="headerlink" title="1.3 数据压缩"></a>1.3 数据压缩</h2><p><img src="C:/Users/lyc/AppData/Roaming/Typora/typora-user-images/image-20220721163406280.png"></p>
+<h2 id="1-3-数据压缩"><a href="#1-3-数据压缩" class="headerlink" title="1.3 数据压缩"></a>1.3 数据压缩</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721163406280.png"></p>
 <p>要想在Hive中使用压缩，需要对MapReduce和Hive进行相应的配置</p>
 <p>• 原始日志BZ2压缩</p>
 <p>• MR中间输出LZO压缩</p>
 <p>• 中间表SEQUENCEFILE、RCFILE格式</p>
-<p><img src="C:/Users/lyc/AppData/Roaming/Typora/typora-user-images/image-20220721164754619.png"></p>
-<h4 id="临时配置"><a href="#临时配置" class="headerlink" title="临时配置"></a>临时配置</h4><p>配置MapReduce开启输出压缩及配置压缩类型</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-202212321163406280.png"></h4><p>配置MapReduce开启输出压缩及配置压缩类型</p>
 <p>  –开启输出压缩  </p>
 <p><strong>set</strong>  mapreduce.output.fileoutputformat.compress&#x3D;<strong>true</strong>;  </p>
 <p>–配置压缩类型为Snappy   </p>
@@ -766,7 +765,7 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 </code></pre>
 <h2 id="1-6join优化"><a href="#1-6join优化" class="headerlink" title="1.6join优化"></a>1.6join优化</h2><h4 id="1-6-1-Reduce-Join"><a href="#1-6-1-Reduce-Join" class="headerlink" title="1.6.1 Reduce Join"></a>1.6.1 Reduce Join</h4><p> 应用场景</p>
 <p>适合于大表Join大表</p>
-<p><img src="C:/Users/lyc/AppData/Roaming/Typora/typora-user-images/image-20220721165442871.png"></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721165442871.png"></p>
 <p><strong>原理</strong>                     </p>
 <p> 将两张表的数据在shuffle阶段利用shuffle的分组来将数据按照关联字段进行合并</p>
 <p> 必须经过shuffle，利用Shuffle过程中的分组来实现关联l<strong>使用</strong></p>
@@ -776,7 +775,7 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 <h4 id="1-6-2-Bucket-Join"><a href="#1-6-2-Bucket-Join" class="headerlink" title="1.6.2  Bucket Join"></a>1.6.2  Bucket Join</h4><p> 将两张表按照相同的规则将数据划分，根据对应的规则的数据进行join，减少了比较次数，提高了性能</p>
 <p> <strong>使用</strong></p>
 <p><strong>Bucket Join</strong></p>
-<p><img src="C:/Users/lyc/AppData/Roaming/Typora/typora-user-images/image-20220721165504304.png"></p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721165504304.png"></p>
 <p><strong>clustered by colName</strong></p>
 <p>  <em>–</em> <em>开启分桶join</em>**   set** hive.optimize.bucketmapjoin &#x3D; <strong>true</strong>;  </p>
 <p>分桶字段 &#x3D; Join字段 ，桶的个数相等或者成倍数</p>
