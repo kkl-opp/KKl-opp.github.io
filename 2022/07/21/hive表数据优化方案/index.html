@@ -7,7 +7,9 @@
     <meta name="keywords" content="hive性能优化方案, Aiplex">
     <meta name="description" content="性能调优 
 
-1.1 文件存储格式Hive数据存储的本质还是HDFS，所有的数据读写都基于HDFS的文件来实现，为了提高对HDFS文件读写的性能，Hive中提供了多种文件存储格式：TextFile、SequenceFile、RCFile、O">
+
+
+1.1表的层面1.1.1分区表减少全表扫描,将数据按照查询的条件【一般都以时间】进行划分分区存储，将不同分区的数据单独使用一个HDFS目录来进行存储，当底层实现计算时，根据查询的条件，只读取对应分区的数据作为输入，减少不必">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -430,21 +432,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-21
+                    2022-07-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.7k
+                    7.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    26 分
+                    30 分
                 </div>
                 
 
@@ -466,11 +468,21 @@
             <div id="articleContent">
                 <h2 id="性能调优"><a href="#性能调优" class="headerlink" title="性能调优"></a>性能调优</h2> <br/>
 
-<h2 id="1-1-文件存储格式"><a href="#1-1-文件存储格式" class="headerlink" title="1.1 文件存储格式"></a>1.1 文件存储格式</h2><p>Hive数据存储的本质还是HDFS，所有的<strong>数据读写</strong>都基于HDFS的文件来实现，为了提高对HDFS文件读写的性能，Hive中提供了多种文件存储格式：TextFile、SequenceFile、RCFile、ORC、Parquet等。</p>
+
+
+<h2 id="1-1表的层面"><a href="#1-1表的层面" class="headerlink" title="1.1表的层面"></a>1.1表的层面</h2><h3 id="1-1-1分区表"><a href="#1-1-1分区表" class="headerlink" title="1.1.1分区表"></a>1.1.1分区表</h3><p>减少全表扫描,将数据按照查询的条件【一般都以时间】进行划分分区存储，将不同分区的数据单独使用一个HDFS目录来进行存储，当底层实现计算时，根据查询的条件，只读取对应分区的数据作为输入，减少不必要的数据加载，提高程序的性能。</p>
+<h3 id="1-1-2分桶表"><a href="#1-1-2分桶表" class="headerlink" title="1.1.2分桶表"></a>1.1.2分桶表</h3><pre><code>--开启分桶SMB join
+set hive.optimize.bucketmapjoin = true;
+set hive.auto.convert.sortmerge.join=true;
+set hive.optimize.bucketmapjoin.sortedmerge = true;
+</code></pre>
+<p>两张数据量大的表进行join连接的时候可以考虑分桶表</p>
+<p>防止数据倾斜，Bucket与Bucket的Join</p>
+<h2 id="1-2-文件存储格式"><a href="#1-2-文件存储格式" class="headerlink" title="1.2 文件存储格式"></a>1.2 文件存储格式</h2><p>Hive数据存储的本质还是HDFS，所有的<strong>数据读写</strong>都基于HDFS的文件来实现，为了提高对HDFS文件读写的性能，Hive中提供了多种文件存储格式：TextFile、SequenceFile、RCFile、ORC、Parquet等。</p>
 <p><img src="https://img-blog.csdnimg.cn/c9509edc68654948b64afb3886792c06.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA6LW15bm_6ZmG,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
 <br/>
 
-<h3 id="1-1-2-TextFIle"><a href="#1-1-2-TextFIle" class="headerlink" title="1.1.2 TextFIle"></a>1.1.2 TextFIle</h3><p>是Hive中默认的文件格式，存储形式为<strong>按行存储</strong>。工作中最常见的数据文件格式就是<br>TextFile文件，几乎所有的原始数据生成都是TextFile格式，所以Hive设计时考虑到为了<strong>避免各种编</strong><br><strong>码及数据错乱的问题</strong>，选用了TextFile作为默认的格式。建表时不指定存储格式即为textfile，导入<br>数据时把数据文件拷贝至hdfs不进行处理。</p>
+<h3 id="1-2-2-TextFIle"><a href="#1-2-2-TextFIle" class="headerlink" title="1.2.2 TextFIle"></a>1.2.2 TextFIle</h3><p>是Hive中默认的文件格式，存储形式为<strong>按行存储</strong>。工作中最常见的数据文件格式就是<br>TextFile文件，几乎所有的原始数据生成都是TextFile格式，所以Hive设计时考虑到为了<strong>避免各种编</strong><br><strong>码及数据错乱的问题</strong>，选用了TextFile作为默认的格式。建表时不指定存储格式即为textfile，导入<br>数据时把数据文件拷贝至hdfs不进行处理。</p>
 <p> <strong>适合于小量数据的存储查询</strong></p>
 <h4 id="TextFile的优点"><a href="#TextFile的优点" class="headerlink" title="TextFile的优点"></a>TextFile的优点</h4><ul>
 <li>最简单的数据格式，不需要经过处理，可以直接cat查看</li>
@@ -490,7 +502,7 @@
 <li>适合于小量数据的存储查询</li>
 <li>一般用于做第一层数据加载和测试使用</li>
 </ul>
-<h3 id="1-1-3-SequenceFile"><a href="#1-1-3-SequenceFile" class="headerlink" title="1.1.3  SequenceFile"></a>1.1.3  SequenceFile</h3><p>SequenceFile 是 Hadoop提供的一种对二进制文件的支持。 二进制文件直接将&lt;Key， Value&gt;对序列化到文件中。</p>
+<h3 id="1-2-3-SequenceFile"><a href="#1-2-3-SequenceFile" class="headerlink" title="1.2.3  SequenceFile"></a>1.2.3  SequenceFile</h3><p>SequenceFile 是 Hadoop提供的一种对二进制文件的支持。 二进制文件直接将&lt;Key， Value&gt;对序列化到文件中。</p>
 <p>HDFS文件系统是适合存储大文件的，很小的文件如果很多的话对于 Namenode 的压力会非常大，因为每个文件都会有一条元数据信息存储在 Namenode上， 当小文件非常多也就意味着在 Namenode上存储的元数据信息就非常多。</p>
 <p>Hadoop是适合存储大数据的，所以我们可以通过 SequenceFile 将小文件合并起来，可以获得更高效率的存储和计算。</p>
 <p>SequenceFile 中的 key 和 value 可以是任意类型的 Writable 或者自定义 Writable 类型。</p>
@@ -609,9 +621,20 @@
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ul>
-<h3 id="1-1-4Parquet"><a href="#1-1-4Parquet" class="headerlink" title="1.1.4Parquet"></a>1.1.4Parquet</h3><p>Parquet是Hadoop生态圈中主流的列式存储格式，并且行业内流行这样一句话流传：如果说<br>HDFS是大数据时代文件系统的事实标准，Parquet 就是大数据时代存储格式的事实标准。Hive中<br>也同样支持使用Parquet格式来实现数据的存储，并且是工作中主要使用的存储格式之一。<br><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721162935839.png"></p>
+<h3 id="1-2-4Parquet（兼容性好-）"><a href="#1-2-4Parquet（兼容性好-）" class="headerlink" title="1.2.4Parquet（兼容性好 ）"></a>1.2.4Parquet（兼容性好 ）</h3><p>  Parquet是Hadoop生态圈中主流的列式存储格式，并且行业内流行这样一句话流传：如果说<br>HDFS是大数据时代文件系统的事实标准，Parquet 就是大数据时代存储格式的事实标准。Hive中<br>也同样支持使用Parquet格式来实现数据的存储，并且是工作中主要使用的存储格式之一。</p>
+<br/>
+
+<p>Parquet 是与语言无关的，而且不与任何一种数据处理框架绑定在一起，适配多种语言和组件，</p>
+<p>能够与 Parquet 适配的查询引擎包括 Hive, Impala, Pig, Presto, Drill, Tajo, HAWQ, IBM Big SQL等，</p>
+<p>计算框架包括 MapReduce, Spark, Cascading, Crunch, Scalding, Kite 等</p>
+<h4 id="Parquet优点"><a href="#Parquet优点" class="headerlink" title="Parquet优点"></a>Parquet优点</h4><p>生态好，可以被多种查询引擎原生支持，并且部分高性能引擎将其作为默认的文件存储格式。</p>
+<p>通过数据编码和压缩，以及映射下推和谓词下推功能，Parquet的性能也较之其它文件格式有所提升。</p>
+<p>在hive中用的也广</p>
+<h4 id="Parquet缺点"><a href="#Parquet缺点" class="headerlink" title="Parquet缺点"></a>Parquet缺点</h4><p><strong>不支持update, insert, delete, ACID</strong></p>
+<p>适用场景：处理好的数据 查询较多的子弹，倾向于OLAP</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721162935839.png"></p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/aa.png"></p>
-<h2 id="1-2-orc格式"><a href="#1-2-orc格式" class="headerlink" title="1.2 orc格式"></a>1.2 orc格式</h2><p><strong>ORC（OptimizedRC File）</strong>文件格式也是一种Hadoop生态圈中的<strong>列式存储</strong>格式，源自于RC（RecordColumnar File），它的产生早在2013年初，最初产生自Apache Hive，用于降低Hadoop数据存储空间和加速Hive查询速度。它并不是一个单纯的列式存储格式，仍然是首先根据行组分割整个表，在每一个行组内进行<strong>按列存储</strong>。ORC文件是自描述的，它的元数据使用Protocol Buffers序列化，并且文件中的数据尽可能的压缩以降低存储空间的消耗，目前也被Hive、Spark SQL、Presto等查询引擎支持。2015年ORC项目被Apache项目基金会提升为Apache顶级项目。</p>
+<h3 id="1-2-5-orc格式"><a href="#1-2-5-orc格式" class="headerlink" title="1.2.5 orc格式"></a>1.2.5 orc格式</h3><p><strong>ORC（OptimizedRC File）</strong>文件格式也是一种Hadoop生态圈中的<strong>列式存储</strong>格式，源自于RC（RecordColumnar File），它的产生早在2013年初，最初产生自Apache Hive，用于降低Hadoop数据存储空间和加速Hive查询速度。它并不是一个单纯的列式存储格式，仍然是首先根据行组分割整个表，在每一个行组内进行<strong>按列存储</strong>。ORC文件是自描述的，它的元数据使用Protocol Buffers序列化，并且文件中的数据尽可能的压缩以降低存储空间的消耗，目前也被<strong>Hive、Spark SQL、Presto等查询引擎支持</strong>。2015年ORC项目被Apache项目基金会提升为Apache顶级项目。</p>
 <p>ORC文件也是以二进制方式存储的，所以是不可以直接读取，ORC文件也是自解析的，它包含许多的元数据，这些元数据都是同构ProtoBuffer进行序列化的。其中涉及到如下的概念：</p>
 <p>ORC文件：保存在文件系统上的普通二进制文件，一个ORC文件中可以包含多个stripe，每一个stripe包含多条记录，这些记录按照列进行独立存储，对应到Parquet中的row group的概念。</p>
 <p>文件级元数据：包括文件的描述信息PostScript、文件meta信息（包括整个文件的统计信息）、所有stripe的信息和文件schema信息。</p>
@@ -620,16 +643,14 @@
 <p>row group：索引的最小单位，一个stripe中包含多个row group，默认为10000个值组成。</p>
 <p>stream：一个stream表示文件中一段有效的数据，包括索引和数据两类。索引stream保存每一个row group的位置和统计信息，数据stream包括多种类型的数据，具体需要哪几种是由该列类型和编码方式决定。</p>
 <p>ORC文件中保存了三个层级的统计信息，分别为<strong>文件级别、stripe级别和row group级别</strong>的，他们都可以用来根据Search ARGuments（谓词下推条件）判断是否可以跳过某些数据，在统计信息中都包含成员数和是否有null值，并且对于不同类型的数据设置一些特定的统计信息。</p>
-<p>l 性能测试：</p>
+<p> 性能测试：</p>
 <p>原始Text格式，未压缩 : 38.1 G</p>
 <p>ORC格式，默认压缩（ZLIB）: 11.5 G</p>
 <p> Parquet格式，默认压缩（Snappy）：14.8 G</p>
 <p> 测试对比：复杂数据Join关联测试</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721163302320.png"></p>
-<h4 id="ORC的优点"><a href="#ORC的优点" class="headerlink" title="ORC的优点"></a><strong>ORC的优点</strong></h4><p> 列式存储，存储效率非常高</p>
-<p> 可压缩，高效的列存取</p>
-<p> 查询效率较高，支持索引</p>
-<p> 支持矢量化查询</p>
+<h4 id="ORC的优点"><a href="#ORC的优点" class="headerlink" title="ORC的优点"></a><strong>ORC的优点</strong></h4><p>clickhouse 和 hbase 感觉用的比较多  因为是列式存储，存储效率非常高</p>
+<p> 可压缩，高效的列存取  查询效率较高，支持索引，支持矢量化查询</p>
   <br/>
 
 <h4 id="ORC的缺点"><a href="#ORC的缺点" class="headerlink" title="ORC的缺点"></a><strong>ORC的缺点</strong></h4><p> 加载时性能消耗较大</p>
@@ -637,8 +658,17 @@
 <p> 读取全量数据时性能较差</p>
  <br/>
 
-<h2 id="1-3-数据压缩"><a href="#1-3-数据压缩" class="headerlink" title="1.3 数据压缩"></a>1.3 数据压缩</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721163406280.png"></p>
+<h2 id="1-4-数据压缩"><a href="#1-4-数据压缩" class="headerlink" title="1.4 数据压缩"></a>1.4 数据压缩</h2><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721163406280.png"></p>
+<p>Hive底层转换HQL运行MapReduce程序时，磁盘I&#x2F;O操作、网络数据传输、shuffle和merge要花大量的时间，尤其是数据规模很大和工作负载密集的情况下，鉴于磁盘I&#x2F;O和网络带宽是Hadoop的宝贵资源，数据压缩对于节省资源、最小化磁盘I&#x2F;O和网络传输非常有帮助。如果磁盘I&#x2F;O和网络带宽影响了MapReduce作业性能，在任意MapReduce阶段启用压缩都可以改善端到端处理时间并减少I&#x2F;O和网络流量。</p>
+<p><strong>压缩的优点</strong></p>
+<p> 减小文件存储所占空间</p>
+<p>加快文件传输效率，从而提高系统的处理速度</p>
+<p>降低IO读写的次数</p>
+<p> <strong>压缩的缺点</strong></p>
+<p> 使用数据时需要先对文件解压，加重CPU负荷，压缩算法越复杂，解压时间越长</p>
 <p>要想在Hive中使用压缩，需要对MapReduce和Hive进行相应的配置</p>
+<br/>
+
 <p>• 原始日志BZ2压缩</p>
 <p>• MR中间输出LZO压缩</p>
 <p>• 中间表SEQUENCEFILE、RCFILE格式</p>
@@ -657,7 +687,8 @@
 <p> 2、将以上Hive的配置写入hive-site.xml中，重启Hive</p>
 <br/>
 
-<h2 id="1-4-存储优化"><a href="#1-4-存储优化" class="headerlink" title="1.4  存储优化"></a>1.4  存储优化</h2><h4 id="预处理端"><a href="#预处理端" class="headerlink" title="预处理端"></a>预处理端</h4><p>由于hdfs不利用小文件存储 每个小文件会产生一条元数据信息，每对一个小文件处理就会生成一个MapTask。需要避免这种情况发生</p>
+<h2 id="1-5-存储优化"><a href="#1-5-存储优化" class="headerlink" title="1.5  存储优化"></a>1.5  存储优化</h2><h4 id="避免小文件产生"><a href="#避免小文件产生" class="headerlink" title="避免小文件产生"></a><strong>避免小文件产生</strong></h4><p>Hive的存储本质还是HDFS，HDFS是不利于小文件存储的，因为每个小文件会产生一条元数据信息，并且不利用MapReduce的处理，MapReduce中每个小文件会启动一个MapTask计算处理，导致资源的浪费，所以在使用Hive进行处理分析时，要尽量避免小文件的生成。</p>
+<h4 id="预处理端"><a href="#预处理端" class="headerlink" title="预处理端"></a>预处理端</h4><p>由于hdfs不利用小文件存储 每个小文件会产生一条元数据信息，每对一个小文件处理就会生成一个MapTask。需要避免这种情况发生</p>
 <p>若默认引擎是mr 可以采取以下的解决方案</p>
 <pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">merge</span><span class="token punctuation">.</span>mapfiles<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
 <span class="token comment" spellcheck="true">#如果hive的程序，有Map和ReduceTask,将ReduceTask产生的所有小文件进行合并</span>
@@ -669,7 +700,7 @@
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="读取端"><a href="#读取端" class="headerlink" title="读取端"></a>读取端</h4><pre class="line-numbers language-python"><code class="language-python">set hive<span class="token punctuation">.</span>input<span class="token punctuation">.</span>format<span class="token operator">=</span>org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>hadoop<span class="token punctuation">.</span>hive<span class="token punctuation">.</span>ql<span class="token punctuation">.</span>io<span class="token punctuation">.</span>CombineHiveInputFormat<span class="token punctuation">;</span>
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h2 id="1-5MR优化"><a href="#1-5MR优化" class="headerlink" title="1.5MR优化"></a>1.5MR优化</h2><p>Hive在实现HQL计算运行时，会解析为多个Stage，有时候Stage彼此之间有依赖关系，</p>
+<h2 id="1-6-MR优化"><a href="#1-6-MR优化" class="headerlink" title="1.6 MR优化"></a>1.6 MR优化</h2><p>Hive在实现HQL计算运行时，会解析为多个Stage，有时候Stage彼此之间有依赖关系，</p>
 <p>只能挨个执行，但是在一些别的场景下，很多的Stage之间是没有依赖关系的，例如Union语句，</p>
 <p>Join语句等等，这些Stage没有依赖关系，但是Hive依旧默认挨个执行每个Stage，</p>
 <p>这样会导致性能非常差，我们可以通过修改参数，开启并行执行，当多个Stage之间没有依赖关系时</p>
@@ -681,7 +712,7 @@
 <span class="token keyword">SET</span> hive<span class="token punctuation">.</span><span class="token keyword">exec</span><span class="token punctuation">.</span>parallel<span class="token punctuation">.</span>thread<span class="token punctuation">.</span>number<span class="token operator">=</span><span class="token number">16</span><span class="token punctuation">;</span> 
 注意：线程数越多，程序运行速度越快，但同样更消耗CPU资源
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="1-5-1mapred-reduce-tasks"><a href="#1-5-1mapred-reduce-tasks" class="headerlink" title="1.5.1mapred.reduce.tasks"></a>1.5.1mapred.reduce.tasks</h4><p>直接设置 • num_reduce_tasks</p>
+<h4 id="1-6-1mapred-reduce-tasks"><a href="#1-6-1mapred-reduce-tasks" class="headerlink" title="1.6.1mapred.reduce.tasks"></a>1.6.1mapred.reduce.tasks</h4><p>直接设置 • num_reduce_tasks</p>
 <p>大小影响参数 – hive.exec.reducers.max 默认：999 </p>
 <p>– hive.exec.reducers.bytes.per.reducer 默认：1G • </p>
 <p>切割算法 – numRTasks &#x3D; min[maxReducers,input.size&#x2F;perReducer] • maxReducers &#x3D; ${hive.exec.reducers.max} • perReducer &#x3D;  {hive.exec.reducers.bytes.per.reducer} </p>
@@ -690,7 +721,7 @@
 <p> – mapred.compress.output.compression.codec </p>
 <p>• org.apache.hadoop.io.compress.LzoCodec </p>
 <p>• org.apache.hadoop.io.compress.SnappyCodec </p>
-<h4 id="1-5-2Shuffle参数-Map端参数"><a href="#1-5-2Shuffle参数-Map端参数" class="headerlink" title="1.5.2Shuffle参数 Map端参数"></a>1.5.2<strong>Shuffle参数 Map端参数</strong></h4><p>• io.sort.mb</p>
+<h4 id="1-6-2Shuffle参数-Map端参数"><a href="#1-6-2Shuffle参数-Map端参数" class="headerlink" title="1.6.2Shuffle参数 Map端参数"></a>1.6.2<strong>Shuffle参数 Map端参数</strong></h4><p>• io.sort.mb</p>
 <p> • io.sort.spill.percent </p>
 <p>• min.num.spill.for.combine</p>
 <p> • io.sort.factor</p>
@@ -701,7 +732,7 @@
 <p>•mapred.job.shuffle.input.buffer.percent </p>
 <p>•mapred.job.shuffle.input.buffer.percent </p>
 <p>•mapred.job.reduce.input.buffer.percent </p>
-<h4 id="1-5-3map阶段优化"><a href="#1-5-3map阶段优化" class="headerlink" title="1.5.3map阶段优化"></a>1.5.3map阶段优化</h4><p>充分利用Combiner<br>Combiner在Map端提前进行了一次Reduce处理。<br>可减少Map Task中间输出的结果，从而减少各个Reduce Task的远程拷贝数据量，最终表现为Map Task和Reduce Task执行时间缩短。</p>
+<h4 id="1-6-3map阶段优化"><a href="#1-6-3map阶段优化" class="headerlink" title="1.6.3map阶段优化"></a>1.6.3map阶段优化</h4><p>充分利用Combiner<br>Combiner在Map端提前进行了一次Reduce处理。<br>可减少Map Task中间输出的结果，从而减少各个Reduce Task的远程拷贝数据量，最终表现为Map Task和Reduce Task执行时间缩短。</p>
 <p>选择合理的Writable类型<br>为应用程序处理的数据选择合适的Writable类型可大大提升性能。</p>
 <p>比如处理整数类型数据时，直接采用IntWritable比先以Text类型读入在转换为整数类型要高效。</p>
 <p>如果输出整数的大部分可用一个或两个字节保存，那么直接采用VIntWritable或者VLongWritable，它们采用了变长整型的编码方式，可以大大减少输出数据量。</p>
@@ -715,14 +746,14 @@ mapred.max.split.size：Input Split的最大值
 dfs.block.size：HDFS 中一个block大小，默认值128MB
 </code></pre>
 <p>提高block大小<br>集群的网络、IO等性能很好的时候，建议调高dfs.block.size<br>根据数据源的特性，主要调整mapred.min.split.size来控制map task的数量</p>
-<h4 id="1-5-4提高map输出的Buffer"><a href="#1-5-4提高map输出的Buffer" class="headerlink" title="1.5.4提高map输出的Buffer"></a>1.5.4提高map输出的Buffer</h4><p>该阶段是map side中将结果输出到磁盘之前的一个处理方式，通过对其进行设置的话可以减少map任务的IO开销，从而提高性能。</p>
+<h4 id="1-6-4提高map输出的Buffer"><a href="#1-6-4提高map输出的Buffer" class="headerlink" title="1.6.4提高map输出的Buffer"></a>1.6.4提高map输出的Buffer</h4><p>该阶段是map side中将结果输出到磁盘之前的一个处理方式，通过对其进行设置的话可以减少map任务的IO开销，从而提高性能。</p>
 <p>由于map任务运行时中间结果首先存储在buffer中,默认当缓存的使用量达到80%的时候就开始写入磁盘,这个过程叫做spill(溢出)</p>
 <p>这个buffer默认的大小是100M可以通过设定io.sort.mb的值来进行调整<br>当map产生的数据非常大时，如果默认的buffer大小不够看，那么势必会进行非常多次的spill，进行spill就意味着要写磁盘，产生IO开销 ，这时候就可以把io.sort.mb调大，那么map在整个计算过程中spill的次数就势必会降低，map task对磁盘的操作就会变少</p>
 <p>如果map tasks的瓶颈在磁盘上，这样调整就会大大提高map的计算性能，但是如果将io.sort.mb调的非常大的时候，对机器的配置要求就非常高，因为占用内存过大，所以需要根据情况进行配置</p>
 <p>map并不是要等到buffer全部写满时才进行spill，因为如果全部写满了再去写spill，势必会造成map的计算部分等待buffer释放空间的情况。</p>
 <p>所以，map其实是当buffer被写满到一定程度（比如80%）时，才开始进行spill<br>可以通过设置io.sort.spill.percent的值来调整这个阈值</p>
 <p>这个参数同样也是影响spill频繁程度，进而影响map task运行周期对磁盘的读写频率，但是通常情况下只需要对io.sort.mb进行调整即可</p>
-<h4 id="1-5-5合理配置map的Merge参数"><a href="#1-5-5合理配置map的Merge参数" class="headerlink" title="1.5.5合理配置map的Merge参数"></a>1.5.5合理配置map的Merge参数</h4><p>该阶段是map产生spill之后，对spill进行处理的过程，通过对其进行配置也可以达到优化IO开销的目的，map产生spill之后必须将些spill进行合并,这个过程叫做merge ，merge过程是并行处理spill的,每次并行多少个spill是由参数io.sort.factor指定的,默认为10个，如果产生的spill非常多，merge的时候每次只能处理10个spill，那么还是会造成频繁的IO处理 ，适当的调大每次并行处理的spill数有利于减少merge数因此可以影响map的性能，但是如果调整的数值过大，并行处理spill的进程过多会对机器造成很大压力</p>
+<h4 id="1-6-5合理配置map的Merge参数"><a href="#1-6-5合理配置map的Merge参数" class="headerlink" title="1.6.5合理配置map的Merge参数"></a>1.6.5合理配置map的Merge参数</h4><p>该阶段是map产生spill之后，对spill进行处理的过程，通过对其进行配置也可以达到优化IO开销的目的，map产生spill之后必须将些spill进行合并,这个过程叫做merge ，merge过程是并行处理spill的,每次并行多少个spill是由参数io.sort.factor指定的,默认为10个，如果产生的spill非常多，merge的时候每次只能处理10个spill，那么还是会造成频繁的IO处理 ，适当的调大每次并行处理的spill数有利于减少merge数因此可以影响map的性能，但是如果调整的数值过大，并行处理spill的进程过多会对机器造成很大压力</p>
 <p>Combine的使用策略<br>我们知道如果map side设置了Combiner，那么会根据设定的函数对map输出的数据进行一次类reduce的预处理</p>
 <p>但是和分组、排序分组不一样的是，combine发生的阶段可能是在merge之前，也可能是在merge之后</p>
 <p>这个时机可以由一个参数控制：min.num.spill.for.combine，默认值为3<br>当job中设定了combiner，并且spill数最少有3个的时候，那么combiner函数就会在merge产生结果文件之前运行</p>
@@ -740,7 +771,7 @@ min.num.spill.for.combine    int    3    最少有多少个spill的时候combine
 mapred.compress.map.output    boolean    false    map中间数据是否采用压缩
 mapred.map.output.compression.codec    String    -    压缩算法
 </code></pre>
-<h4 id="1-5-6Shuffle阶段优化"><a href="#1-5-6Shuffle阶段优化" class="headerlink" title="1.5.6Shuffle阶段优化"></a>1.5.6Shuffle阶段优化</h4><p>Copy数据阶段<br>由于job的每一个map都会根据reduce(n)数将数据分成map 输出结果分成n个partition，所以map的中间结果中是有可能包含每一个reduce需要处理的部分数据的</p>
+<h4 id="1-6-6-Shuffle阶段优化"><a href="#1-6-6-Shuffle阶段优化" class="headerlink" title="1.6.6 Shuffle阶段优化"></a>1.6.6 Shuffle阶段优化</h4><p>Copy数据阶段<br>由于job的每一个map都会根据reduce(n)数将数据分成map 输出结果分成n个partition，所以map的中间结果中是有可能包含每一个reduce需要处理的部分数据的</p>
 <p>为了优化reduce的执行时间，hadoop中等第一个map结束后，所有的reduce就开始尝试从完成的map中下载该reduce对应的partition部分数据</p>
 <p>在这个shuffle过程中，由于map的数量通常是很多个的，而每个map中又都有可能包含每个reduce所需要的数据</p>
 <p>所以对于每个reduce来说，去各个map中拿数据也是并行的，可以通过mapred.reduce.parallel.copies这个参数来调整，默认为5</p>
@@ -763,7 +794,17 @@ mapred.child.java.opts    String    -    -Xmx1024m设置reduce可用内存为1g
 mapred.job.shuffle.merge.percent    float    0.66    buffer中的数据达到多少比例开始写入磁盘
 mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的内存用来存放buffer中的数据
 </code></pre>
-<h2 id="1-6join优化"><a href="#1-6join优化" class="headerlink" title="1.6join优化"></a>1.6join优化</h2><h4 id="1-6-1-Reduce-Join"><a href="#1-6-1-Reduce-Join" class="headerlink" title="1.6.1 Reduce Join"></a>1.6.1 Reduce Join</h4><p> 应用场景</p>
+<h4 id="1-6-7-并行执行"><a href="#1-6-7-并行执行" class="headerlink" title="1.6.7 并行执行"></a>1.6.7 并行执行</h4><p>Hive在实现HQL计算运行时，会解析为多个Stage，有时候Stage彼此之间有依赖关系，</p>
+<p>只能挨个执行，但是在一些别的场景下，很多的Stage之间是没有依赖关系的，例如Union语句</p>
+<p>，Join语句等等，这些Stage没有依赖关系，但是Hive依旧默认挨个执行每个Stage，这样会导致性能非常差</p>
+<p>，我们可以通过修改参数，开启并行执行，当多个Stage之间没有依赖关系时，允许多个Stage并行执行，提高性能。</p>
+<pre><code>-- 开启Stage并行化，默认为false
+SET hive.exec.parallel=true;
+-- 指定并行化线程数，默认为8
+SET hive.exec.parallel.thread.number=16; 
+</code></pre>
+<p>占用的资源比较高</p>
+<h2 id="1-7join优化"><a href="#1-7join优化" class="headerlink" title="1.7join优化"></a>1.7join优化</h2><h4 id="1-7-1-Reduce-Join"><a href="#1-7-1-Reduce-Join" class="headerlink" title="1.7.1 Reduce Join"></a>1.7.1 Reduce Join</h4><p> 应用场景</p>
 <p>适合于大表Join大表</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721165442871.png"></p>
 <p><strong>原理</strong>                     </p>
@@ -772,7 +813,13 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 <p> Hive会自动判断是否满足Map Join，如果不满足Map Join，则自动执行Reduce Join</p>
  <br/>
 
-<h4 id="1-6-2-Bucket-Join"><a href="#1-6-2-Bucket-Join" class="headerlink" title="1.6.2  Bucket Join"></a>1.6.2  Bucket Join</h4><p> 将两张表按照相同的规则将数据划分，根据对应的规则的数据进行join，减少了比较次数，提高了性能</p>
+
+
+
+
+
+
+<h4 id="1-7-2-Bucket-Join"><a href="#1-7-2-Bucket-Join" class="headerlink" title="1.7.2  Bucket Join"></a>1.7.2  Bucket Join</h4><p> 将两张表按照相同的规则将数据划分，根据对应的规则的数据进行join，减少了比较次数，提高了性能</p>
 <p> <strong>使用</strong></p>
 <p><strong>Bucket Join</strong></p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220721165504304.png"></p>
@@ -789,7 +836,15 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <p>满足条件</p>
 <p>分桶字段 &#x3D; Join字段 &#x3D; 排序字段 ，桶的个数相等或者成倍数</p>
-<h2 id="1-7优化器"><a href="#1-7优化器" class="headerlink" title="1.7优化器"></a>1.7优化器</h2><h4 id="1-7-1关联优化"><a href="#1-7-1关联优化" class="headerlink" title="1.7.1关联优化"></a>1.7.1关联优化</h4><p>在使用Hive的过程中经常会遇到一些特殊的问题，例如当一个程序中如果有一些操作彼此之间有关联性，</p>
+<h4 id="1-7-3-MAP-JOIN"><a href="#1-7-3-MAP-JOIN" class="headerlink" title="1.7.3 MAP JOIN"></a>1.7.3 MAP JOIN</h4><pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 默认已经开启了Map Join</span>
+hive<span class="token punctuation">.</span>auto<span class="token punctuation">.</span><span class="token keyword">convert</span><span class="token punctuation">.</span><span class="token keyword">join</span><span class="token operator">=</span><span class="token boolean">true</span>
+<span class="token comment" spellcheck="true">--     LEFT OUTER JOIN的左表必须是大表</span>
+<span class="token comment" spellcheck="true">--     RIGHT OUTER JOIN的右表必须是大表</span>
+<span class="token comment" spellcheck="true">--    INNER JOIN左表或右表均可以作为大表</span>
+<span class="token comment" spellcheck="true">--    FULL OUTER JOIN不能使用MAPJOIN</span>
+<span class="token comment" spellcheck="true">-- 使用MAPJOIN时需要引用小表或是子查询时，需要引用别名</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="1-8优化器"><a href="#1-8优化器" class="headerlink" title="1.8优化器"></a>1.8优化器</h2><h4 id="1-8-1关联优化"><a href="#1-8-1关联优化" class="headerlink" title="1.8.1关联优化"></a>1.8.1关联优化</h4><p>在使用Hive的过程中经常会遇到一些特殊的问题，例如当一个程序中如果有一些操作彼此之间有关联性，</p>
 <p>是可以放在一个MapReduce中实现的，但是Hive会不智能的选择，Hive会使用两个MapReduce来完成这两个操作。</p>
 <p>例如：当我们执行以下SQL语句：</p>
 <p>select …… from table group by id order by id desc;</p>
@@ -808,7 +863,7 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 <p><strong>配置</strong></p>
 <pre class="line-numbers language-sql"><code class="language-sql">  <span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">optimize</span><span class="token punctuation">.</span>correlation<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>  
 <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="1-7-2-CBO优化器引擎"><a href="#1-7-2-CBO优化器引擎" class="headerlink" title="1.7.2  CBO优化器引擎"></a>1.7.2  CBO优化器引擎</h4><p>  在使用MySQL或者Hive等工具时，我们经常会遇到一个问题，默认的优化器在底层解析一些聚合统计类的处理的时候，</p>
+<h4 id="1-8-2-CBO优化器引擎"><a href="#1-8-2-CBO优化器引擎" class="headerlink" title="1.8.2  CBO优化器引擎"></a>1.8.2  CBO优化器引擎</h4><p>  在使用MySQL或者Hive等工具时，我们经常会遇到一个问题，默认的优化器在底层解析一些聚合统计类的处理的时候，</p>
 <p>底层解析的方案有时候不是最佳的方案。</p>
 <br/>
 
@@ -821,13 +876,13 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 <p>占了总数据的90%，这时候是没有必要检索索引以后再检索数据的，可以直接检索数据返回，这样的效率会更高，更节省资源，这</p>
 <p>种方式就是CBO优化器引擎会选择的方案。使用Hive时，Hive中也支持RBO与CBO这两种引擎，默</p>
 <p>认使用的是RBO优化器引擎。</p>
-<p>l <strong>RBO</strong></p>
-<p>n rule basic optimise：基于规则的优化器</p>
-<p>n 根据设定好的规则来对程序进行优化</p>
-<p>l <strong>CBO</strong></p>
-<p>n cost basic optimise：基于代价的优化器</p>
-<p>n 根据不同场景所需要付出的代价来合适选择优化的方案</p>
-<p>n 对数据的分布的信息【数值出现的次数，条数，分布】来综合判断用哪种处理的方案是最佳方案</p>
+<p> <strong>RBO</strong></p>
+<p>rule basic optimise：基于规则的优化器</p>
+<p>根据设定好的规则来对程序进行优化</p>
+<p><strong>CBO</strong></p>
+<p> cost basic optimise：基于代价的优化器</p>
+<p> 根据不同场景所需要付出的代价来合适选择优化的方案</p>
+<p> 对数据的分布的信息【数值出现的次数，条数，分布】来综合判断用哪种处理的方案是最佳方案</p>
 <pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">set</span> hive<span class="token punctuation">.</span>cbo<span class="token punctuation">.</span><span class="token keyword">enable</span><span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
 <span class="token keyword">set</span> hive<span class="token punctuation">.</span><span class="token keyword">compute</span><span class="token punctuation">.</span>query<span class="token punctuation">.</span><span class="token keyword">using</span><span class="token punctuation">.</span>stats<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
 <span class="token keyword">set</span> hive<span class="token punctuation">.</span>stats<span class="token punctuation">.</span><span class="token keyword">fetch</span><span class="token punctuation">.</span><span class="token keyword">column</span><span class="token punctuation">.</span>stats<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
@@ -837,7 +892,7 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 <p>要想使用CBO引擎，必须构建数据的元数据【表行数、列的信息、分区的信息……】</p>
 <p>提前获取这些信息，CBO才能基于代价选择合适的处理计划</p>
 <p>所以CBO引擎一般搭配analyze分析优化器一起使用</p>
-<h4 id="1-7-3-Analyze分析优化器"><a href="#1-7-3-Analyze分析优化器" class="headerlink" title="1.7.3  Analyze分析优化器"></a>1.7.3  Analyze分析优化器</h4><p>l功能</p>
+<h4 id="1-8-3-Analyze分析优化器"><a href="#1-8-3-Analyze分析优化器" class="headerlink" title="1.8.3  Analyze分析优化器"></a>1.8.3  Analyze分析优化器</h4><p><strong>功能</strong></p>
 <p>用于提前运行一个MapReduce程序将表或者分区的信息构建一些</p>
 <p>元数据【表的信息、分区信息、列的信息】，搭配CBO引擎一起使用</p>
 <pre class="line-numbers language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">-- 构建分区信息元数据</span>
@@ -852,7 +907,18 @@ mapred.job.reduce.input.buffer.percent    float    0.0    指定多少比例的�
 
 <span class="token comment" spellcheck="true">-- 查看元数据</span>
 <span class="token keyword">DESC</span> FORMATTED <span class="token punctuation">[</span>tablename<span class="token punctuation">]</span> <span class="token punctuation">[</span>columnname<span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<span class="token keyword">ANALYZE</span> <span class="token keyword">TABLE</span> tb_login_part <span class="token keyword">PARTITION</span><span class="token punctuation">(</span>logindate<span class="token punctuation">)</span> <span class="token keyword">COMPUTE</span> <span class="token keyword">STATISTICS</span><span class="token punctuation">;</span>
+<span class="token keyword">ANALYZE</span> <span class="token keyword">TABLE</span> tb_login_part  <span class="token keyword">COMPUTE</span> <span class="token keyword">STATISTICS</span> <span class="token keyword">FOR</span> <span class="token keyword">COLUMNS</span>  userid<span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="1-8-4-PDD-默认开启"><a href="#1-8-4-PDD-默认开启" class="headerlink" title="1.8.4 PDD(默认开启)"></a>1.8.4 PDD(默认开启)</h4><p>谓词下推 Predicate Pushdown（PPD）的思想简单点说就是在不影响最终结果的情况下，尽量将</p>
+<p>过滤条件提前执行。谓词下推后，过滤条件在map端执行，减少了map端的输出，降低了数据在</p>
+<p>集群上传输的量，降低了Reduce端的数据负载，节约了集群的资源，也提升了任务的性能。</p>
+<pre><code>-- 默认自动开启谓词下推
+hive.optimize.ppd=true;
+</code></pre>
+<h4 id="1-8-5数据倾斜"><a href="#1-8-5数据倾斜" class="headerlink" title="1.8.5数据倾斜"></a>1.8.5数据倾斜</h4><p>某个TASK的数据分配不均衡 或者是一个TASK一直没完成 这个线程就一直在等待这个任务执行完毕 造成数据倾斜</p>
+<p>某个TASK任务拿到的数据大 其他的TASK任务拿到的比较小 运行起来就相对而言非常慢</p>
 
                 
             </div>
@@ -1472,7 +1538,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">35.6k</span>
+                        class="white-color">36.8k</span>
             
             
             

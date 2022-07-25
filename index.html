@@ -602,7 +602,9 @@
                             
                                 性能调优 
 
-1.1 文件存储格式Hive数据存储的本质还是HDFS，所有的数据读写都基于HDFS的文件来实现，为了提高对HDFS文件读写的性能，Hive中提供了多种文件存储格式：TextFile、SequenceFile、RCFile、O
+
+
+1.1表的层面1.1.1分区表减少全表扫描,将数据按照查询的条件【一般都以时间】进行划分分区存储，将不同分区的数据单独使用一个HDFS目录来进行存储，当底层实现计算时，根据查询的条件，只读取对应分区的数据作为输入，减少不必
                             
                         </div>
                         <div class="publish-info">
@@ -935,7 +937,7 @@ SHOW VARIABLES LIKE ‘datadir’;
             <br>
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">35.6k</span>
+                        class="white-color">36.8k</span>
             
             
             
