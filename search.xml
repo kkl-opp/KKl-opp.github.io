@@ -11,10 +11,16 @@
         <content type="html"><![CDATA[<h2 id="1-MR是什么？"><a href="#1-MR是什么？" class="headerlink" title="1.MR是什么？"></a>1.MR是什么？</h2><p>Hadoop MapReduce是一个<strong>分布式计算框架</strong>，用于轻松编写分布式应用程序，这些应用程序以可靠，容错的方式 并行处理大型硬件集群（数千个节点）上的大量数据（多TB数据集）</p><p>mr特点：</p><p>1.易于编程</p><p>2.良好的扩展性</p><p>3.容错性</p><p>4.适合海量数据的离线处理</p><p>缺点：实时计算性能差，不能进行流式计算，执行时间相对较长，处理复杂业务，需要编写大量代码。</p><h2 id="2-MR架构"><a href="#2-MR架构" class="headerlink" title="2.MR架构"></a>2.MR架构</h2><p>MRAppMaster</p><p>MapTask</p><p>ReduceTask</p><p>一个MapReduce编程模型中只能包含一个<strong>Map阶段和一个Reduce阶段</strong>，或者只有Map阶段；</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220808090545059.png"></p><h2 id="3-发展现状："><a href="#3-发展现状：" class="headerlink" title="3.发展现状："></a>3.发展现状：</h2><p>由于速度慢，效率低，已经基本上被其它的模型所替代，在实际开发环境中，很少企业会直接编写mr代码对数据进行处理。</p><h2 id="4-Map-x2F-Reduce阶段执行过程："><a href="#4-Map-x2F-Reduce阶段执行过程：" class="headerlink" title="4.Map&#x2F;Reduce阶段执行过程："></a>4.Map&#x2F;Reduce阶段执行过程：</h2><p>1.input：按照一定的标准对文件进行逻辑切片，运行map task任务</p><p>2.read：按照行进行读取数据。key是起始偏移量，value是本行的文本内容</p><p>3.Mapper：调用mapper中的map方法，对解析的k，v调用方法</p><p>4.partition：按照一定的规则对Map输出的键值对进行分区partition。    </p><p>5.output：输出数据写入<strong>内存缓冲区</strong> Memory buffer，溢出spill的时候根据key进行排序sort</p><p>6.spill merge对所有溢出文件进行最终的merge合并，成为一个文件</p><p>7.pull：ReduceTask会主动从MapTask拉取数据</p><p>8.merge：分散的数据合并成一个大数据</p><p>9.sort对排序好的kv调用reduce方法，键值对的键相等的调用一次reduce方法，最后将这些输出的键值写入到hdfs</p><h2 id="5-Map端Shuffle"><a href="#5-Map端Shuffle" class="headerlink" title="5.Map端Shuffle:"></a>5.Map端Shuffle:</h2><p> Collect阶段：将MapTask的结果收集输出到默认大小为100M的环形缓冲区，保存之前会对key进行分区的计算， 默认Hash分区。</p><p>  Spill阶段：</p><p>当内存中的数据量达到一定的阀值的时候，就会将数据写入本地磁盘，在将数据写入磁盘之前需要对数 据进行一次排序的操作，如果配置了combiner，还会将有相同分区号和key的数据进行排序。  Merge阶段：把所有溢出的临时文件进行一次合并操作，以确保一个MapTask最终只产生一个中间数据文件。    </p><h2 id="6-Reducer端shuffle"><a href="#6-Reducer端shuffle" class="headerlink" title="6.Reducer端shuffle"></a>6.Reducer端shuffle</h2><p>Copy阶段： ReduceTask启动Fetcher线程到已经完成MapTask的节点上复制一份属于自己的数据。</p><p>  Merge阶段：在ReduceTask远程复制数据的同时，会在后台开启两个线程对内存到本地的数据文件进行合并操作 。</p><p>  Sort阶段：在对数据进行合并的同时，会进行排序操作，由于MapTask阶段已经对数据进行了局部的排序， ReduceTask只需保证Copy的数据的最终整体有效性即可。</p>]]></content>
       
       
+      <categories>
+          
+          <category> 大数据生态圈 </category>
+          
+      </categories>
+      
       
         <tags>
             
-            <tag> HIVE </tag>
+            <tag> Hadoop </tag>
             
         </tags>
       
@@ -263,25 +269,6 @@
           
       </categories>
       
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>scala指导手册</title>
-      <link href="/2022/05/06/scala%E6%8C%87%E5%AF%BC%E6%89%8B%E5%86%8C/"/>
-      <url>/2022/05/06/scala%E6%8C%87%E5%AF%BC%E6%89%8B%E5%86%8C/</url>
-      
-        <content type="html"><![CDATA[<h1 id="scala"><a href="#scala" class="headerlink" title="scala"></a>scala</h1><p>Scala combines <strong>object-oriented</strong> and <strong>functional programming</strong> in one concise, high-level language. Scala’s static types help avoid bugs in complex applications, and its JVM and JavaScript runtimes let you build high-performance systems with easy access to huge ecosystems of libraries.</p><p>(Scala将面向对象编程和函数式编程结合在一种简洁的高级语言中。Scala的静态类型有助于避免复杂应用程序中的错误，它的JVM和JavaScript运行时让您可以构建高性能系统，轻松访问庞大的库生态系统。)</p><ol><li>Scala embraces a fusion of functional programming (FP) and object-oriented programming (OOP)</li><li>Scala is statically typed, but often feels like a dynamically typed language</li><li>Scala’s syntax is concise(简洁), but still readable; it’s often referred to as <em>expressive</em></li><li><em>Implicits</em> in Scala 2 were a defining feature, and they have been improved and simplified（simply 简化） in Scala 3</li><li>Scala integrates(集成) seamlessly with Java, so you can create projects with mixed Scala and Java code, and Scala code easily uses the thousands of existing Java libraries </li><li>Scala can be used on the server, and also in the browser with <a href="https://www.scala-js.org/">Scala.js</a></li><li>The Scala standard library has dozens of pre-built, functional methods to save you time, and greatly reduce the need to write custom <code>for</code> loops and algorithms</li><li>“Best practices” are built into Scala, which favors immutability, anonymous functions, higher-order functions, pattern matching, classes that cannot be extended by default, and more</li><li>The Scala ecosystem offers the most modern FP libraries in the world</li><li>Strong type system</li></ol><h2 id="1-VARIABLES-AND-DATA-TYPES"><a href="#1-VARIABLES-AND-DATA-TYPES" class="headerlink" title="1.VARIABLES AND DATA TYPES"></a>1.VARIABLES AND DATA TYPES</h2><p>AnyVal(值类型)    </p><p>AnyRef(引用类型)</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20200905165023396.png"></p><p>根类型 Any ，他是所有类的父类。</p><p>Class Any is the root of the Scala class hierarchy. Every class in a Scala execution environment inherits directly or indirectly from this class.</p><p>Starting with Scala 2.10 it is possible to directly extend Any using universal traits. A universal trait is a trait that extends Any, only has defs as members, and does no initialization.</p><p>scala 中一切皆为对象，分为两大类 AnyVal(值类型)， AnyRef(引用类型)， 他们都是 Any 子类</p><p>Null 类型是 scala 的特别类型，它只有一个值 null, 他是 bottom calss ,是 所有 AnyRef 类型的子类<br>Nothing 类型也是 bottom class ,他是所有类的子类，在开发中通常可以将 Nothing 类型的值返回给任意变量或者函数， 这里抛出异常使用很多</p><h3 id="Unit-类型、Null-类型和-Nothing-类型"><a href="#Unit-类型、Null-类型和-Nothing-类型" class="headerlink" title="Unit 类型、Null 类型和 Nothing 类型"></a>Unit 类型、Null 类型和 Nothing 类型</h3><p>1）Null 类只有一个实例对象，null，类似于 Java 中的 null 引用。null 可以赋值给任意引用类型(AnyRef)，但是不能赋值给值类型(AnyVal: 比如 Int, Float, Char, Boolean, Long, Double, Byte, Short)</p><p>2）Unit 类型用来标识过程，也就是没有明确返回值的函数。由此可见，Unit 类似于 Java 里的 void，Unit 只有一个实例。</p><p>3）Nothing，可以作为没有正常返回值的方法的返回类型，非常直观的告诉你这个方法不会正常返回，而且由于 Nothing 是其他任意类型的子类，他还能跟要求返回值的方法兼容。</p><h2 id="val-and-var-variables"><a href="#val-and-var-variables" class="headerlink" title="val and var variables:"></a>val and var variables:</h2><p>&#x2F;&#x2F;immutable</p><p>val a &#x3D; 10</p><p>&#x2F;&#x2F;mutable </p><p>var b &#x3D; 2</p><h2 id="Declaring-variable-types"><a href="#Declaring-variable-types" class="headerlink" title="Declaring variable types"></a>Declaring variable types</h2><p>val x :Int &#x3D; 10;</p><p>val p &#x3D; 10; </p><p>You can always explicitly declare a variable’s type if you prefer, but in simple assignments like these it isn’t necessary:</p><p><strong>val</strong> x: <strong>Int</strong> &#x3D; 1 </p><p><strong>val</strong> s: <strong>String</strong> &#x3D; “a string”</p><p><strong>val</strong> p: <strong>Person</strong> &#x3D; <strong>Person</strong>(“Richard”)</p><h2 id="CONTROL-STRUCTURES"><a href="#CONTROL-STRUCTURES" class="headerlink" title="CONTROL STRUCTURES"></a>CONTROL STRUCTURES</h2><p>Scala has the control structures you find in other programming languages, and also has powerful <code>for</code> expressions and <code>match</code> expressions:,it seems like java, but there have some differents  in  syntax  so that’s we begin!</p><ul><li><code>if</code>&#x2F;<code>else</code></li><li><code>for</code> loops and expressifoons</li><li><code>match</code> expressions</li><li><code>while</code> loops</li><li><code>try</code>&#x2F;<code>catch</code></li></ul><h3 id="if-x2F-else"><a href="#if-x2F-else" class="headerlink" title="if&#x2F;else"></a><code>if</code>&#x2F;<code>else</code></h3><pre><code>if(a&gt;10) print(a) //It can only be written in one sentence</code></pre><p>or like this :</p><pre class="line-numbers language-scala"><code class="language-scala"><span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token operator">></span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">{</span>print<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h2 id="for-loops-and-expressions"><a href="#for-loops-and-expressions" class="headerlink" title="for loops and expressions"></a>for loops and expressions</h2><p><strong>val</strong> ints &#x3D; <strong>List</strong>(1, 2, 3, 4, 5)</p><p> <strong>for</strong>( i &lt;- ints)  println(i)</p><p>for(i&lt;- 1 to&#x2F;until 10) {</p><p>}</p><p> for (i &lt;- 1 to 10 if i % 2 &#x3D;&#x3D; 1) { </p><p>​     println(i)    </p><p>}</p><p>For each iteration of your for loop, yield generates a value which will be remembered. It’s like the for loop has a buffer you can’t see, and for each iteration of your for loop, another item is added to that buffer. When your for loop finishes running, it will return this collection of all the yielded values. The type of the collection that is returned is the same type that you were iterating over, so a Map yields a Map, a List yields a List, and so on.</p><pre><code>val values:IndexedSeq[Int] = for(i&lt;- 1 to 10 )  yield i*2val list = List(1,2,3,4,5)val arr:Array[Int] = Array(1,2,3,5)val list_01:List[Int] = for(i&lt;-list) yield i*2val arr_01:Array[Int] = for (i&lt;-arr) yield i*2println(values)println(list_01)arr_01.foreach(println)</code></pre><h1 id="3-object-oriented"><a href="#3-object-oriented" class="headerlink" title="3.object-oriented"></a>3.object-oriented</h1><h1 id="4-Functions-and-methods"><a href="#4-Functions-and-methods" class="headerlink" title="4.Functions and methods"></a>4.Functions and methods</h1><h1 id="5-Interface-API"><a href="#5-Interface-API" class="headerlink" title="5.Interface API"></a>5.Interface API</h1><h1 id="6-option"><a href="#6-option" class="headerlink" title="6.option"></a>6.option</h1><h1 id="7-source"><a href="#7-source" class="headerlink" title="7.source"></a>7.source</h1><h1 id="8-Use-of-higher-order-functions"><a href="#8-Use-of-higher-order-functions" class="headerlink" title="8. Use of higher-order functions"></a>8. Use of higher-order functions</h1><h1 id="9-Implicit-conversion"><a href="#9-Implicit-conversion" class="headerlink" title="9. Implicit conversion"></a>9. Implicit conversion</h1><h1 id="10-Generics"><a href="#10-Generics" class="headerlink" title="10. Generics"></a>10. Generics</h1><h1 id="11-Collection"><a href="#11-Collection" class="headerlink" title="11.Collection"></a>11.Collection</h1><p>refresh ……..</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> scala </tag>
-            
-        </tags>
       
     </entry>
     
@@ -577,31 +564,6 @@
         <tags>
             
             <tag> zk </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>关于super关键字和this的区别</title>
-      <link href="/2022/03/17/%E5%85%B3%E4%BA%8Esuper%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthis%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
-      <url>/2022/03/17/%E5%85%B3%E4%BA%8Esuper%E5%85%B3%E9%94%AE%E5%AD%97%E5%92%8Cthis%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
-      
-        <content type="html"><![CDATA[<h2 id="一、super-与-this-用法"><a href="#一、super-与-this-用法" class="headerlink" title="一、super 与 this 用法"></a>一、super 与 this 用法</h2><h4 id="关于super"><a href="#关于super" class="headerlink" title="关于super"></a>关于super</h4><ol><li><p>主要存在于子类方法中，用于指向子类对象中父类对象。</p></li><li><p>调用父类的属性和方法</p></li><li><p>访问父类的构造函数</p></li></ol><ul><li><p>关于super你首先需要明白的是，如果父类和子类都有一个同名方法</p><p> 在没有重写的情况下，优先调用的是父类的方法</p></li><li><p>只有重写后才会优先调用子类的 这时候就可以使用super关键字来调用</p></li><li><p>super（形参列表）的使用，必须声明在<a href="https://so.csdn.net/so/search?q=%E5%AD%90%E7%B1%BB&spm=1001.2101.3001.7020">子类</a>构造器的首行。</p></li></ul><p><strong>例子</strong></p><p>我们可以注意到父类和子类都有相同的成员变量age，（super.age）就是访问的是Person类中的age </p><p>如果不加super 就近原则就是Student类的age</p><pre><code>class Person &#123;    int age = 12;&#125;class Student extends Person &#123;    int age = 18;    void display() &#123;        System.out.println(&quot;学生年龄：&quot; + super.age);    &#125;&#125;class Test &#123;    public static void main(String[] args) &#123;        Student stu = new Student();        stu.display();    &#125;&#125;</code></pre><h4 id="关于this"><a href="#关于this" class="headerlink" title="关于this"></a>关于this</h4><p>​    1 this相当于是指向当前对象本身</p><p>​    2 形参与成员变量重名，用this来区分</p><p>​    3 this关键字也可以在构造函数中调用其他构造函数 但是必须定义在构造函数的第一行 这一点与super的用法非常相似  this（）调用其他构造函数时，必须放在定义的构造函数第一行。如果随意放在普通方法的第一行，则立马报错</p><p><strong>例子</strong></p><pre><code>class Person&#123;    private String name;    private int age;    Person(String name)    &#123;        //成员变量和局部变量重名，可以用关键字this区分        this.name = name;    &#125;    public void speak()    &#123;        //输出时，会默认为成员增加this关键字，用来代表具体对象的数据        System.out.println(this.name+&quot;：&quot;+this.age);    &#125;&#125;</code></pre><pre><code>class Person&#123;    private String name;    private int age;    Person()    &#123;        name = &quot;baby&quot;;        age = 1;        System.out.println(&quot;Person run&quot;);    &#125;    Person(String name)    &#123;        //成员变量和局部变量重名，可以用关键字this区分        this.name = name;    &#125;    Person(String name,int age)    &#123;        //调用其他构造函数时，只能定义在构造函数的第一行，因为初始化动作要先执行        this();        this.name = name;        this.age = age;    &#125;    public void speak()    &#123;        System.out.println(this.name+&quot;：&quot;+this.age);    &#125; &#125;  class ThisDemo &#123;    public static void main(String[] args)     &#123;        Person p = new Person(&quot;小强&quot;,10);        p.speak();    &#125;&#125;//输出结果Person run 小强：10</code></pre><p> <strong>虽然我们在 Person(String name,int age) 构造函数中调用了 Person() 构造函数，但是最后的输出结果，仅输出了 Person run ，成员变量的内容还是我们在新建对象时，传递进去的参数，并不是 Person() 中初始化的内容。成员变量传进去的参数所被覆盖了</strong></p><h4 id="二、关于一些细节"><a href="#二、关于一些细节" class="headerlink" title="二、关于一些细节"></a>二、关于一些细节</h4><p>为了看的更直观 我们直接用代码进行说明</p><pre><code>public class Animal &#123;    public Animal() &#123;        System.out.println(&quot;Animal类的无参数构造函数执行&quot;);    &#125;&#125;class Cat extends Animal &#123;    public Cat() &#123;        System.out.println(&quot;Cat类的无参数构造函数执行&quot;);        &#125;    &#125;    class Test &#123;        public static void main(String[] args) &#123;            Cat c1 = new Cat();        &#125;    &#125;// 在实例化对象的时候 直接就把构造器的方法全执行了//上面的隐藏了一个super(); 你写不写都行 但为了看的方便我们还是需要在子类的构造器中写一下的</code></pre><p>那么又引出一个问题 父类有多个构造器我们怎么知道super调用的是哪个?</p><p>1.父类是无参构造器 super（）；</p><p>2.父类是有参构造器super(name,age); 调用相同形参的</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> JAVA </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> JAVA </tag>
             
         </tags>
       
