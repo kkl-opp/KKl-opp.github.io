@@ -446,14 +446,14 @@ InnoDB 的架构分为两块：内存中的">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-08-09
+                    2022-08-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    2.9k
                 </div>
                 
 
@@ -495,7 +495,8 @@ InnoDB 的架构分为两块：内存中的">
 <p>当然记录所有的重做日志不太现实，所以 InnoDB 引入了检查点机制。即定期检查，保证检查点之前的日志都已经写到磁盘，则下次恢复只需要从检查点开始。</p>
 <h2 id="1-3-InnoDB-内存中的结构"><a href="#1-3-InnoDB-内存中的结构" class="headerlink" title="1.3.InnoDB 内存中的结构"></a>1.3.<strong>InnoDB 内存中的结构</strong></h2><p>Buffer Pool，Change Buffer、Adaptive Hash Index以及 Log Buffer</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/7c4eca9be779e05b590da69ba0dd0cb4.png"></p>
-<h4 id="Buffer-Pool"><a href="#Buffer-Pool" class="headerlink" title="Buffer Pool"></a>Buffer Pool</h4><p>InnoDB中数据管理的最小单位为页，默认每页大小为16KB</p>
+<h4 id="Buffer-Pool"><a href="#Buffer-Pool" class="headerlink" title="Buffer Pool"></a>Buffer Pool</h4><p>作用：为了加快数据的访问，会把常用的数据放在缓存中，避免每次都去访问数据库。</p>
+<p>InnoDB中数据管理的最小单位为页，默认每页大小为16KB</p>
 <p>缓冲池缓存的数据包括Page Cache、Change Buffer、Data Dictionary Cache等，通常 MySQL 服务器的 80% 的物理内存会分配给 Buffer Pool。Buffer Pool被分成了很多<strong>页</strong>，每页可以存放很多数据。那么为什么要分配这么多内存空间呢，因为能缓存的数据就更多，更多的操作都会发生在内存(内存是最快的！！)</p>
 <p>多个Buffer Pool</p>
 <p>一个mysql实例中，缓冲池不只一个，而是有多个，所有缓存页根据哈希值平均分配到不同缓冲池实例。将内存空间分为多个缓冲池是为了增加临界资源，减少多个线程对buffer pool的竞争（毕竟访问buffer pool的各种链表都需要加锁处理），提高并发。</p>
@@ -511,6 +512,7 @@ InnoDB 的架构分为两块：内存中的">
 <h4 id="LRU算法："><a href="#LRU算法：" class="headerlink" title="LRU算法："></a>LRU算法：</h4><p> 普通 : 实现的是末尾淘汰法,当整个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E9%93%BE%E8%A1%A8&spm=1001.2101.3001.7020">链表</a>已满时,淘汰尾部,将新的数据页加入头部</p>
 <p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20210422201334762.png"></p>
 <p><strong>new sublist占用5&#x2F;8的空间</strong>     <em><strong>*‘热端’*</strong></em>  经常被访问的数据<br>midpoint是两者的中间点<br><strong>old sublist占用3&#x2F;8的空间</strong>      <em><strong>*‘冷端’*</strong></em>  很少被访问的数据</p>
+<p>起到了一个隔断的作用</p>
 <p><strong>流程：</strong></p>
 <p> 1.当 InnoDB 从磁盘读一页数据并放入缓冲池中时，它会将此页插入到列表的中间位置（也就是冷端页子表的头部）。发生读页一般是因为用户查询数据，或者InnoDB自动触发的read-ahead操作。</p>
 <p>2.读取旧页子表中的数据会让该页变新（年轻，young），’并将其移动到缓冲池的头部（也就是新页子表的头部）。</p>
@@ -523,13 +525,13 @@ InnoDB 的架构分为两块：内存中的">
 <li>Buffer Pool 预热</li>
 </ul>
 <p>Mysql重启时，BP中的热数据会清空，为此mysql提供了缓冲池预热功能，当关机时会把内存中的热数据写入到 ib_buffer_pool 文件中，保存的数据占 lru 的比例可由参数控制，mysql启动时会自动加载热数据到缓冲池。预热功能默认开启。</p>
-<p><strong>刷盘</strong></p>
-<p>1、从LRU 链表的冷数据区刷新部分页面到磁盘</p>
-<p>后台线程会定时从 LRU 链表尾部开始扫描指定数量的页面（比如每次只扫描最靠近末尾的1000个页），发现脏页（控制块的某个属性记录了一个页是不是脏页）则刷新到磁盘，这种刷 新页面的方式称为BUF_FLUSH_LRU。</p>
-<p>热数据的脏页会随着它不被访问而进入到冷数据区，从而被检测到并刷盘。如果热数据的脏页一直都在使用，不会进入到冷数据区，也可以通过第二种方式保证热数据的脏页在一定时间内刷盘。</p>
-<p>优刷盘冷数据而不优先刷盘热数据是因为，热数据在短时间可能被多次修改，如果优先刷盘热数据页，这个页很快又会被修改，又需要再刷盘，不如等它变成冷数据再刷盘。<br><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/2021050715434878.png"></p>
-<h4 id="Change-Buffer"><a href="#Change-Buffer" class="headerlink" title="Change Buffer"></a>Change Buffer</h4><p>Change buffer 的主要目的是将对 <strong>非唯一 辅助索引页的操作缓存下来</strong>，以此减少辅助索引的随机IO，并达到操作合并的效果。它会占用部分Buffer Pool 的内存空间。如果辅助索引页已经在缓冲区了，则直接修改即可；如果不在，则先将修改保存到 Change Buffer。Change Buffer的数据在对应辅助索引页读取到缓冲区时合并到真正的辅助索引页中。Change Buffer 内部实现也是使用的 B+ 树。</p>
-<p>在进行DML操作时，系统不会直接将变更刷新到磁盘中，而是会先将变更的页写入到缓冲区，经过一系列策略同步到磁盘。</p>
+<h4 id="MySQL缓冲池污染"><a href="#MySQL缓冲池污染" class="headerlink" title="MySQL缓冲池污染"></a>MySQL缓冲池污染</h4><p>当某一个SQL语句，要批量扫描大量数据时，可能导致把缓冲池的所有页都替换出去，导致大量热数据被换出，MySQL性能急剧下降，这种情况叫缓冲池污染。</p>
+<p>全表扫描 或者查询到一个数量集比较大的数据 如果频繁读写就会把young的部分的数据全部替换出去</p>
+<p>所以innodb就采用了young 的和 old 两个分区 大量的数据首先会被插入到old的头部 待的时间需要大于T</p>
+<p>才会被放在young区的头部，并淘汰young区不活跃的页</p>
+<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/2021050715434878.png"></p>
+<h4 id="Change-Buffer"><a href="#Change-Buffer" class="headerlink" title="Change Buffer"></a>Change Buffer</h4><p>DML 不会立刻刷入磁盘 而是会先将变更的页写入到缓冲区，经过一系列策略同步到磁盘。</p>
+<p>Change buffer 的主要目的是将对 <strong>非唯一 辅助索引页的操作缓存下来</strong>，以此减少辅助索引的随机IO，并达到操作合并的效果。它会占用部分Buffer Pool 的内存空间。如果辅助索引页已经在缓冲区了，则直接修改即可；如果不在，则先将修改保存到 Change Buffer。Change Buffer的数据在对应辅助索引页读取到缓冲区时合并到真正的辅助索引页中。Change Buffer 内部实现也是使用的 B+ 树。</p>
 <p>此时分为两种情况：</p>
 <p>1、当更改的页存在于 Buffer Pool 的 lru 链表，则直接在缓冲池中修改这个页，这个页会变成脏页，链入到 flush list中，但并不马上刷盘；此时不涉及 change buffer 操作。</p>
  <br/>
