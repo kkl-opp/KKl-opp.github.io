@@ -4,12 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="mysql中的表空间, Aiplex">
-    <meta name="description" content="mysql表空间查看是否开启：show variables like ‘%innodb_file_per_table%’ ;
-SHOW VARIABLES LIKE ‘datadir’;
-0 代表系统 1代表独立
-
-1. 独立表空间底层的存">
+    <meta name="keywords" content="hive on spark异常排查, Aiplex">
+    <meta name="description" content="问题发现：在使用bin&amp;#x2F;hive 启动hive的时候报错Failed to execute spark task, with exception ‘org.apache.hadoop.hive.ql.metadata.HiveEx">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -21,7 +17,7 @@ SHOW VARIABLES LIKE ‘datadir’;
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>mysql中的表空间 | Aiplex</title>
+    <title>hive on spark异常排查 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -288,12 +284,12 @@ SHOW VARIABLES LIKE ‘datadir’;
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">mysql中的表空间</h1>
+                    <h1 class="description center-align post-title">hive on spark异常排查</h1>
                 </div>
             </div>
         </div>
@@ -409,8 +405,8 @@ SHOW VARIABLES LIKE ‘datadir’;
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/mysql/">
-                                <span class="chip bg-color">mysql</span>
+                            <a href="/tags/HIVE/">
+                                <span class="chip bg-color">HIVE</span>
                             </a>
                         
                     </div>
@@ -421,8 +417,8 @@ SHOW VARIABLES LIKE ‘datadir’;
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/mysql/" class="post-category">
-                                mysql
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
+                                大数据生态圈
                             </a>
                         
                     </div>
@@ -434,28 +430,28 @@ SHOW VARIABLES LIKE ‘datadir’;
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-06-18
+                    2022-08-15
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-06-18
+                    2022-08-15
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.3k
+                    581
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    7 分
+                    2 分
                 </div>
                 
 
@@ -475,60 +471,47 @@ SHOW VARIABLES LIKE ‘datadir’;
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="mysql表空间"><a href="#mysql表空间" class="headerlink" title="mysql表空间"></a>mysql表空间</h1><p>查看是否开启：show variables like ‘%innodb_file_per_table%’ ;</p>
-<p>SHOW VARIABLES LIKE ‘datadir’;</p>
-<p>0 代表系统 1代表独立</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/SO6Ld1GtjHNlSJIV-bQF-YPiXg71ITxP7Wmk0qi8tVw.png"></p>
-<h3 id="1-独立表空间"><a href="#1-独立表空间" class="headerlink" title="1. 独立表空间"></a>1. 独立表空间</h3><p>底层的存储是怎么存储的？那么多表mysql是如何管理和维护数据和索引的？那么要搞清楚这个概念，你需要知道的是表空间的相关知识。</p>
-<p>对于 InnoDB 存储引擎，它可以将每张表存放于独立的表空间（1-&gt;1），即 <code>tablename.ibd</code> 文件；也可以将数据存放于 <code>ibdata</code> 的共享表空间，一般命名是 <code>ibdataX</code>，后面的 X 是一个具体的数字。</p>
-<ul>
-<li><strong>需要注意的是，**<strong>innodb_file_per_table</strong></strong> 要在创建表之前修改，创建表之后再去修改，是不会影响已有的表结构。**</li>
-<li>每张表的数据和索引都会存储在自己的表空间中。</li>
-</ul>
-<ol>
-<li>可以实现单表在不同的数据库中移动（因为每张表都有独立的数据表文件）。</li>
-<li>空间可以回收（通过 optimize table 等命令实现）。</li>
-</ol>
-<h2 id="2-系统表空间"><a href="#2-系统表空间" class="headerlink" title="2.系统表空间"></a>2.系统表空间</h2><p>默认情况下，InnoDB会在数据目录下创建一个名为 ibdata1 、大小为 12M 的文件，这个文件就是对应</p>
-<p>的 系统表空间 在文件系统上的表示。怎么才12M？注意这个文件是 自扩展文件 ，当不够用的时候它会自己增加文件大小。</p>
-<h2 id="3-版本变动"><a href="#3-版本变动" class="headerlink" title="3.版本变动"></a>3.版本变动</h2><p>在MySQL5.6.6以及之后的版本中，innodb为每一个表建立一个独立表空间 ，也就是说我们创建了多少个表，就有多少个独立表空间。使用 独立表空间 来存储表数据的话，会在该表所属数据库对应的子目录下创建一个表示该独立表空间的文件，文件名和表名相同，只不过添加了一个 .ibd 的扩展名而已。</p>
-<p>MySQL5.7 中会在data&#x2F;a的目录下生成 db.opt 文件用于保存数据库的相关配置</p>
-<p>在8.0中 frm 和 ibd -&gt; ibd  db.opt也不再提供</p>
-<p>扩展：</p>
-<p>如果采取MyISAM引擎 ，data\a中会产生3个文件：</p>
-<p>MySQL5.7 中： b.frm ：描述表结构文件，字段长度等。</p>
-<p>MySQL8.0 中 b.xxx.sdi ：描述表结构文件，字段长度等</p>
-<p>b.MYD (MYData)：数据信息文件，存储数据信息(如果采用独立表存储模式)</p>
-<p>b.MYI (MYIndex)：存放索引信息文件</p>
-<h2 id="4-共享表空间和独立表空间的优缺点"><a href="#4-共享表空间和独立表空间的优缺点" class="headerlink" title="4.共享表空间和独立表空间的优缺点"></a>4.共享表空间和独立表空间的优缺点</h2><p>共享表空间<br>Innodb的所有数据保存在一个单独的表空间里面，共享表空间可以由多个文件组成，当表使用共享表空间时，表数据可以分布在多个文件中，从而不受Innodb单表不超过64TB的限制。<br>默认的共享表空间的文件路径在data目录下，默认文件名为ibdata1，初始化为10M。</p>
-<p>优点：<br>可以放表空间分成多个文件存放到各个磁盘上，没有单表不超过64TB的限制。</p>
-<p>缺点：<br>由于多表共用一个共享表空间，当某些表进行大量删除后，共享表空间存在大量碎片，但MySQL暂未提供对共享表空间收缩的方法。<br>表空间中的空间只能被这个表使用<br>fsync操作必须在每个表上都运行一遍<br>mysqld必须保持一个打开的文件句柄，表太多会影响性能。(消耗很多 fd)</p>
-<p>通过innodb_file_per_table参数将innodb表的数据和索引存放到其自己的表空间中，不再使用共享表空间，独立表空间的默认目录为innodb_data_file<br>独立表空间<br>优点：<br>1、 每个表有自己独立的表空间，数据和索引存放到其独立的表空间中。<br>2、可以轻松实现表在不同数据库之间移动<br>3、DROP TABLE后，表使用的空间立即被释放<br>4、当表中数据被大量删除后，可以使用alter table TableName engine&#x3D;innodb;来进行收缩<br>5、表空间存在碎片时不会影响其他表的使用。</p>
-<p>缺点：<br>1、使用独立表空间后，无法再将表数据分散到不同的多个文件中，如果单个存储无法提供该表所需的全部空间时，无法通过增加新存储来解决<br>2、innodb_file_per_table开启后，不会影响已经使用共享表空间的表。<br>3、单表数据较大时，导致其对于的数据文件过大而不利于维护</p>
-<h5 id="小结："><a href="#小结：" class="headerlink" title="小结："></a>小结：</h5><p>系统表空间<br>使用系统表空间的话，会在该表所在数据库对应的子目录下创建一个名为”表名.frm”的文件，表中的数据会存储在对应的文件中。</p>
-<p>独立表空间<br>会在该表所在数据库对应的子目录下创建一个名为”表名.frm”和一个名为”表名.ibd”的文件，表中的数据会存储在这个ibd的文件中。8.0只有ibd 默认独立</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/SUDMhXOXWIhr6oebk0RvPtICdaepVV4TXzA7J77UACs.png"></p>
-<p>Q:有什么用？为什么要提出namespace的概念？</p>
-<p>对于<code>InnoDB</code>存储引擎来说，每一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%A1%A8%E7%A9%BA%E9%97%B4&spm=1001.2101.3001.7020">表空间</a>可被划分成很多个页，表数据存放在表空间下的某些页中。表空间分为几种不同的类型。</p>
-<p>这里谈到了区和段的概念</p>
-<h3 id="区"><a href="#区" class="headerlink" title="区"></a>区</h3><p>表空间中的页实在是太多了，为了更好的管理这些页面，所以提出了区（extent）的概念。对于16KB的页来说，<strong>连续的64个页就是一个区</strong>，也就是说一个区默认占用1MB的空间。无论是系统表空间还是独立表空间，都可以看作由若干个连续的区组成，每256个区被划分为一组。</p>
-<p>其中extent0-extent255为一组，extent256-extent511为一组，依此类推，可以划分更多的组。</p>
-<ul>
-<li>FREE-空闲的区</li>
-<li>FREE_FRAG-有剩余空闲页面的碎片区</li>
-<li>FULL_FRAG-没有剩余空闲页面的碎片区</li>
-<li>FSEG-附属某个段的区</li>
-</ul>
-<h3 id="段"><a href="#段" class="headerlink" title="段"></a>段</h3><p>段是一些零散页的页面以及一些完整的区的集合。</p>
-<p>为了尽量使用顺序I&#x2F;O，提升磁盘的性能，作者不仅提出了区的概念，有提出了段的概念。上面说的256个区为一个组，其实这个组就是段。 每一个索引都对应2个段，一个叶子节点段，一个非叶子节点段。</p>
-<h3 id="组"><a href="#组" class="headerlink" title="组"></a>组</h3><ul>
-<li>每256个区分为一组</li>
-<li>每个组的最开始的几个页面类型是固定的</li>
-</ul>
-<p>我们每向表中插入一条记录，本质上就是向该表的聚簇索引以及所有二级索引代表的B+树的节点中插入数据。而B+树每一层中的页都会形成一个双向链表，如果以页尾单位来分配存储空间，双向链表相邻的两个页之间的物理位置可能离的非常远。前面提到使用B+树来减少存储记录的扫描行数的过程是通过一些搜索条件到B+树的叶子节点中定位到第一条符合该条件的记录，然后沿着由该记录组成的单向链表以及数据页组成的双向链表一直向后扫描就可以了。</p>
-<p>如果双向链表中相邻的两个页的物理位置不连续，对于传统的机械硬盘来说，需要重新定位磁头位置，也就是会产生随机I&#x2F;O，这样会影响磁盘的性能，所以我们应该尽量让页面链表中相邻的页的物理位置页尽量相邻，这样在扫描叶子节点中大量的记录时才可以使用顺序I&#x2F;O。</p>
-<p>所以才引入了区的概念，一个区就是在物理位置上连续的64个页。在表中的数据量很大时，为某个索引分配空间的时候就不再按照页尾单位分配了。而是按照区为单位进行分配。甚至在表中的数据非常非常多的时候，可以一次性分配多个连续的区。虽然可能造成一点点空间的浪费，但是可以消除很多随机I&#x2F;O。</p>
-<p>我们在使用B+树执行查询时，只是在扫描叶子节点的记录，如果不区分叶子节点和非叶子节点，而是统统把节点代表的页面放到申请到的区里，扫描效果就大打折扣了，所以这里对叶子节点和非叶子节点进行了区分，也就是说，叶子节点和非叶子节点都有自己独立的区。存放叶子节点的区的集合就是一个段（segment），存放非叶子节点的区的集合也是一个段。也就是说一个索引会生成两个段，一个叶子节点段，一个非叶子节点段。</p>
+                <h3 id="问题发现：在使用bin-x2F-hive-启动hive的时候报错"><a href="#问题发现：在使用bin-x2F-hive-启动hive的时候报错" class="headerlink" title="问题发现：在使用bin&#x2F;hive 启动hive的时候报错"></a>问题发现：在使用bin&#x2F;hive 启动hive的时候报错</h3><p>Failed to execute spark task, with exception ‘org.apache.hadoop.hive.ql.metadata.HiveException(Failed to create spark client.)’<br>FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.spark.SparkTask</p>
+<p>Hive版本 3.1.2</p>
+<p>Spar版本 3.0.0</p>
+<p>在官方查了资料可知目前hive最高支持2.6的spark版本，并不支持3.0的版本。所以要自己编译jar包和反编译。可以按照尚硅谷配置完</p>
+<p>hive 和 spark的相关参数。</p>
+<p>这边的hiveserver2 和 metastore 可以不用开，hive的元数据信息存储在mysql中，我们作为客户端可以直接连接，也可以选择metastore来间接连接。如果使用datagrip进行远程连接则需要在core-site.xml中配置(可略过)</p>
+<p><strong>lyc-&gt;改成自己的host名</strong></p>
+<pre><code> &lt;property&gt;
+      &lt;name&gt;hadoop.proxyuser.lyc.hosts&lt;/name&gt;
+      &lt;value&gt;*&lt;/value&gt;
+ &lt;/property&gt;
+ &lt;property&gt;
+        &lt;name&gt;hadoop.proxyuser.lyc.groups&lt;/name&gt;
+ &lt;value&gt;*&lt;/value&gt;
+ &lt;/property&gt; 
+ &lt;property&gt;
+ &lt;name&gt;dfs.permissions&lt;/name&gt;
+ &lt;value&gt;false&lt;/value&gt;
+ &lt;/property&gt;
+</code></pre>
+<h3 id="故障排查："><a href="#故障排查：" class="headerlink" title="故障排查："></a>故障排查：</h3><p>打开&#x2F;tmp&#x2F;hive</p>
+<p>查看日志</p>
+<p>1.主机名显示错误</p>
+<p>No Route to Host from  hadoop01&#x2F;192.168.10.20 to hadoop102:8020 failed on socket timeout exception: java.net.NoRouteToHostException: 没有到主机的路由; For more details see:  <a target="_blank" rel="noopener" href="http://wiki.apache.org/ha">http://wiki.apache.org/ha</a></p>
+<p>hadoop102 应该改成自己的 hadoop01 参数在hive.site.xml的配置中</p>
+<p>2.配置环境变量</p>
+<p>将Hadoop和spark的环境变量添加到自己的环境变量中，并检查</p>
+<p>修改yarn-site.xml，在其中添加SPARK_HOME 并分发</p>
+<p>3.修改spark连接的时间：</p>
+<pre><code>&lt;!--Hive和Spark连接超时时间--&gt;
+&lt;property&gt;
+    &lt;name&gt;hive.spark.client.connect.timeout&lt;/name&gt;
+    &lt;value&gt;80000ms&lt;/value&gt;
+&lt;/property&gt;
+</code></pre>
+<p>4.在saprk的conf下修改spark-env.sh（直接这样复制就可以）</p>
+<p>export SPARK_DIST_CLASSPATH&#x3D;$(hadoop classpath)</p>
+<p>5.内存分配不足</p>
+<p>如果电脑是8g的可能启动下集群cpu就爆掉了，没有足够的内存跑任务，spark对内存的依赖性比较高，还是老实使用mr去跑</p>
+<p>任务吧</p>
+<p>总结：报错先去看对应的日志，去hadoop02中查看到详细信息，bug需要一步步进行排查，再从网上得出相关结论。Linux对某些资源的权限和参数把控的很严，如果不配置就会报错。</p>
 
                 
             </div>
@@ -555,7 +538,7 @@ SHOW VARIABLES LIKE ‘datadir’;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/06/18/mysql%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/">https://kkl-opp.github.io/2022/06/18/mysql%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/</a>
+                    <a href="https://kkl-opp.github.io/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">https://kkl-opp.github.io/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -593,8 +576,8 @@ SHOW VARIABLES LIKE ‘datadir’;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/mysql/">
-                                    <span class="chip bg-color">mysql</span>
+                                <a href="/tags/HIVE/">
+                                    <span class="chip bg-color">HIVE</span>
                                 </a>
                             
                         </div>
@@ -908,17 +891,18 @@ SHOW VARIABLES LIKE ‘datadir’;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/07/06/mysql%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/">
+                <a href="/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="mysql的锁机制">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="hive on spark异常排查">
                         
-                        <span class="card-title">mysql的锁机制</span>
+                        <span class="card-title">hive on spark异常排查</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -928,26 +912,27 @@ SHOW VARIABLES LIKE ‘datadir’;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-06
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/mysql/" class="post-category">
-                                    mysql
+                            <a href="/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%94%9F%E6%80%81%E5%9C%88/" class="post-category">
+                                    大数据生态圈
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/mysql/">
-                        <span class="chip bg-color">mysql</span>
+                    <a href="/tags/HIVE/">
+                        <span class="chip bg-color">HIVE</span>
                     </a>
                     
                 </div>
@@ -961,13 +946,13 @@ SHOW VARIABLES LIKE ‘datadir’;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/13/mysql8-0%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7-%E7%AA%97%E5%8F%A3%E5%87%BD%E6%95%B0/">
+                <a href="/2022/08/09/mysql%E4%B8%ADInoodb%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="mysql8.0的新特性-窗口函数">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="mysql中Inoodb底层原理">
                         
-                        <span class="card-title">mysql8.0的新特性-窗口函数</span>
+                        <span class="card-title">mysql中Inoodb底层原理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -978,7 +963,7 @@ SHOW VARIABLES LIKE ‘datadir’;
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-09
                             </span>
                         <span class="publish-author">
                             
