@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>numpy_sort&amp;del</title>
+      <link href="/2022/08/18/numpy-sort/"/>
+      <url>/2022/08/18/numpy-sort/</url>
+      
+        <content type="html"><![CDATA[<h1 id="numpy-sort"><a href="#numpy-sort" class="headerlink" title="numpy.sort"></a>numpy.sort</h1><h2 id="ONE-排序"><a href="#ONE-排序" class="headerlink" title="ONE 排序"></a>ONE 排序</h2><p>axis &#x3D; 0 代表行操作</p><p> axis &#x3D;1 代表列操作 </p><p>不再重复</p><h3 id="1-sort"><a href="#1-sort" class="headerlink" title="1.sort"></a>1.sort</h3><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm7.png"></p><p>par1：传入的数组 可以是多维</p><p>par2：沿着排序的轴 axis&#x3D;-1 (x轴) axis &#x3D;0 (y轴) 默认axis&#x3D;-1</p><p>par3：提供的排序方法：quitsort heapsort timesort</p></n><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm6.png" alt="nm6">如何降序排列：</p><p> x[::-1]  注意仅对一维数组有效</p><p>如果对二维数组 我采用的方法是遍历反转</p><p>具体代码如下</p><p>ff &#x3D; np.array([[3, 6, 10, 2, 10], [2, 10, 3, 4, 5],[3,3,4,9,10]])</p><p>f1 &#x3D; np.sort(ff)</p><p>for index in range(len(f1)):</p><p>  print(f1[index][::-1])</p><h3 id="2-lexsort"><a href="#2-lexsort" class="headerlink" title="2.lexsort()"></a>2.lexsort()</h3><p>def lexsort(keys, axis&#x3D;None)</p><p>lexsort是一种多级排序方法。作用为对给定的 keys 中的<strong>最后一个 key</strong> 排序，每一个 key 都被认为是列向量，其他 keys 用来辅助最后一个 key 进行排序。最后返回最后一个 key 进行排序的<strong>索引</strong>。</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm5.png"></p><p>计算的规则如下：</p><p>#a1 拍完后的索引 再个根据b来进行比较</p><p>#a1 &#x3D; [80,70,90,100,100] &#x3D;&gt; [70,80,90,100,100] &#x3D;&gt; (1,0,2,3,4)</p><p>a1 &#x3D; [80,70,90,100,100]</p><p>b1 &#x3D; [77,92,88,95,92]</p><p>cc &#x3D; np.lexsort((b1,a1))</p><p># cause 95&gt;92 </p><p># return [1 0 2 4 3] index</p><h3 id="3-sort-complex"><a href="#3-sort-complex" class="headerlink" title="3.sort_complex()"></a>3.<strong>sort_complex()</strong></h3><p>对复数进行排序</p><h3 id="4-searchsorted"><a href="#4-searchsorted" class="headerlink" title="4.searchsorted()"></a>4.<strong>searchsorted()</strong></h3><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm4.png"></p><p>二分查找用于查找所需的插入点</p><p>从 NumPy 1.4.0 开始<a href="https://numpy.org/doc/stable/reference/generated/numpy.searchsorted.html#numpy.searchsorted" title="numpy.searchsorted">searchsorted</a>，可以使用包含 <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="numpy.nan">nan</a>值的实数&#x2F;复数数组。增强的排序顺序记录在<a href="https://numpy.org/doc/stable/reference/generated/numpy.sort.html#numpy.sort" title="numpy.sort">sort</a>.</p><p><a href="https://docs.python.org/3/library/bisect.html#bisect.bisect_left" title="（在 Python v3.10 中）">bisect.bisect_left</a> 此函数使用与内置 python ( side&#x3D;’left’) 和<a href="https://docs.python.org/3/library/bisect.html#bisect.bisect_right" title="（在 Python v3.10 中）">bisect.bisect_right</a>( ) 函数相同的算法，该算法side&#x3D;’right’也在_v_参数中进行了矢量化。</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm3.png"></p><p>关于二分查找需要一定要考虑好左右边界</p><p>测试效率：</p><p>import time</p><p>time_start &#x3D; time.time() </p><p>放你的代码块</p><p>time_end &#x3D; time.time()</p><p>time_sum &#x3D; time_end - time_start</p><p>print(time_sum)</p><h1 id="TWO-insert-x2F-delete"><a href="#TWO-insert-x2F-delete" class="headerlink" title="TWO insert&#x2F;delete"></a>TWO insert&#x2F;delete</h1><p>quick start</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm2.png"></p><p>numpy.append(arr, values, axis&#x3D;None)</p><p>如果没有给定axis 则会将数组完全展开</p><p>a &#x3D; np.array([[1,4,4,5,6],[2,3,3,4,5]])</p><p>c &#x3D; np.append(a,[[3,4,5,6,7],[1,2,3,4,5]],axis&#x3D;1)</p><p>print(c)</p><p>numpy.insert(arr, obj, values, axis)</p></n><p>参数说明：</p><ul><li><p>arr：输入数组</p></li><li><p>obj：在其之前插入值的索引</p></li><li><p>values：要插入的值</p></li><li><p>axis：沿着它插入的轴，如果未提供，则输入数组会被展开</p></li></ul><p>Numpy.delete(arr, obj, axis)</p></n><p>参数说明：</p><ul><li><p>arr：输入数组</p></li><li><p>obj：可以被切片，整数或者整数数组，表明要从输入数组删除的子数组</p></li><li><p>axis：沿着它删除给定子数组的轴，如果未提供，则输入数组会被展开</p></li></ul><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/nm1.png"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据分析 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Numpy </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>hive on spark异常排查</title>
       <link href="/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/"/>
       <url>/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</url>
