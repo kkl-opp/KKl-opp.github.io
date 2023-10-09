@@ -29,31 +29,6 @@
     
     
     <entry>
-      <title>hive on spark异常排查</title>
-      <link href="/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/"/>
-      <url>/2022/08/15/hive-on-spark%E5%BC%82%E5%B8%B8%E6%8E%92%E6%9F%A5/</url>
-      
-        <content type="html"><![CDATA[<h3 id="问题发现：在使用bin-x2F-hive-启动hive的时候报错"><a href="#问题发现：在使用bin-x2F-hive-启动hive的时候报错" class="headerlink" title="问题发现：在使用bin&#x2F;hive 启动hive的时候报错"></a>问题发现：在使用bin&#x2F;hive 启动hive的时候报错</h3><p>Failed to execute spark task, with exception ‘org.apache.hadoop.hive.ql.metadata.HiveException(Failed to create spark client.)’<br>FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.spark.SparkTask</p><p>Hive版本 3.1.2</p><p>Spar版本 3.0.0</p><p>在官方查了资料可知目前hive最高支持2.6的spark版本，并不支持3.0的版本。所以要自己编译jar包和反编译。可以按照尚硅谷配置完</p><p>hive 和 spark的相关参数。</p><p>这边的hiveserver2 和 metastore 可以不用开，hive的元数据信息存储在mysql中，我们作为客户端可以直接连接，也可以选择metastore来间接连接。如果使用datagrip进行远程连接则需要在core-site.xml中配置(可略过)</p><p><strong>lyc-&gt;改成自己的host名</strong></p><pre><code> &lt;property&gt;      &lt;name&gt;hadoop.proxyuser.lyc.hosts&lt;/name&gt;      &lt;value&gt;*&lt;/value&gt; &lt;/property&gt; &lt;property&gt;        &lt;name&gt;hadoop.proxyuser.lyc.groups&lt;/name&gt; &lt;value&gt;*&lt;/value&gt; &lt;/property&gt;  &lt;property&gt; &lt;name&gt;dfs.permissions&lt;/name&gt; &lt;value&gt;false&lt;/value&gt; &lt;/property&gt;</code></pre><h3 id="故障排查："><a href="#故障排查：" class="headerlink" title="故障排查："></a>故障排查：</h3><p>打开&#x2F;tmp&#x2F;hive</p><p>查看日志</p><p>1.主机名显示错误</p><p>No Route to Host from  hadoop01&#x2F;192.168.10.20 to hadoop102:8020 failed on socket timeout exception: java.net.NoRouteToHostException: 没有到主机的路由; For more details see:  <a href="http://wiki.apache.org/ha">http://wiki.apache.org/ha</a></p><p>hadoop102 应该改成自己的 hadoop01 参数在hive.site.xml的配置中</p><p>2.配置环境变量</p><p>将Hadoop和spark的环境变量添加到自己的环境变量中，并检查</p><p>修改yarn-site.xml，在其中添加SPARK_HOME 并分发</p><p>3.修改spark连接的时间：</p><pre><code>&lt;!--Hive和Spark连接超时时间--&gt;&lt;property&gt;    &lt;name&gt;hive.spark.client.connect.timeout&lt;/name&gt;    &lt;value&gt;80000ms&lt;/value&gt;&lt;/property&gt;</code></pre><p>4.在saprk的conf下修改spark-env.sh（直接这样复制就可以）</p><p>export SPARK_DIST_CLASSPATH&#x3D;$(hadoop classpath)</p><p>5.内存分配不足</p><p>如果电脑是8g的可能启动下集群cpu就爆掉了，没有足够的内存跑任务，</p><p>spark对内存的依赖性比较高，还是老实使用mr去跑任务吧</p><p>总结：报错先去看对应的日志，去hadoop02中查看到详细信息，bug需要一步步进行排查，再从网上得出相关结论。Linux对某些资源的权限和参数把控的很严，如果不配置就会报错。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 大数据生态圈 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> HIVE </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>mysql中Inoodb底层原理</title>
       <link href="/2022/08/09/mysql%E4%B8%ADInoodb%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/"/>
       <url>/2022/08/09/mysql%E4%B8%ADInoodb%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/</url>
@@ -178,31 +153,6 @@
         <tags>
             
             <tag> mysql </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>sqoop的配置和使用</title>
-      <link href="/2022/05/31/sqoop%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/"/>
-      <url>/2022/05/31/sqoop%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E4%BD%BF%E7%94%A8/</url>
-      
-        <content type="html"><![CDATA[<h1 id="sqoop"><a href="#sqoop" class="headerlink" title="sqoop"></a>sqoop</h1><p>Apache Sqoop(TM) 是一种工具，设计用于在 <a href="http://hadoop.apache.org/">Apache Hadoop</a>和结构化数据存储（如关系数据库）之间高效传输批量数据。</p><p>Sqoop是一款开源的工具，主要用于在Hadoop(Hive)与传统的数据库(mysql、postgresql…)间进行数据的传递，可以将一个关系型数据库（例如 ： MySQL ,Oracle ,Postgres等）中的数据导进到Hadoop的HDFS中，也可以将HDFS的数据导进到关系型数据库中。</p><h2 id="一、sqoop的安装"><a href="#一、sqoop的安装" class="headerlink" title="一、sqoop的安装"></a>一、sqoop的安装</h2><p>下载地址:<a href="http://archive.apache.org/dist/sqoop/1.4.7/">http://archive.apache.org/dist/sqoop/1.4.7/</a></p><p>官方文档:<a href="https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_introduction">https://sqoop.apache.org/docs/1.4.7/SqoopUserGuide.html#_introduction</a></p><p>1.4.7版本支持hadoop2.6及以上的版本 </p><p><strong>部署环境</strong>：hadoop3.0x mysql5.7.29</p><p><strong>需要的驱动</strong>：mysql-connector-java-8.0.23.jar （5.0x版本会报错）</p><h4 id="1-解压对应的包到指定目录"><a href="#1-解压对应的包到指定目录" class="headerlink" title="1.解压对应的包到指定目录"></a>1.解压对应的包到指定目录</h4><p>$ tar -zxvf sqoop-1.4.7.bin__hadoop-2.6.0.tar.gz -C &#x2F;opt&#x2F;module&#x2F;</p><h4 id="2-重命名配置文件"><a href="#2-重命名配置文件" class="headerlink" title="2.重命名配置文件"></a>2.重命名配置文件</h4><p>mv sqoop-env-template.sh sqoop-env.sh</p><h4 id="3-修改配置文件"><a href="#3-修改配置文件" class="headerlink" title="3.修改配置文件"></a>3.修改配置文件</h4><p>export HADOOP_COMMON_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hadoop-3.1.3</p><p>export HADOOP_MAPRED_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hadoop-3.1.3</p><p>export HIVE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hive</p><p>export ZOOKEEPER_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;zookeeper-3.5.7</p><p>export ZOOCFGDIR&#x3D;&#x2F;opt&#x2F;module&#x2F;zookeeper-3.5.7</p><p>export HBASE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hbase-2.1.0</p><h4 id="4-拷贝jdbc驱动"><a href="#4-拷贝jdbc驱动" class="headerlink" title="4.拷贝jdbc驱动"></a>4.拷贝jdbc驱动</h4><p>cp mysql-connector-java-8.0.23.jar &#x2F;opt&#x2F;module&#x2F;sqoop&#x2F;lib&#x2F;</p><h4 id="5-验证Sqoop"><a href="#5-验证Sqoop" class="headerlink" title="5.验证Sqoop"></a>5.验证Sqoop</h4><p>bin&#x2F;sqoop help</p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531163501934.png"></p><h4 id="6-验证是否可以连接数据库"><a href="#6-验证是否可以连接数据库" class="headerlink" title="6.验证是否可以连接数据库"></a>6.验证是否可以连接数据库</h4><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531163614604.png"></p><h4 id="7-配置HIVE相关参数（可选）"><a href="#7-配置HIVE相关参数（可选）" class="headerlink" title="7.配置HIVE相关参数（可选）"></a>7.配置HIVE相关参数（可选）</h4><p>修改环境变量  配置hive相关参数</p><p>#HIVE<br>export HIVE_HOME&#x3D;&#x2F;opt&#x2F;module&#x2F;hive<br>export PATH&#x3D;$PATH:$HIVE_HOME&#x2F;bin<br>export HIVE_CONF_DIR&#x3D;$HIVE_HOME&#x2F;conf</p><h2 id="二、Sqoop的快速上手"><a href="#二、Sqoop的快速上手" class="headerlink" title="二、Sqoop的快速上手"></a>二、Sqoop的快速上手</h2><p>参数介绍</p><p><strong>公用参数：数据库连接</strong></p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164514437.png"><strong>公用参数：import</strong></p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164541462.png"><strong>公用参数：export</strong></p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164607565.png"><strong>公用参数：hive</strong></p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164642597.png"></p><p><strong>其余参数：</strong></p><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164713135.png"></p><h4 id="2-1全表导入"><a href="#2-1全表导入" class="headerlink" title="2.1全表导入"></a>2.1全表导入</h4><p>mysql密码要保证正确  集群已启动</p><pre class="line-numbers language-sql"><code class="language-sql"> bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span><span class="token comment" spellcheck="true">--username root \</span><span class="token comment" spellcheck="true">--password hadoop \</span><span class="token comment" spellcheck="true">--table staff \</span><span class="token comment" spellcheck="true">--target-dir /opt/spw \</span><span class="token comment" spellcheck="true">--num-mappers 1 \</span><span class="token comment" spellcheck="true">--fields-terminated-by "\t"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/image-20220531164129423.png"></p><h4 id="2-2查询导入"><a href="#2-2查询导入" class="headerlink" title="2.2查询导入"></a>2.2查询导入</h4><pre class="line-numbers language-sql"><code class="language-sql">bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span><span class="token comment" spellcheck="true">--username root \</span><span class="token comment" spellcheck="true">--password hadoop \</span><span class="token comment" spellcheck="true">--target-dir /user/company1 \</span><span class="token comment" spellcheck="true">--num-mappers 1 \</span><span class="token comment" spellcheck="true">--fields-terminated-by "\t" \</span><span class="token comment" spellcheck="true">--query "select name,sex from staff where id = 1 and \$CONDITIONS;" </span><span class="token punctuation">(</span>反斜杠 不用加表<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h4 id="2-3导入指定的列"><a href="#2-3导入指定的列" class="headerlink" title="2.3导入指定的列"></a>2.3导入指定的列</h4><pre class="line-numbers language-sql"><code class="language-sql">bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span><span class="token comment" spellcheck="true">--username root \</span><span class="token comment" spellcheck="true">--password hadoop \</span><span class="token comment" spellcheck="true">--target-dir /user/company \</span><span class="token comment" spellcheck="true">--delete-target-dir \</span><span class="token comment" spellcheck="true">--num-mappers 1 \</span><span class="token comment" spellcheck="true">--fields-terminated-by "\t" \</span><span class="token comment" spellcheck="true">--columns id,sex \</span><span class="token comment" spellcheck="true">--table staff</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h4 id="2-4导入至hive"><a href="#2-4导入至hive" class="headerlink" title="2.4导入至hive"></a>2.4导入至hive</h4><pre class="line-numbers language-sql"><code class="language-sql">bin<span class="token operator">/</span>sqoop <span class="token keyword">import</span> \<span class="token comment" spellcheck="true">--connect jdbc:mysql://hadoop102:3306/company \</span><span class="token comment" spellcheck="true">--username root \</span><span class="token comment" spellcheck="true">--password hadoop \</span><span class="token comment" spellcheck="true">--table staff \</span><span class="token comment" spellcheck="true">--num-mappers 1 \</span><span class="token comment" spellcheck="true">--hive-import \</span><span class="token comment" spellcheck="true">--fields-terminated-by "\t" \</span><span class="token comment" spellcheck="true">--hive-overwrite \</span><span class="token comment" spellcheck="true">--hive-database itheima \</span><span class="token comment" spellcheck="true">--hive-table staff_hive</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> 大数据生态圈 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> sqoop </tag>
             
         </tags>
       
