@@ -4,13 +4,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="mysql的锁机制, Aiplex">
-    <meta name="description" content="锁机制并发事务访问，分为以下几种
-1.读-读 允许
-2.写-写 对相同的数据进行写入 可能出现脏写
-一条事务加一个锁？ 三个事务开三把锁 等待执行is_waitting 
-如果为true 就让下一个事务等它执行完再继续执行操作。
-3.读-写">
+    <meta name="keywords" content="对象数组, Aiplex">
+    <meta name="description" content="写在前面：好久没更新了！！！最近课程繁忙，但还是会陆陆续续的更新一些java的知识以及相关框架的知识，博主已从大数据转战后端，所以之前的大数据相关的已经被删除了，但如果有什么学习大数据的困难，也欢迎来联系我
+对象数组数组的元素可以是基本数据">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -22,7 +18,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>mysql的锁机制 | Aiplex</title>
+    <title>对象数组 | Aiplex</title>
     <link rel="icon" type="image/png" href="/fac.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
@@ -289,12 +285,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">mysql的锁机制</h1>
+                    <h1 class="description center-align post-title">对象数组</h1>
                 </div>
             </div>
         </div>
@@ -410,8 +406,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/mysql/">
-                                <span class="chip bg-color">mysql</span>
+                            <a href="/tags/JAVA/">
+                                <span class="chip bg-color">JAVA</span>
                             </a>
                         
                     </div>
@@ -422,8 +418,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/mysql/" class="post-category">
-                                mysql
+                            <a href="/categories/JAVA/" class="post-category">
+                                JAVA
                             </a>
                         
                     </div>
@@ -435,28 +431,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2022-07-06
+                    2023-11-10
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2022-07-26
+                    2023-11-10
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.3k
+                    691
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    15 分
+                    2 分
                 </div>
                 
 
@@ -476,183 +472,52 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="锁机制"><a href="#锁机制" class="headerlink" title="锁机制"></a>锁机制</h1><p>并发事务访问，分为以下几种</p>
-<p>1.读-读 允许</p>
-<p>2.写-写 对相同的数据进行写入 可能出现脏写</p>
-<p>一条事务加一个锁？ 三个事务开三把锁 等待执行is_waitting </p>
-<p>如果为true 就让下一个事务等它执行完再继续执行操作。</p>
-<p>3.读-写</p>
-<p>脏读，不可重复读，幻读</p>
-<p>脏读</p>
-<p>指事务A读取到了事务B更新了但是未提交的数据，然后事务B由于某种错误发生回滚，那么事务A读取到的就是脏数据。</p>
-<p><strong>举个例子</strong> </p>
-<p>我查要这个人的salary原本应该是10000，记为线程A(read)，另一个线程B（write)在这个线程A之前 把salary修改了5000，此时事务还未提交，还没来得及进行回滚，然后我就查到了线程B的数据 5000。 结果线程B内部错误，导致整个事务回滚，回溯到10000。线程A继续执行命令 将这个人的脏读的salary加上10000</p>
-<p>脏读的数据：5000+10000</p>
-<p>实际的应该的数据：10000+10000</p>
-<br/>
-
-<p>不可重复读</p>
-<p>两次读发现结果不一样。线程A最开始查一次 中间插进来一个线程B 直接把你查的东西改掉，可能是木马病毒，导致你这个任务最后再读的时候发现这个查的和第一次不一样。</p>
-<p>幻读：</p>
-<p>两次读发现结果多了几条。直接将你查的东西数据乱插入几条。导致你这个任务最后再读的时候发现这个查的和第一次不一样。</p>
-<p>并发问题解决方案1：MVCC </p>
-<p>MVCC生成一个ReadView 读操作只能查到ReadView生成之前已提交事务所做的更改 未提交的事务都是看不到的，写操作枷锁</p>
-<p>ReadView的存在保证了事务不可以读取到未提交的事务所做的更改。</p>
-<p>并发问题解决方案2：读写都加锁</p>
-<p>性能：w，r 彼此不冲突。MVCC方案效率高</p>
-<p>MYSQL:</p>
-<p>1.对数据的操作类型进行划分</p>
-<p>读锁&#x2F;写锁 通常被称为共享锁&#x2F;排他锁 S锁 X锁</p>
-<p>旧版本加S锁 SELECT….. LOCK IN SHARE MODE</p>
-<p>8.0       FOR SHARE</p>
-<p>X锁 FOR UPDATE</p>
-<h2 id="1-表锁"><a href="#1-表锁" class="headerlink" title="1.表锁"></a>1.表锁</h2><h4 id="1-1表级别的s锁和x锁"><a href="#1-1表级别的s锁和x锁" class="headerlink" title="1.1表级别的s锁和x锁"></a>1.1表级别的s锁和x锁</h4><pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">LOCK</span> <span class="token keyword">TABLES</span> t <span class="token keyword">READ</span> 
-<span class="token keyword">LOCK</span> <span class="token keyword">TABLES</span> t <span class="token keyword">WRITE</span> 
-unlock <span class="token keyword">tables</span> <span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-07-26%20104214.png"></p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-07-26%20104247.png"></p>
-<p>粒度大枷锁的速度快 在开启另一个事务的时候锁会被释放</p>
-<pre class="line-numbers language-sql"><code class="language-sql"><span class="token keyword">begin</span> <span class="token punctuation">;</span>
-<span class="token keyword">lock</span> <span class="token keyword">tables</span> user_profile <span class="token keyword">read</span> <span class="token punctuation">;</span>
-<span class="token keyword">select</span> <span class="token operator">*</span>  <span class="token keyword">from</span> user_profile<span class="token punctuation">;</span>
-<span class="token keyword">commit</span> <span class="token punctuation">;</span>
-
-
-<span class="token keyword">begin</span><span class="token punctuation">;</span>
-<span class="token keyword">insert</span> <span class="token keyword">into</span> user_profile <span class="token keyword">value</span> <span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span><span class="token number">1231</span><span class="token punctuation">,</span><span class="token string">'male'</span><span class="token punctuation">,</span><span class="token number">12</span><span class="token punctuation">,</span><span class="token string">'besadida'</span><span class="token punctuation">,</span><span class="token number">3.2</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">rollback</span> <span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>关于DDL 就算你给它开启了事务 你是<strong>无法回滚</strong>的 因为是对表的结构进行操作 所以慎用drop！truncate好像也不能回滚！</p>
-<p>s锁 两者均可读 均不可写</p>
-<p>x锁 自己可写可读 他人写读统统阻塞</p>
-<h4 id="1-2元数据锁"><a href="#1-2元数据锁" class="headerlink" title="1.2元数据锁"></a>1.2元数据锁</h4><p>不需要手动开启，在访问一个表的时候会<strong>自动加上</strong></p>
-<p>当对一个表做增删查改的时候，加MDL读锁，当对<strong>表结构做更改</strong>操作的时候，加MDL写锁</p>
+                <p><strong>写在前面：</strong>好久没更新了！！！最近课程繁忙，但还是会陆陆续续的更新一些java的知识以及相关框架的知识，博主已从大数据转战后端，所以之前的大数据相关的已经被删除了，但如果有什么学习大数据的困难，也欢迎来联系我</p>
+<h1 id="对象数组"><a href="#对象数组" class="headerlink" title="对象数组"></a>对象数组</h1><p>数组的元素可以是基本数据类型也可以是引用数据类型。当元素是应用类型中的类的时候，我们成为对象数组。通俗的说就是用来存多个对象的数组，将对象看成一个个数组元素</p>
+<p>我们创建两个类，分别为Girl和Boy</p>
+<p>在Boy类中创建Girl的对象数组，长度为20。这时候我们仅仅是为对象数组定义了长度，但并没有对实际数组元素进行赋值。这里可以用String来进行对比，而girl中存储的都必须是一个个对象。</p>
+<p>我们可以考虑循环来对元素进行赋值</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Girl</span> <span class="token punctuation">{</span>
+    String name<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> id<span class="token punctuation">;</span>
+    String hoppy<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Boy</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Girl<span class="token punctuation">[</span><span class="token punctuation">]</span> girl <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Girl</span><span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> girl<span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            girl<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Girl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            girl<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>id <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+            girl<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">"xiaohong"</span><span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>girl<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>id<span class="token operator">+</span><span class="token string">", name:"</span><span class="token operator">+</span>girl<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>另一种写法就是我们可以创建完一些对象后，然后放在对象数组中，后装到方法去进行调用</p>
+<pre class="line-numbers language-java"><code class="language-java"> Student student1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">"heima001"</span><span class="token punctuation">,</span> <span class="token string">"小明"</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ Student student2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">"heima002"</span><span class="token punctuation">,</span> <span class="token string">"小红"</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ Student student3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">"heima003"</span><span class="token punctuation">,</span> <span class="token string">"小花"</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+ Student<span class="token punctuation">[</span><span class="token punctuation">]</span> student <span class="token operator">=</span> <span class="token punctuation">{</span>student1<span class="token punctuation">,</span> student2<span class="token punctuation">,</span> student3<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>by the way—</p>
+<h2 id="静态实例化和动态实例化"><a href="#静态实例化和动态实例化" class="headerlink" title="静态实例化和动态实例化"></a>静态实例化和动态实例化</h2><p>在Java中，数组可以通过静态实例化和动态实例化两种方式进行创建。</p>
 <ul>
-<li><ul>
-<li><strong>读锁之间不互斥</strong>，所以可以多个线程同时对一张表增删查改(DML DQL)；</li>
-<li><strong>读写锁之间，写锁之间是互斥的</strong>，如果有多个线程要同时给一个表加字段，其中一个要等待另外一个执行完成才能开始执行；</li>
-</ul>
+<li><p>静态实例化：</p>
+<p>静态实例化是在数组声明的同时进行初始化。语法形式为直接给定数组元素的初始值，用大括号括起来并赋值给数组变量。</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> staticArray <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在上述示例中，静态数组<code>staticArray</code>被创建并初始化为包含5个整数元素的数组。初始值分别为1、2、3、4和5。</p>
 </li>
-<li><strong>事物中的MDL锁，在语句执行时开始申请，但是语句结束后并不会马上释放，而是等到这个事物提交后才释放；</strong> （⭐）</li>
-</ul>
-<p>所以说开启了事务 没问题的话就赶紧commit掉 不然就rollback重新改sql。不然会造成数据库崩溃等严重后果，你就等着跑路吧</p>
-<br/>
-
-<p>InnoDB的厉害之处还是实现了更细粒度的 行锁 表锁不推荐使用</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/025sn2_SetwD85riH8hH7FYo2_u46cCMjweYHqtfi48.png"></p>
-<p>Innodb支持多粒度锁，允许行锁和表锁共存，意向锁就是其中的一种</p>
-<br/>
-
-<h4 id="1-3意向锁"><a href="#1-3意向锁" class="headerlink" title="1.3意向锁"></a>1.3意向锁</h4><p><strong>作用：</strong> 加意向锁的目的是为了表明某个事务正在锁定一行或者将要锁定一行。表名加锁的“意图”。</p>
-<p>因为mysql中表锁和行锁是可以<strong>共存</strong>的</p>
-<br/>
-
-<p>数据库对表进行操作的时候 需要判断两点条件</p>
-<p><strong>1.这个表是否被锁住</strong></p>
-<p><strong>2.表中的行是否被锁住</strong></p>
-<br/>
-
-<p><strong>IS意向共享锁 :对表中某行上s锁，默认这个表会开一个IS锁</strong></p>
-<p><strong>IX意向共享锁:对表中某行上x锁，默认这个表会开一个Ix锁</strong></p>
-<p>意向锁之间是互相<strong>兼容</strong>的，意向锁并不会影响到多个事务对不同数据行加排他锁时的并发性</p>
-<p>事务A 查询id &#x3D;5 并上S锁 。事务B 也查询id&#x3D;6 并上X锁 是被允许的</p>
-<p>举例：事务A要修改这个表中的某一行</p>
-<p>流程：</p>
-<p>1.检查这个表是否上了读锁或者是写锁</p>
-<p>2.然后A向这个表申请IX锁或IS锁，如果申请不到，就说明有另外事务在对这个表中的行进行加锁</p>
-<p>IX锁可以看做一把钥匙，钥匙在其他事务手上，也抢不过来，只能等它的事务一提交，钥匙就</p>
-<p>没人占用了，事务A就可以拿到这个IX锁了</p>
-<p>3.一拿到这个IX锁就可以获得这个表的最高权限，你就可以进行修改了</p>
-<p>总结：</p>
-<ul>
-<li>IX IS 自己之间不会冲突，都在上锁，没什么关系</li>
-<li>IS S 之间不冲突，其他都冲突。</li>
-<li>意向锁的目的是为了避免全表扫描。</li>
-</ul>
-<p>SELECT column FROM table … FOR UPDATE;</p>
-<p>DBA对某行上X锁 那么InooDB就会为这个表上IX锁 </p>
-<p>由于意向锁是由InooDB维护的，我们并不能去更改它</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/lcM5HW2AMERlh9pf97RN1dPFryG11KHGsCexUXhk0Yw.png"></p>
-<p>从上图我们可以看见</p>
-<p>提示：如果我们对表加锁，机器是不知道你哪行是上了锁的 ！！它只能从头到尾遍历 效率极低</p>
-<p>才引出意向锁</p>
-<p>(X1) IX  (X2) IX 都不冲突</p>
-<p>那么事务A、B同时修改你这条记录呢？ 那么就跟你这个意向锁没什么关系 直接被行X锁 X锁之间阻塞了</p>
-<p>第二种情况流程：<br>事务A在执行 对某行进行查询并上了X锁 默认表就会有一个意向排他锁IX  </p>
-<p>事务B插进来 想要将表上X锁 首先它要拿到这个表的IX锁 才可以上锁</p>
-<p>但是IX锁还在事务A中 事务B就抢不过来 就没有权限，直接阻塞。</p>
-<p>等你A执行完 然后执行B </p>
-<p>commit提交后事务结束 就释放这个锁</p>
-<h2 id="2-行锁"><a href="#2-行锁" class="headerlink" title="2.行锁"></a>2.行锁</h2><h4 id="MySQL的行锁又分为共享锁（S锁）和排他锁（X锁）。"><a href="#MySQL的行锁又分为共享锁（S锁）和排他锁（X锁）。" class="headerlink" title="MySQL的行锁又分为共享锁（S锁）和排他锁（X锁）。"></a>MySQL的行锁又分为共享锁（S锁）和排他锁（X锁）。</h4><p>当一个事务获取了一条记录的S型记录锁后，其他事务也可以继续获取该记录的S型记录锁，但不可 以继续获取X型记录锁； 当一个事务获取了一条记录的X型记录锁后，其他事务既不可以继续获取该记录的S型记录锁，也不 可以继续获取X型记录锁。</p>
-<h4 id="间隙锁（Gap-Locks）"><a href="#间隙锁（Gap-Locks）" class="headerlink" title="间隙锁（Gap Locks）"></a>间隙锁（Gap Locks）</h4><p>MySQL 在 REPEATABLE READ 隔离级别下是可以解决幻读问题的，解决方案有两种，可以使用 MVCC 方 案解决，也可以采用 加锁 方案解决。但是在使用加锁方案解决时有个大问题，就是事务在第一次执行读 取操作时，那些幻影记录尚不存在，我们无法给这些 幻影记录 加上 记录锁 。InnoDB提出了一种称之为 Gap Locks 的锁，官方的类型名称为： LOCK_GAP ，我们可以简称为 gap锁 。</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202022-07-26%20130309.png"></p>
-<h4 id="临键锁（Next-Key-Locks）"><a href="#临键锁（Next-Key-Locks）" class="headerlink" title="临键锁（Next-Key Locks）"></a>临键锁（Next-Key Locks）</h4><p>跟间隙锁差不多 只是不允许在这个行记录的前面加值</p>
-<p>一般普通的select语句，InnoDB不加任何锁，我们称之为快照读</p>
-<pre><code>select * from test;
-</code></pre>
-<p>通过加S锁和X锁的select语句或者插入&#x2F;更新&#x2F;删除操作，我们称之为当前读</p>
-<pre><code>select * from test lock in share mode;
-select * from test for update;
-insert into test values(…);
-update test set …;
-delete from test …;
-</code></pre>
-<h3 id=""><a href="#" class="headerlink" title=""></a></h3><p>特殊说明：以上的当前读，读取的都是记录的最新版本。对读取记录都会加锁，除了第一条语句lock in share mode是对记录加S锁（共享锁）外，其他的操作都是加X锁（排他锁）。两阶段锁协议</p>
-<p>传统的关系型数据库加锁都要遵循一个原则：</p>
-<h4 id="两阶段锁原则"><a href="#两阶段锁原则" class="headerlink" title="两阶段锁原则"></a>两阶段锁原则</h4><p>两阶段锁是将锁的操作分为两个阶段，加锁阶段和解锁阶段，并且保证加锁阶段和解锁阶段不相交。</p>
-<p>分享一个例子说明两阶段锁协议：</p>
-<h4 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h4><p>不同事务隔离级别对应的行锁也是不同的，所以我们需要先了解事务的隔离级别后，再来演示不同隔离级别的行锁如何加上去。</p>
-<p>MySQL的4种隔离级别：</p>
-<p>READ UNCOMMITTED（读未提交）：任何一个事务当中，都可以看见其他事务的执行情况，会出现脏读现象。<br>READ COMMITTED（读已提交，简称：RC）：在当前事务中只能看见已经提交事务的执行结果，当同一事务在读取期间出现新的commit操作，会出现不可重复读现象。<br>REPEATABLE READ（可重复读，简称：RR）：这是MySQL默认的隔离级别，得益于MVCC，</p>
-<p>它能在同一事务在多实例并发读取数据时看到相同的数据行，消除了脏读、不可重复读，默认不会出现幻读</p>
-<p>（MySQL的行锁+间隙锁解决了快照读的幻读，未解决当前读的幻读）。<br>SERIALIZABLE（串行）：MySQL的最高隔离级别，通过加锁，强制事务执行顺序，保证不会出现幻读问题。</p>
-<p><strong>没有索引的情况下，InnoDB的当前读会对所有记录都加锁。所以在实际开发中，如果是当前读或者是插入&#x2F;更新&#x2F;删除等操作一定要使用索引，否则会产生大量的锁等待</strong>。</p>
-<h3 id="RC隔离级别-where唯一索引"><a href="#RC隔离级别-where唯一索引" class="headerlink" title="RC隔离级别+where唯一索引"></a>RC隔离级别+where唯一索引</h3><p>避免了当前读，所有记录都枷锁的情况，造成业务等待</p>
-<h2 id="3-乐观和悲观锁"><a href="#3-乐观和悲观锁" class="headerlink" title="3.乐观和悲观锁"></a>3.乐观和悲观锁</h2><p>乐观锁（Optimistic Lock）： 就是很乐观，每次去拿数据的时候都认为别人不会修改。所以不会上锁，但是如果想要更新数据，则会在更新前检查在读取至更新这段时间别人有没有修改过这个数据。如果修改过，则重新读取，再次尝试更新，循环上述步骤直到更新成功（当然也允许更新失败的线程放弃操作）,乐观锁适用于多读的应用类型，这样可以提高吞吐量</p>
-<p>相对于悲观锁，在对数据库进行处理的时候，乐观锁并不会使用数据库提供的锁机制。一般的实现乐观锁的方式就是记录数据版本（version）或者是时间戳来实现，不过使用版本记录是最常用的。</p>
-<br/>
-
-<p>悲观锁（Pessimistic Lock）： 就是很悲观，每次去拿数据的时候都认为别人会修改。所以每次在拿数据的时候都会上锁。这样别人想拿数据就被挡住，直到悲观锁被释放，悲观锁中的共享资源每次只给一个线程使用，其它线程阻塞，用完后再把资源转让给其它线程</p>
-<p>但是在效率方面，处理加锁的机制会产生额外的开销，还有增加产生死锁的机会。另外还会降低并行性，如果已经锁定了一个线程A，其他线程就必须等待该线程A处理完才可以处理</p>
-<h2 id="4-MVCC"><a href="#4-MVCC" class="headerlink" title="4.MVCC"></a>4.MVCC</h2><p><strong>MVCC</strong><br>**<code>MVCC</code>**，全称 <code>Multi-Version Concurrency Control</code> ，即多版本并发控制。MVCC 是一种并发控制的方法，一般在数据库管理系统中，实现对数据库的并发访问，在编程语言中实现事务<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%86%85%E5%AD%98&spm=1001.2101.3001.7020">内存</a>。</p>
-<p><strong>解决：堵塞问题</strong></p>
-<p><strong>当前读</strong><br>像 select lock in share mode (共享锁), select for update; update; insert; delete (排他锁)这些操作都是一种当前读，为什么叫当前读？就是它读取的是<strong>记录的最新版本</strong>，读取时还要保证其他并发事务不能修改当前记录，会对读取的记录进行加锁</p>
-<p><strong>快照读</strong><br>像不加锁的 select 操作就是快照读，即不加锁的非阻塞读；快照读的前提是隔离级别不是串行级别，串行级别下的快照读会退化成当前读；之所以出现快照读的情况，是基于提高并发性能的考虑，快照读的实现是基于多版本并发控制，即 MVCC ,可以认为 MVCC 是行锁的一个变种，但它在很多情况下，避免了加锁操作，降低了开销；既然是基于多版本，即快照读可能读到的并不一定是数据的最新版本，而<strong>有可能是之前的历史版本</strong></p>
-<p>MVCC 多版本并发控制是 「维持一个数据的多个版本，使得读写操作没有冲突」 的概念，只是一个抽象概念，并非实现<br>因为 MVCC 只是一个抽象概念，要实现这么一个概念，MySQL 就需要提供具体的功能去实现它，「快照读就是 MySQL 实现 MVCC 理想模型的其中一个非阻塞读功能」。而相对而言，当前读就是悲观锁的具体功能实现</p>
-<h4 id="3-1-1数据库并发场景？"><a href="#3-1-1数据库并发场景？" class="headerlink" title="3.1.1数据库并发场景？"></a>3.1.1数据库并发场景？</h4><ul>
-<li><code>读-读</code>：不存在任何问题，也不需要并发控制</li>
-<li><code>读-写</code>：有线程安全问题，可能会造成事务隔离性问题，可能遇到脏读，幻读，不可重复读</li>
-<li><code>写-写</code>：有线程安全问题，可能会存在更新丢失问题，比如第一类更新丢失，第二类更新丢失</li>
-</ul>
-<h4 id="3-1-2MVCC组合"><a href="#3-1-2MVCC组合" class="headerlink" title="3.1.2MVCC组合"></a>3.1.2MVCC组合</h4><ul>
-<li><p><code>MVCC + 悲观锁</code>：MVCC解决读写冲突，悲观锁解决写写冲突</p>
-</li>
-<li><p><code>MVCC + 乐观锁</code>：MVCC解决读写冲突，乐观锁解决写写冲突</p>
-</li>
-<li><p>我们数据库中的每行数据，除了我们肉眼看见的数据，还有几个隐藏字段，得开天眼才能看到。分别是trx_id、db_roll_pointer。</p>
-<p>trx_id</p>
-<p>6byte，最近修改(修改&#x2F;插入)事务ID：记录创建这条记录&#x2F;最后一次修改该记录的事务ID。</p>
-<p>roll_pointer（版本链关键）</p>
-<p>7byte，回滚指针，指向这条记录的上一个版本（存储于rollback segment里）</p>
-<p>如上图，<code>trx_id</code>是当前操作该记录的<code>事务ID</code>，而<code>roll_pointer</code>是一个<code>回滚指针</code>，用于配合<code>undo日志</code>，指向上一个<code>旧版本</code></p>
+<li><p>动态实例化</p>
+<p>动态实例化是在数组声明后的某个时间点进行初始化。通过使用<code>new</code>关键字和指定数组的长度，可以在运行时为数组分配内存。</p>
+<pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dynamicArray <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>在上述示例中，动态数组<code>dynamicArray</code>被声明为包含5个整数元素的数组，但尚未进行初始化。默认情况下，数组的元素将被初始化为默认值（对于<code>int</code>类型，初始值为0）。</p>
+<p>在动态实例化后，可以通过索引操作符<code>[]</code>将值分配给数组的特定位置。</p>
 </li>
 </ul>
-<p><strong>6.2 undo日志</strong></p>
-<p>Undo log 主要用于记录数据被修改之前的日志，在表信息修改之前先会把数据拷贝到undo log里。</p>
-<p>当事务进行回滚时可以通过undo log 里的日志进行数据还原。</p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20210707173920585.png"></p>
-<p><img src="https://raw.githubusercontent.com/kkl-opp/lucky/main/20210707173953585.png"></p>
-<p><strong>Undo log 的用途</strong></p>
-<p>保证事务进行rollback时的原子性和一致性，当事务进行回滚的时候可以用undo log的数据进行恢复。<br>用于MVCC快照读的数据，在MVCC多版本控制中，通过读取undo log的历史版本数据可以实现不同事务版本号都拥有自己独立的快照数据版本。<br>1.insert undo log</p>
-<p>代表事务在insert新记录时产生的undo log , 只在事务回滚时需要，并且在事务提交后可以被立即丢弃</p>
-<p>2.update undo log（主要）</p>
-<p>事务在进行update或delete时产生的undo log ; 不仅在事务回滚时需要，在快照读时也需要；</p>
-<p>所以不能随便删除，只有在快速读或事务回滚不涉及该日志时，对应的日志才会被purge线程统一清除<br>————————————————</p>
-<h4 id="3-1-3侧视图"><a href="#3-1-3侧视图" class="headerlink" title="3.1.3侧视图"></a>3.1.3侧视图</h4><p>事务进行快照读操作的时候生产的读视图(Read View)，在该事务执行的快照读的那一刻，会生成数据库系统当前的一个快照。</p>
-<p>记录并维护系统当前活跃事务的ID(trx_id)(没有commit，当每个事务开启时，都会被分配一个ID, 这个ID是递增的，所以越新的事务，ID值越大)，是系统中当前不应该被本事务看到的其他事务id列表。</p>
-<p>Read View主要是用来做可见性判断的, 即当我们某个事务执行快照读的时候，对该记录创建一个Read View读视图，把它比作条件用来判断当前事务能够看到哪个版本的数据，既可能是当前最新的数据，也有可能是该行记录的undo log里面的某个版本的数据。</p>
-<p>trx_ids: 当前系统活跃(未提交)事务版本号集合。<br>low_limit_id: 创建当前read view 时“当前系统最大事务版本号+1”。<br>up_limit_id: 创建当前read view 时“系统正处于活跃事务最小版本号”<br>creator_trx_id: 创建当前read view的事务版本号；</p>
 
                 
             </div>
@@ -679,7 +544,7 @@ delete from test …;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://kkl-opp.github.io/2022/07/06/mysql%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/">https://kkl-opp.github.io/2022/07/06/mysql%E7%9A%84%E9%94%81%E6%9C%BA%E5%88%B6/</a>
+                    <a href="https://kkl-opp.github.io/2023/11/10/%E5%AF%B9%E8%B1%A1%E6%95%B0%E7%BB%84/">https://kkl-opp.github.io/2023/11/10/%E5%AF%B9%E8%B1%A1%E6%95%B0%E7%BB%84/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -717,8 +582,8 @@ delete from test …;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/mysql/">
-                                    <span class="chip bg-color">mysql</span>
+                                <a href="/tags/JAVA/">
+                                    <span class="chip bg-color">JAVA</span>
                                 </a>
                             
                         </div>
@@ -1032,17 +897,18 @@ delete from test …;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2022/07/19/%E5%85%A8%E6%8E%92%E5%88%97/">
+                <a href="/2023/11/10/%E5%AF%B9%E8%B1%A1%E6%95%B0%E7%BB%84/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="全排列">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="对象数组">
                         
-                        <span class="card-title">全排列</span>
+                        <span class="card-title">对象数组</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1052,22 +918,27 @@ delete from test …;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-07-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-11-10
+                            </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            liming
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JAVA/" class="post-category">
+                                    JAVA
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/JAVA/">
+                        <span class="chip bg-color">JAVA</span>
                     </a>
                     
                 </div>
@@ -1081,13 +952,13 @@ delete from test …;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/06/18/mysql%E4%B8%AD%E7%9A%84%E8%A1%A8%E7%A9%BA%E9%97%B4/">
+                <a href="/2022/08/18/numpy-sort/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="mysql中的表空间">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="numpy_sort&amp;del">
                         
-                        <span class="card-title">mysql中的表空间</span>
+                        <span class="card-title">numpy_sort&amp;del</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1098,14 +969,14 @@ delete from test …;
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-06-18
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-08-18
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/mysql/" class="post-category">
-                                    mysql
+                            <a href="/categories/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/" class="post-category">
+                                    数据分析
                                 </a>
                             
                             
@@ -1115,8 +986,8 @@ delete from test …;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/mysql/">
-                        <span class="chip bg-color">mysql</span>
+                    <a href="/tags/Numpy/">
+                        <span class="chip bg-color">Numpy</span>
                     </a>
                     
                 </div>
